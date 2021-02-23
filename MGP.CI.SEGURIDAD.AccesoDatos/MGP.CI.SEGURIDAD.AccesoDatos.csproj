@@ -59,6 +59,7 @@
     <Compile Include="ClaseParcial\UsuarioPerfilesDA.cs" />
     <Compile Include="ClaseParcial\UsuariosDA.cs" />
     <Compile Include="ClaseParcial\DocumentoIdentidadTiposDA.cs" />
+    <Compile Include="XP1003\BusquedaFichaDA.cs" />
     <Compile Include="XP1003\DatosFamiliares1003DA.cs" />
     <Compile Include="XP1003\DeportesDA.cs" />
     <Compile Include="XP1003\DeportesRealizadosDA.cs" />

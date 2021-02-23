@@ -62,6 +62,7 @@
     <Compile Include="ClaseParcial\UsuariosBL.cs" />
     <Compile Include="ClaseParcial\UtilidadBL.cs" />
     <Compile Include="ClaseParcial\DocumentoIdentidadTiposBL.cs" />
+    <Compile Include="XP1003\BusquedaFichaBL.cs" />
     <Compile Include="XP1003\DatosFamiliares1003BL.cs" />
     <Compile Include="XP1003\DeportesBL.cs" />
     <Compile Include="XP1003\DeportesRealizadosBL.cs" />

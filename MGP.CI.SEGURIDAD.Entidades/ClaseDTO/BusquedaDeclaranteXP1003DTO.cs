@@ -26,6 +26,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.ClaseDTO
         [DataMember]
         public int Ficha1003Id { get; set; }
         [DataMember]
+        public int DatosPersonalesId { get; set; }
+        
+        [DataMember]
         public string NroDocumento { get; set; }
         [DataMember]
         public DateTime? FechaRegistro { get; set; }
@@ -40,6 +43,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.ClaseDTO
             string m_Nombres,
             int m_TipoDocumento,
             int m_Ficha1003Id,
+            int m_DatosPersonalesId,
             string m_NroDocumento,
             DateTime? m_FechaRegistro
 )
@@ -49,6 +53,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.ClaseDTO
             Nombres = m_Nombres;
             TipoDocumento = m_TipoDocumento;
             Ficha1003Id = m_Ficha1003Id;
+            DatosPersonalesId = m_DatosPersonalesId;
             NroDocumento = m_NroDocumento;
             FechaRegistro = FechaRegistro;
         }
@@ -58,7 +63,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.ClaseDTO
             Paterno = ValidarString(Registro["Paterno"]);
             Materno = ValidarString(Registro["Materno"]);
             Nombres = ValidarString(Registro["Nombres"]);
-            Ficha1003Id = ValidarInt(Registro["Ficha1003Id"]);
+            DatosPersonalesId = ValidarInt(Registro["DatosPersonalesId"]);
             FechaRegistro = ValidarDatetime(Registro["FechaRegistro"]);
             TipoDocumento = ValidarInt(Registro["DocumentoIdentidadTipoId"]);
             NroDocumento = ValidarString(Registro["DeclaranteNumeroDocumento"]);

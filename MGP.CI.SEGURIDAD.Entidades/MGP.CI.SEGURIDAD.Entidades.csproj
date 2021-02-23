@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseBE.cs" />
+    <Compile Include="ClaseDTO\BusquedaFichaXP1003DTO.cs" />
     <Compile Include="ClaseDTO\BusquedaDeclaranteXP1003DTO.cs" />
     <Compile Include="ClaseDTO\LoginDTO.cs" />
     <Compile Include="ClaseDTO\Perfil_ModuloDTO.cs" />

@@ -36,7 +36,9 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public string DocumentoIdentidadNumero { get; set; }
 
         public int Ficha1003Id { get; set; }
+        public int DatosPersonalesId { get; set; }
 
+        
         public List<DocumentoIdentidadTiposBE> LstDocumentosIdentidad;
 
         [Display(Name = "Usuario Modificacion")]
@@ -83,6 +85,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             vm.DocumentoIdentidadId= ent.TipoDocumento;
             vm.DocumentoIdentidadNombre = new DocumentoIdentidadTiposBL().Consultar_PK(vm.DocumentoIdentidadId).FirstOrDefault().Descripcion;
             vm.Ficha1003Id = ent.Ficha1003Id;
+            vm.DatosPersonalesId = ent.DatosPersonalesId;
             vm.FechaRegistro = ent.FechaRegistro.Value;
 
             return vm;
@@ -98,6 +101,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             ent.TipoDocumento = vm.DocumentoIdentidadId;
             ent.NroDocumento = vm.DocumentoIdentidadNumero;
             ent.Ficha1003Id = vm.Ficha1003Id;
+            ent.DatosPersonalesId = vm.DatosPersonalesId;
             ent.FechaRegistro = vm.FechaRegistro;
 
             return ent;

@@ -230,6 +230,7 @@
     <Compile Include="ViewModels\X1003\AgregarIngresosAnterioresAlPaisViewModel.cs" />
     <Compile Include="ViewModels\X1003\AgregarObservacionViewModel.cs" />
     <Compile Include="ViewModels\X1003\AgregarVehiculoViewModel.cs" />
+    <Compile Include="ViewModels\X1003\BusquedaFichaViewModel.cs" />
     <Compile Include="ViewModels\X1003\BusquedaDeclaranteViewModel.cs" />
     <Compile Include="ViewModels\X1003\DataTableTipoDocViewModel.cs" />
     <Compile Include="ViewModels\X1003\UbigeoViewModel.cs" />

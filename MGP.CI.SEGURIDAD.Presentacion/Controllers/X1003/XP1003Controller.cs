@@ -30,7 +30,15 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         {
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
             BusquedaDeclaranteViewModel vm = new BusquedaDeclaranteViewModel();
-            var query = vm.ListarUsuariosFiltrados(obj).Select(x => new { x.Ficha1003Id, x.ApePaterno, x.ApeMaterno, x.Nombres, x.FechaRegistroStr }).DistinctBy(x => x.Ficha1003Id).ToList();
+            var query = vm.ListarUsuariosFiltrados(obj).Select(x => new { x.DatosPersonalesId, x.ApePaterno, x.ApeMaterno, x.Nombres, x.FechaRegistroStr }).DistinctBy(x => x.DatosPersonalesId).ToList();
+            return Json(new { data = query }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Consultar_listaFichasToDatatableXP1003(BusquedaFichaViewModel obj)
+        {
+            SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
+            BusquedaFichaViewModel vm = new BusquedaFichaViewModel();
+            var query = vm.ListarFichasFiltrados(obj).Select(x => new { x.Ficha1003Id, x.FechaRegistroStr }).DistinctBy(x => x.Ficha1003Id).ToList();
             return Json(new { data = query }, JsonRequestBehavior.AllowGet);
         }
 
