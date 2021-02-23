@@ -1,0 +1,83 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarIngresosAnterioresAlPaisViewModel
+@{
+    Layout = null;
+}
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelRegistrarDomicilioDeclarante" aria-expanded="false" class="">AGREGAR INGRESOS ANTERIORES</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelRegistrarDomicilioDeclarante" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistarIngresosAnteioresAlPais", "XP1003", FormMethod.Post, new { id = "frmRegistrarIngresoAlPais", onsubmit = "return RegistrarIngresosAnterioresAlPaisInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-sm-2 col-md-2 col-lg-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.IngresoAnteriorFechaIngreso, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.IngresoAnteriorFechaIngreso, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.IngresoAnteriorFechaIngreso, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 col-md-2 col-lg-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.IngresoAnteriorFechaSalida, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.IngresoAnteriorFechaSalida, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.IngresoAnteriorFechaSalida, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.IngresoAnteriorDestino, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.IngresoAnteriorDestino, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.IngresoAnteriorDestino, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.IngresoAnteriorMotivo, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.IngresoAnteriorMotivo, new { @class = "form-control"  })
+                                                @Html.ValidationMessageFor(x => x.IngresoAnteriorMotivo, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 col-md-2 col-lg-2">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.IngresoAnteriorDondeResidio, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.IngresoAnteriorDondeResidio, new { @class = "form-control"  })
+                                                @Html.ValidationMessageFor(x => x.IngresoAnteriorDondeResidio, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row" style="text-align:center;">
+                                    <ul class="nav nav-pills" style="display:inline-table;">
+                                        <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarIngresoAnterior" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                        <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarIngresoAnterior" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupIngresoAnterior">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

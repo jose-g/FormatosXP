@@ -1,0 +1,115 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarCursoRealizadoViewModel
+@{
+    Layout = null;
+}
+
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelRegistrarIdioma" aria-expanded="false" class="">AGREGAR ESCUELA CURSADA</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelRegistrarIdioma" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistrarCurso", "XP1003", FormMethod.Post, new { id = "frmRegistarCurso", onsubmit = "return RegistrarCursoInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CR_PaisId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.CR_PaisId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new
+                               {
+                                   @class = "form-control",
+                                   data_type = "listbox-dropdown-list",
+                                   data_update_target = "#CR_InstitucionMilitaresExtranjerasId",
+                                   data_filter = "PaisId",
+                                   data_http_method = FormMethod.Get,
+                                   data_url = Url.Action("GetInstitucionesPorPais", "XP1003")
+                               })
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CR_InstitucionMilitaresExtranjerasId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(x => x.CR_InstitucionMilitaresExtranjerasId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                   {
+                                       @class = "form-control",
+                                       data_type = "listbox-dropdown-list",
+                                       data_update_target = "#CR_EscuelaExtranjeraId",
+                                       data_filter = "InstitucioneMilitarExtranjeraId",
+                                       data_value_member = "InstitucionMilitarExtranjeraId",
+                                       data_text_member = "Descripcion",
+                                       data_http_method = FormMethod.Get,
+                                       data_url = Url.Action("GetEscuelasPorInstitucion", "XP1003")
+                                   })
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CR_EscuelaExtranjeraId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(x => x.CR_EscuelaExtranjeraId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                   {
+                                       @class = "form-control",
+                                       data_type = "listbox-dropdown-list",
+                                       data_update_target = "#CR_CursoEscuelaExtranjeraId",
+                                       data_filter = "EscuelaExtranjeraId",
+                                       data_value_member = "EscuelaExtranjeraId",
+                                       data_text_member = "Nombre",
+                                       data_http_method = FormMethod.Get,
+                                       data_url = Url.Action("GetCursosPorEscuelas", "XP1003")
+                                   })
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CR_CursoEscuelaExtranjeraId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(x => x.CR_CursoEscuelaExtranjeraId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                   {
+                                       @class = "form-control",
+                                       data_value_member = "CursoEscuelaExtranjeraId",
+                                       data_text_member = "Nombre"
+                                   })
+                                    </div>
+                                </div>
+                                <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.CR_Ano, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.CR_Ano, new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.CR_Ano, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+
+                            </div>
+                                <br />
+                                <br />
+                                <div class="row" style="text-align:center;">
+                                    <ul class="nav nav-pills" style="display:inline-table;">
+                                        <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarCurso" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                        <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarCurso" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                            }
+                        </div>
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupCurso">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

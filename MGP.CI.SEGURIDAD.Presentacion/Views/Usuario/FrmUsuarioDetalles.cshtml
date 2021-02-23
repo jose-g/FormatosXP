@@ -1,0 +1,648 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.UsuarioViewModel
+@{
+
+    var imagePath = "";
+    if (Model.AvatarPath != null && Model.AvatarPath != "")
+    {
+        imagePath = Model.AvatarPath;
+    }
+}
+<style>
+    .panel.with-nav-tabs .panel-heading {
+        padding: 5px 5px 0 5px;
+    }
+
+    .panel.with-nav-tabs .nav-tabs {
+        border-bottom: none;
+    }
+
+    .panel.with-nav-tabs .nav-justified {
+        margin-bottom: -1px;
+    }
+
+    .badge_on_over {
+        background-color: forestgreen;
+    }
+
+    .badge_sel_click {
+        background-color: orange
+    }
+</style>
+
+
+@{
+    string d = (Model.UsuarioId > 0 ? "" : "disabled");
+}
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" style="background-color:white">Datos del Usuario</a></li>
+        <li class="@d" id="liTabPermisoPerfil">@Html.ActionLink("Perfil / Permisos", "Index", "UsuarioPerfiles", new { UsuarioId = Model.UsuarioId }, null)</li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tabABC" class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelUsuario" aria-expanded="false" class="">Mantenimiento de usuario</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
+
+                        @using (Html.BeginForm("GrabarDetalles", "Usuario", FormMethod.Post, new { id = "frmDetallesUsuario", onsubmit = "return GrabarUsuario(this)", enctype = "multipart/form-data" }))
+                        {
+                            <div class="modal-body">
+                                @Html.HiddenFor(x => x.UsuarioId)
+                                @Html.HiddenFor(x => x.AvatarPath)
+                                @Html.HiddenFor(x => x.EliminarFoto)
+                                <div class="row">
+                                    <div class="col-sm-9 col-md-9 col-lg-9">
+                                        <div class="row">
+                                            <div class="col-sm-8 col-md-8 col-lg-8">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.CIP, new { @class = "control-label" })
+                                                    <div class="row" style="margin-left:3px;">
+                                                        <div style="border:1px solid lightgray;  margin-left:3px; margin-right:3px; padding-top:4px;">
+                                                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                                                @Html.TextBoxFor(x => x.CIP, new { @class = "form-control", @readonly = "readonly", @placeholder = "00000000", @maxlength = 8, onkeypress = "return ValidarCIP(event);" })
+                                                                @Html.ValidationMessageFor(x => x.CIP, "", new { @class = "text-danger" })
+
+                                                            </div>
+                                                            <div class="col-sm-6 col-md-6 col-lg-6" style="text-align:left">
+                                                                <ul class="nav nav-pills">
+                                                                    <li class="btn-warning" style="margin-right: 5px;margin-left: 5px; margin-bottom:5px">
+                                                                        <button id="btnConsultarUsuario" type="button" class="btn"><i class="fa fa-search"></i>&nbsp;&nbsp;&nbsp;&nbsp;Consultar Datos&nbsp;&nbsp;&nbsp;</button><br />
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="row" style="margin-left:3px;">
+
+                                                    <div class="col-sm-12 col-md-12 col-lg-12">
+                                                        <div class="form-group">
+                                                            <input type="hidden" id="loginReal" value="" />
+                                                            @Html.LabelFor(x => x.Login, new { @class = "control-label" })
+                                                            @Html.TextBoxFor(x => x.Login, new { @readonly = "readonly", @maxlength = "8", @class = "form-control" })
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.ApePaterno, new { @class = "control-label" })
+                                                    @Html.TextBoxFor(x => x.ApePaterno, new { @readonly = "readonly", @maxlength = "50", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.ApeMaterno, new { @class = "control-label" })
+                                                    @Html.TextBoxFor(x => x.ApeMaterno, new { @readonly = "readonly", @maxlength = "50", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.Nombres, new { @class = "control-label" })
+                                                    @Html.TextBoxFor(x => x.Nombres, new { @readonly = "readonly", @maxlength = "80", @class = "form-control" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.DocumentoIdentidadId, new { @class = "control-label" })
+                                                    @Html.DropDownListFor(model => model.DocumentoIdentidadId, new SelectList(Model.LstDocumentosIdentidad, "CodigoDocumento", "Descripcion"), new { @class = "form-control" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.NumeroDoc, new { @class = "control-label" })
+                                                    @Html.TextBoxFor(x => x.NumeroDoc, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroDocumento(event);"})
+                                                    @Html.ValidationMessageFor(x => x.NumeroDoc, "", new { @class = "text-danger" })
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.FechaNacimiento, new { @class = "control-label" })
+                                                    <div class="input-group date" id='datepickerFechaIngreso'>
+                                                        @Html.TextBoxFor(x => x.FechaNacimiento, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                                                        <span class="input-group-addon" id='dpFechaIngresoicon'><i class="ti-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.ZonaNavalId, new { @class = "control-label" })
+                                                    @Html.DropDownListFor(model => model.ZonaNavalId, new SelectList(Model.LstUbigeoNavalBE, "ZonaNavalId", "ZonaNavalDescCorta"), new
+                                                    {
+                                                        @class = "form-control",
+                                                        data_type = "listbox-dropdown-list",
+                                                        data_update_target = "#DependenciaId",
+                                                        data_filter = "ZonaNavalId",
+                                                        data_value_member = "DependenciaId",
+                                                        data_text_member = "DependenciaDescCorta",
+                                                        data_http_method = FormMethod.Get,
+                                                        data_url = Url.Action("GetDependenciasxZonasNavales", "Ubigeo")
+                                                    })
+                                                    @Html.ValidationMessageFor(x => x.ZonaNavalId)
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="row" style="margin-left:3px;">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(x => x.DependenciaId, new { @class = "control-label" })
+                                                        @Html.DropDownListFor(model => model.DependenciaId, new SelectList(Model.LstDependencias, "DependenciaId", "DependenciaDescCorta"), new
+                                                        {
+                                                            @class = "form-control",
+                                                            data_value_member = "DependenciaId",
+                                                            data_text_member = "DependenciaDescCorta"
+                                                        })
+                                                        @Html.ValidationMessageFor(x => x.DependenciaId)
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.FinVigencia, new { @class = "control-label" })
+                                                    <div class="input-group date" id='datepickerFechaIngreso'>
+                                                        @Html.TextBoxFor(x => x.FinVigencia, "{0:dd/MM/yyyy}", new { @class = "form-control" })
+                                                        <span class="input-group-addon" id='dpFechaIngresoicon'><i class="ti-calendar"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.LabelFor(x => x.Email, new { @class = "control-label" })
+                                                    @Html.TextBoxFor(x => x.Email, new { @type = "email", @maxlength = "100", @class = "form-control" })
+                                                    @Html.ValidationMessageFor(x => x.Email, "", new { @class = "text-danger" })
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="row" style="margin-left:3px;">
+                                                    <div class="form-group">
+                                                        <label>@Html.LabelFor(x => x.Celular, new { @class = "control-label" }) <span style="font-size:11px;"><i>(Utilizado para restaurar clave)</i></span> </label>
+                                                        @Html.TextBoxFor(x => x.Celular, new { @maxlength = "9", @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.Label("Estado", new { @class = "control-label col-md-12" })
+                                                    <div class="col-md-12" style="border:1px solid #d3d3d4">
+                                                        @Html.RadioButtonFor(model => model.EstadoId, "1") Activo &nbsp;&nbsp;&nbsp;&nbsp;
+                                                        @Html.RadioButtonFor(model => model.EstadoId, "2") Inactivo &nbsp;&nbsp;&nbsp;&nbsp;
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 col-md-3 col-lg-3">
+                                        <center>
+                                            <div class="row" style="border:1px solid gray; background-color:lavender;display:none">
+                                                <div class="form-group">
+                                                    <input type="button" id="btnQuitarFoto" style="float:left;" value="X" name="X" class="button btn-danger" />
+                                                    <input style="float:left; margin-top:2px; margin-left:2px" type="file" accept="image/*" name="ImagenAdjunto" id="ImagenAdjunto" onchange="VistaPreviaImg()" />
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                @if (@Model.ImagenBase64 != "")
+                                                {
+                                                    <img src="data:image/png;base64,@Model.ImagenBase64" id="visorPrevioImg" class="img-responsive rounded" alt="Responsive image" style="min-height: 200px;display:none">
+                                                }
+                                                else
+                                                {
+                                                    <img src="~/Content/img/sin_foto.jpg" id="visorPrevioImg" class="img-responsive rounded" alt="Responsive image" style="min-height: 200px;display:none">
+                                                }
+                                            </div>
+                                        </center>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="modal-footer text-right">
+                                <ul class="nav nav-pills">
+                                    <li class="pull-right btn-danger" style="margin-right: 5px;margin-left: 5px;"><button id="btnCerrarDetUsr" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                                    @if (ViewBag.PERMISOS.NUEVO == true || ViewBag.PERMISOS.MODIFICAR == true)
+                                    {
+                                        <li class="pull-right btn-warning" style="margin-right: 5px;margin-left: 5px;">
+                                            <button id="btnGrabarUsuario" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="alert_error" style="display:none;" id="frmShowErroUsuario">
+                            </div>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="verModalRnc" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verRncContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalBuscarUsuario" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="ModalBuscarUsuarioTrabContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        $(document).on('click', '#btnFrmBuscarUsuario', function () {
+
+            var value = $('input:radio[name=TipoFuente]:checked').val();
+
+            if (value == "Reniec") {
+                alert("Eligio Reniec");
+
+                //if ($("#NumeroDocConsulta").val().trim().length != 8) {
+                //    alert("Ingrese un DNI válido");
+                //    return false;
+                //}
+               // BuscarPorDni($("#NumeroDocConsulta").val());
+                alert("Eligio Reniec");
+
+            }
+
+            if (value == "Recursos Humanos") {
+                alert("Eligio Recursos Humanos");
+            }
+
+            if (value == "Declarantes") {
+                alert("Eligio Declarantes");
+            }
+
+
+        });
+
+
+
+
+
+    @*function BuscarPorDni(dni) {
+        $("#frmShowErrorRnc").hide();
+
+        var dato = { "DNI": dni};
+        $.ajax({
+            url: "@Url.Action("BuscarUsuarioReniec", "Usuario")",
+            async: false,
+        data: dato,
+        type: "POST",
+        timeout:10000,
+        error: function (jqXHR, textStatus) {
+            if (textStatus === 'timeout') {
+                alert('No se obtuvo respuesta, por favor intente nuevamente.');
+            }
+        },
+        success: function (d) {
+
+            if ($.trim(d.mensajeError).length == 0) {
+                if (d.NUM_TOT_REG == 0) {
+                    alert("Ningún registro encontrado");
+                    $.notify("Ningún registro encontrado....", "info");
+                    return;
+                }
+
+                $("#pnlDetalle").show();
+
+                $("#imgFoto").show();
+                $("#txtDniDetRnc").val(d.data.DNI);
+                $("#txtApePatDetRnc").val(d.data.APELLIDO_PATERNO);
+                $("#txtApeMatDetRnc").val(d.data.APELLIDO_MATERNO);
+                $("#txtNomDetRnc").val(d.data.NOMBRES);
+                $("#txtFecNacDetRnc").val(d.data.FECHA_NACIMIENTO);
+                $("#txtSexoDetRnc").val(d.data.SEXO);
+                $("#txtRestricRnc").val(d.data.RESTRICCION);
+                $("#txtDigVerRnc").val(d.data.DIGITO_VERIFICACION_DNI);
+
+                $("#imgFoto").attr("src", "data:image/png;base64," + d.data.FOTO_BASE64);
+
+            } else {
+                $.notify("Ocurrió un error.." + d.mensajeError, "error");
+                $("#frmShowErrorRnc").show();
+                $("#frmShowErrorRnc").html(d.mensajeError);
+            }
+
+
+        },
+        error: function (data) {
+            alert("Ocurrio un error ajax");
+            console.log("Sucedió un error")
+        }
+
+        });
+        }*@
+
+
+
+        $(document).on('click', '#btnFrmCleanUsuario', function () {
+            LimpiarDatosUsuario();
+        });
+
+        function LimpiarDatosUsuario() {
+            $("#frmErrores").hide();
+            $("#NumeroDocConsulta").val("");
+            $("#txtDniUsuario").val("");
+            $("#txtApePatUsuario").val("");
+            $("#txtApeMatUsuario").val("");
+            $("#txtNombreUSuario").val("");
+            $("#txtFecNacUsuario").val("");
+            $("#txtSexoUsuario").val("");
+            $("#imgFotoUsuario").attr("src", "");
+            $("#imgFotoUsuario").hide();
+        }
+
+
+
+            var MsjError= "";
+
+            function ValidarCIP(e) {
+                var codigo = event.which || event.keyCode;
+                console.log("Presionada: " + codigo);
+
+            var evt = (e) ? e : window.event;
+            var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+        };
+
+
+        $("#btnConsultarUsuario").click(function () {
+            $.ajax({
+                url: "/Usuario/VerFormBuscarUsuario",
+                async: false,
+                success: function (data) {
+                    $('#ModalBuscarUsuarioTrabContainer').html(data);
+                    $('#ModalBuscarUsuario').modal('show');
+                    //$('#CabeceraDetails').hide();
+                },
+                error: function (data) {
+                    console.log("Sucedió un error")
+                }
+            });
+       });
+
+
+
+
+    $(document).on('focusout', '#NumeroDoc', function () {
+            $('#Login').val($("#NumeroDoc").val());
+        });
+
+    function ValidarNroDocumento(e) {
+         var evt = (e) ? e : window.event;
+         var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
+
+
+
+        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+            return false;
+        }
+
+    };
+
+
+    $(document).ready(function () {
+            switch ($('#TipoUsuarioId').val()) {
+                case "1":
+                    SetValueTipoUsuario(true); // Naval Peruano
+                    $("#CIP").focus();
+                    $("#CIP").val('');
+                    $("#ZonaNavalId").prop('disabled', 'disabled');
+                    $("#DependenciaId").prop('disabled', 'disabled');
+                    $("#DocumentoIdentidadId").prop('disabled', 'disabled');
+                    break;
+                case "2": // Naval Extranjero
+                    SetValueTipoUsuario(false);
+                    $("#CIP").val('');
+                    $("#ApePaterno").focus();
+                    $("#DocumentoIdentidadId").removeAttr("disabled");
+                    $("#ZonaNavalId").removeAttr("disabled");
+                    $("#DependenciaId").removeAttr("disabled");
+                    break;
+                case "3": //Civil
+                    SetValueTipoUsuario(false);
+                    $("#CIP").val('');
+                    $("#ApePaterno").focus();
+                    $("#ZonaNavalId").prop('disabled', 'disabled');
+                    $("#DependenciaId").prop('disabled', 'disabled');
+                    $("#DocumentoIdentidadId").removeAttr("disabled");
+                    break;
+                case "4": //EXtranjero
+                    SetValueTipoUsuario(false);
+                    $("#CIP").val('');
+                    $("#ApePaterno").focus();
+                    $("#ZonaNavalId").removeAttr("disabled");
+                    $("#DependenciaId").removeAttr("disabled");
+                    $("#DocumentoIdentidadId").removeAttr("disabled");
+                    break;
+            }
+
+        });
+
+    $(document).on('click', '#btnCerrarDetUsr', function () {
+            $(location).attr('href', "@Url.Action("index", "Usuario")");
+    });
+
+    //function SetValueTipoUsuario(newstatus) {
+    //    $("#CIP").prop("readonly", !newstatus);
+    //    $("#ApePaterno").prop("readonly", newstatus);
+    //    $("#ApeMaterno").prop("readonly", newstatus);
+    //    $("#Nombres").prop("readonly", newstatus);
+    //    $("#NumeroDoc").prop("readonly", newstatus);
+    //    $("#FechaNacimiento").prop("readonly", newstatus);
+    //}
+    //$("#TipoUsuarioId").change(function () {
+    //        switch ($(this).val()) {
+    //            case "1":
+    //                SetValueTipoUsuario(true);
+    //                $("#CIP").focus();
+    //                $("#CIP").val('');
+    //                $("#ZonaNavalId").prop('disabled', 'disabled');
+    //                $("#DependenciaId").prop('disabled', 'disabled');
+    //                $("#DocumentoIdentidadId").prop('disabled', 'disabled');
+    //                break;
+    //            case "2":
+    //                SetValueTipoUsuario(false);
+    //                $("#CIP").val('');
+    //                $("#ApePaterno").focus();
+    //                $("#DocumentoIdentidadId").removeAttr("disabled");
+    //                $("#ZonaNavalId").removeAttr("disabled");
+    //                $("#DependenciaId").removeAttr("disabled");
+    //                break;
+    //            case "3":
+    //                SetValueTipoUsuario(false);
+    //                $("#CIP").val('');
+    //                $("#ApePaterno").focus();
+    //                $("#ZonaNavalId").prop('disabled', 'disabled');
+    //                $("#DependenciaId").prop('disabled', 'disabled');
+    //                $("#DocumentoIdentidadId").removeAttr("disabled");
+    //                break;
+    //            case "4":
+    //                SetValueTipoUsuario(false);
+    //                $("#CIP").val('');
+    //                $("#ApePaterno").focus();
+    //                $("#ZonaNavalId").removeAttr("disabled");
+    //                $("#DependenciaId").removeAttr("disabled");
+    //                $("#DocumentoIdentidadId").removeAttr("disabled");
+    //              break;
+    //        }
+
+    //});
+
+
+
+
+
+    function GrabarUsuario(frm) {
+        //if ($('#TipoUsuarioId').val() == null || $("#TipoUsuarioId").val() == "")
+        //    MsjError = ".- Seleccione Tipo de Usuario <br>";
+        if (($('#CIP').val() == null || $("#CIP").val() == "") && $('#TipoUsuarioId').val() != 1) {
+            $('#CIP').val('00000000');
+        }
+        else {
+            MsjError = MsjError + ".- CIP de documento no válido <br>";
+        }
+        console.log($("#frmDetallesUsuario").serialize());
+        var depe = $('#DependenciaId').val();
+        if ($('#Login').val() == null || $("#Login").val() == "")
+            MsjError = MsjError + ".- Login no Valido <br>";
+        if ($('#ApePaterno').val() == null || $("#ApePaterno").val() == "")
+            MsjError = MsjError + ".- Apellido Paterno no válido <br>";
+        if ($('#ApeMaterno').val() == null || $("#ApeMaterno").val() == "")
+            MsjError = MsjError + ".- Apellido Paterno no válido <br>";
+        if ($('#Nombres').val() == null || $("#Nombres").val() == "")
+            MsjError = MsjError + ".- Nombres no Válidos <br>";
+        if ($('#DocumentoIdentidadId').val() == null || $("#DocumentoIdentidadId").val() == "" || $("#DocumentoIdentidadId").val().trim().length != 8 )
+            MsjError = MsjError + ".- Documento de Identidad no Valido<br>";
+        if ($('#ZonaNavalId').val() == null || $("#ZonaNavalId").val() == "")
+            MsjError = MsjError + ".- Zona Naval no válido";
+        if ($('#DependenciaId').val() == null || $("#DependenciaId").val() == "")
+            MsjError = MsjError + ".- Dependencia no Válido";
+        if ($('#Email').val() == null || $("#Email").val() == "")
+            MsjError = MsjError + ".- Email no Valido";
+        if ($('#Celular').val() == null || $("#Celular").val().trim().length != 9 || $("#Celular").val().trim().substring(0, 1) != '9')
+            MsjError = MsjError + ".- Número de celular no válido <br>";
+
+        $("#frmShowErroUsuario").hide();
+
+        var m_url = $('#frmDetallesUsuario').attr('action');
+        var m_data = $("#frmDetallesUsuario").serialize();
+        $.ajax({
+            type: "POST",
+            url: $('#frmDetallesUsuario').attr('action'),
+            data: $("#frmDetallesUsuario").serialize(),
+            cache: false,
+            success: function (data) {
+                if (data.success == true) {
+                    $.notify("Operación satisfactoria..", "success");
+                    $("#liTabPermisoPerfil").removeClass("disabled");
+                    $("#liTabPermisoModulo").removeClass("disabled");
+                    $("#liTabAccesoPenal").removeClass("disabled");
+                } else {
+                    $("#frmShowErroUsuario").show();
+                    $("#frmShowErroUsuario").html(data.mensajeError);
+                    $.notify("Ocurrio un error", "error");
+                    }
+            },
+            error: function (e) {
+                alert(e.responseText);
+                }
+             });
+             return false;
+    }
+
+    </script>
+}
+
+
+
+
+
+@*$("#btnQuitarFoto").click(function () {
+        var r = confirm("Confirma quitar la foto del usuario?");
+        if (r == true) {
+            $("#ImagenAdjunto").val('');
+
+            var $downloadingImage = $("<img>");
+            $downloadingImage.load(function(){
+                $("#visorPrevioImg").attr("src", $(this).attr("src"));
+            });
+            $downloadingImage.attr("src", "/Content/img/sin_foto.jpg");
+            $("#ELIMINAR_FOTO").val(true);
+        }
+    });
+
+    $(document).ready(function () {
+        $("#linkUsuarioIndex").addClass("click_menu");
+        }
+     );
+
+    function VistaPreviaImg() {
+        var reader = new FileReader();
+        reader.readAsDataURL(document.getElementById('ImagenAdjunto').files[0]);
+        reader.onload = function (e) {
+            document.getElementById('visorPrevioImg').src = e.target.result;
+            $("#ELIMINAR_FOTO").val(false);
+        };
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*@
+

@@ -1,0 +1,155 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.X1003OtrosViewModel
+
+@{
+    Layout = null;
+
+}
+
+
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>OBSERVACIONES:</h1>
+    </div>
+    <br>
+    <br>
+    @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarOtros", id = "FrmGrabarOtros", onsubmit = "return GrabarFormOtros(this)" }))
+    {
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdDeportesXP1003" aria-expanded="false" class="">Deportes que practica</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdDeportesXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblDeportesXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Deporte</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevoDeporteXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdObservacionesXP1003" aria-expanded="false" class="">Observaciones</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdObservacionesXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblObservacionesXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Lista de Observaciones</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevaObservacionXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-1 col-md-1 col-lg-1">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.PathCV, new { @class = "control-label", style = "margin-top: 5px" })
+                    @Html.ValidationMessageFor(x => x.PathCV, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploader">
+                        <label for="filecv"></label>
+                        <input id="filecv" type="file" style="display:none" accept="application/pdf" onchange="cargararchivoPDF(this.files, this)">
+                        <span id="filenamecv"> </span>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-sm-8 col-md-8 col-lg-8">
+            </div>
+
+
+
+
+        </div>
+        <div class="text-center" style="display: flex;justify-content: center;">
+            <ul class="nav nav-pills">
+                <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button type="button" onclick="clearFormOtros();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                <li class="pull-right btn-warning" style="margin-right:2 5px;margin-left: 5px;">
+                    <button id="btnGrabarOtros" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <br>
+    }
+
+
+
+</div>
+
+
+<div class="modal fade" id="verModalAgregarDeporte" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarDeporteContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="verModalAgregarObservacion" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarObservacionContainer">
+            </div>
+        </div>
+    </div>
+</div>

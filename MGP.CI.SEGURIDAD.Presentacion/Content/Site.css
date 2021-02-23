@@ -1,0 +1,188 @@
+﻿.centrado {
+    text-align: center;
+}
+
+
+
+
+body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,select,textarea {
+    max-width: 280px;
+}
+
+.form-control {
+    padding: 3px 6px !important;
+}
+
+label {
+    margin-bottom: 2px !important;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+/* spinerrr */
+.lds-hourglass {
+    display: inline-block;
+    position: relative;
+    width: 84px;
+    height: 84px;
+}
+
+    .lds-hourglass:after {
+        content: " ";
+        display: block;
+        border-radius: 50%;
+        width: 0;
+        height: 0;
+        margin: 6px;
+        box-sizing: border-box;
+        border: 40px solid #fff;
+        border-color: #e78d13 transparent #e78d13 transparent;
+        animation: lds-hourglass 1.2s infinite;
+    }
+
+@keyframes lds-hourglass {
+    0% {
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+
+    50% {
+        transform: rotate(900deg);
+        animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+
+    100% {
+        transform: rotate(1800deg);
+    }
+}
+
+/* fin spinner*/
+.click_menu {
+    background-color: #42265d !important;
+    /*box-shadow: 0px -1px 11px 1px #ff9b9b;*/
+    /*margin-left: 15px !important;*/
+}
+
+table.dataTable thead {
+    background-image: linear-gradient(#b1b1b199 1%,#ffffff 20%,#ffffff 90%,#b1b1b199 100%) !important;
+    border: 1px solid #b7b5b5;
+}
+
+table {
+    border: 1px solid #fdc3c9 !important;
+}
+
+
+/*table.dataTable tbody tr.stripe1 {
+        background-color: #ffecec;
+}*/
+
+/*table.dataTable tbody tr.stripe2 {
+        background-color: #ffdada;
+}*/
+
+.list-group a:hover {
+    color: #1e1229 !important;
+}
+
+/* titulo de menu*/
+.list-header {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px #fffbfb;
+}
+/*---------------------------------------------------------*/
+
+.panel-title {
+    background-color: #71568a;
+}
+
+.alert_error {
+    background-color: #FB8261 !important;
+    border-left: 8px solid #d00b0b;
+    color: #fff;
+    border-radius: 10px;
+    margin: 8px;
+    padding: 5px;
+}
+
+.panel {
+    margin-bottom: 15px;
+    -webkit-box-shadow: 4px 13px 16px 0px rgba(158,158,158, 0.25);
+    box-shadow: 4px 13px 16px 0px rgba(51, 51, 51, 0.25);
+}
+
+xxx.btn-primary {
+    background-image: linear-gradient(to bottom,#e8a479,#D85604 100%);
+}
+
+input[type=email], input[type=text], input[type=password] {
+    border: pink 1px solid !important;
+    border-radius: 8px !important;
+}
+
+.stl_input_txt {
+    border: pink 1px solid !important;
+    border-radius: 10px !important;
+}
+
+.table th {
+    text-align: center;
+}
+
+.modal-header {
+    background-color: #da6777;
+    background-image: linear-gradient(180deg,#da6777 10%,#bd374a 30%);
+    color: white !important;
+}
+
+#mainnav {
+    background-color: #623988;
+}
+
+    #mainnav .list-header {
+        color: #FFFFFF;
+    }
+
+#mainnav-menu a {
+    color: white;
+}
+
+#mainnav-menu > .active {
+    background-color: #623988;
+}
+
+    #mainnav-menu > .active .active {
+        background-color: #623988;
+    }
+
+.navbar-top-links > li > a:hover {
+    background-color: #42265d;
+}
+
+.username {
+    color: white;
+}
+
+.nav .open > a, .nav .open > a:focus, .nav .open > a:hover {
+    background-color: #623988;
+}

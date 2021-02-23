@@ -1,0 +1,276 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.TablasMaestrasViewModel
+
+
+<div>
+    @*<div class="panel panel-info">
+        @using (Html.BeginForm("ListarTablas", "TablasMaestras", FormMethod.Post, new { onsubmit = "return BuscarUsuario(this)", id = "frmTablasMaestras" }))
+        {
+            @Html.HiddenFor(m => m.TablaId)
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.TablaNombre, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.TablaNombre, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.TablaNombre, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.TablaDescripcion, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.TablaDescripcion, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.TablaDescripcion, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 col-lg-2">
+                        <div class="form-group">
+                            <ul class="nav nav-pills">
+                                <li class="pull-left  btn-active-info" style="margin-left : 5px;margin-left: 5px;"><button id="btnBuscarTabla" type="submit" class="btn"><i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button></li>
+                                <li class="pull-left  btn-active-info" style="margin-left : 5px;margin-left: 5px;"><button id="btnCerrarTabla" type="button" onclick="clearForm();" class="btn"><i class="fa fa-eraser"></i>&nbsp;Limpiar</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="alert_error" style="display:none;" id="frmShowErrorPopup">
+            </div>
+        }
+    </div>*@
+</div>
+<div>
+    <div class="row">
+        <div class="panel-group accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <center>
+                        <h3 class="panel-title">
+                            <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelTablas" aria-expanded="false" class="">Lista de Tablas Maestras</a>
+                        </h3>
+                    </center>
+                </div>
+                <div class="panel-collapse collapse in" id="IdPanelTablas" aria-expanded="true">
+                    <div class="panel-body">
+                        <table id="tblTablasMaestras" class="table table-hover table-condensed">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Nombres</th>
+                                    <th>Descripcion</th>
+                                    <th>Sistema</th>
+                                    <th>Estado</th>
+                                    <th>F. Modificación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+
+    ActualizarListaTablasMaestras("@Url.Action("Consultar_listaToDatatableSeg", "TablasMaestras")");
+
+
+
+    function clearForm() {
+        $("#frmShowErrorPopup").html("").hide();
+        $('#frmTablasMaestras').trigger("reset");
+        ActualizarListaTablasMaestras("@Url.Action("Consultar_listaToDatatable", "TablasMaestras")");
+        }
+
+    function BuscarUsuario(frm) {
+         var m_EstadoId = 0;
+
+        RefreshEstructuraTablaBusqueda($("#TablaNombre").val(), $("#TablaDescripcion").val(), $("#SistemaNombre").val(), m_EstadoId, "@Url.Action("ListarTablasFiltradas", "TablasMaestras")");
+
+         return false;
+     }
+
+
+
+function RefreshEstructuraTablaBusqueda(tablanombre, tabladescripcion, sistemanombre, estadoId,  path_post) {
+
+  tablaMaestra = $("#tblTablasMaestras").dataTable({
+            rowId: "TablaId",
+             orderClasses: false,
+             'stripeClasses':['stripe1','stripe2'],
+             "createdRow": function (row, data, index, full) {
+                 if (data.EstadoId == 2)
+                     $(row).css("color", "#8C2A2B");
+                 else
+                     $(row).css("color", "black");
+
+             },
+             "autoWidth": false,
+             "destroy": true,
+             "sPaginationType": "full_numbers",
+             "columnDefs": [{
+                 "defaultContent": "-",
+                 "targets": "_all"
+             }],
+              "ajax": {
+                  "url": path_post,
+                  "type": "POST",
+                  "data": {
+                      "TablaNombre": tablanombre,
+                      "TablaDescripcion": tabladescripcion,
+                      "EstadoId": estadoId,
+                      "SistemaNombre": sistemanombre,
+                  },
+                  "dataType": "json"
+              },
+             "columns":[
+                 { "data": "TablaNombre" },
+                 { "data": "TablaDescripcion" },
+                 { "data": "SistemaNombre" },
+                 { "data": "EstadoNombre", "render": function (data) {
+                        if(data=="ACTIVO")
+                            return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                        else
+                            return '<span class="badge badge-danger">INACTIVO</span>';
+
+                    },"orderable":false
+                 },
+                 { "data": "FechaModificacionRegistro" },
+                 {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnAdministrar = "";
+                        @if (ViewBag.PERMISOS.MODIFICAR == true)
+                            {
+                            <text>
+                        BtnAdministrar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Administrar la Tabla' id='btnModificarUsuarioModal' onclick='AdministrarTabla(\"" + full.TablaNombre + "\")' class='btn btn-sm btn-active-info'><i class='fa fa-edit'></i>&nbsp;Administrar</button>&nbsp;";
+                            </text>
+                           }
+
+                        return BtnAdministrar;
+                },
+                    "className": "text-right"
+                }
+             ],
+             "language": {
+                 "sProcessing": "Procesando...",
+                 "sLengthMenu": "Mostrar _MENU_",
+                 "sZeroRecords": "No se encontraron resultados",
+                 "sEmptyTable": "Ningún dato disponible en esta tabla",
+                 "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                 "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                 "sInfoPostFix": "",
+                 "sSearch": "Buscar:",
+                 "sUrl": "",
+                 "sInfoThousands": ",",
+                 "sLoadingRecords": "Cargando...",
+                 "oPaginate": {
+                     "sFirst": "Primero",
+                     "sLast": "Último",
+                     "sNext": "Siguiente",
+                     "sPrevious": "Anterior"
+                 },
+                 "oAria": {
+                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                 }
+             }
+         });
+        }
+
+
+        function AdministrarTabla(tablanombre) {
+            console.log(tablanombre)
+            $(location).attr('href', "@Url.Action("TablaVerDetalles", "TablasMaestras")" + "?m_TablaNombre=" + tablanombre);
+     }
+
+    function ActualizarListaTablasMaestras(path_post) {
+
+            tablaMaestra = $("#tblTablasMaestras").dataTable({
+            rowId: "TablaId",
+             orderClasses: false,
+             'stripeClasses':['stripe1','stripe2'],
+             "createdRow": function (row, data, index, full) {
+                 if (data.EstadoId == 2)
+                     $(row).css("color", "#8C2A2B");
+                 else
+                     $(row).css("color", "black");
+
+             },
+             "autoWidth": false,
+             "destroy": true,
+             "sPaginationType": "full_numbers",
+             "columnDefs": [{
+                 "defaultContent": "-",
+                 "targets": "_all"
+             }],
+             "ajax": {
+                 "url":path_post,
+                 "type": "POST",
+                 "data": {},
+                 "dataType": "json"
+             },
+             "columns":[
+                 { "data": "TablaNombre" },
+                 { "data": "TablaDescripcion" },
+                 { "data": "SistemaNombre" },
+                 { "data": "EstadoNombre", "render": function (data) {
+                        if(data=="ACTIVO")
+                            return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                        else
+                            return '<span class="badge badge-danger">INACTIVO</span>';
+
+                    },"orderable":false
+                 },
+                 { "data": "FechaModificacionRegistroStr" },
+                 {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnAdministrar = "";
+                        @if (ViewBag.PERMISOS.MODIFICAR == true)
+                            {
+                            <text>
+                        BtnAdministrar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Administrar la Tabla' id='btnModificarUsuarioModal' onclick='AdministrarTabla(\"" + full.TablaNombre + "\")' class='btn btn-sm btn-active-info'><i class='fa fa-edit'></i>&nbsp;Administrar</button>&nbsp;";
+                            </text>
+                           }
+
+                        return BtnAdministrar;
+                },
+                    "className": "text-right"
+                }
+             ],
+             "language": {
+                 "sProcessing": "Procesando...",
+                 "sLengthMenu": "Mostrar _MENU_",
+                 "sZeroRecords": "No se encontraron resultados",
+                 "sEmptyTable": "Ningún dato disponible en esta tabla",
+                 "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                 "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                 "sInfoPostFix": "",
+                 "sSearch": "Buscar:",
+                 "sUrl": "",
+                 "sInfoThousands": ",",
+                 "sLoadingRecords": "Cargando...",
+                 "oPaginate": {
+                     "sFirst": "Primero",
+                     "sLast": "Último",
+                     "sNext": "Siguiente",
+                     "sPrevious": "Anterior"
+                 },
+                 "oAria": {
+                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                 }
+             }
+         });
+    }
+
+
+</script>
+}

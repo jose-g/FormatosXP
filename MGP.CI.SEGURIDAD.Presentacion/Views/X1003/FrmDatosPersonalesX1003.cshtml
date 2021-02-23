@@ -1,0 +1,340 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.X1003DatosPersonalesViewModel
+
+@{
+    Layout = null;
+
+}
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>DATOS PERSONALES DEL EXTRANJERO</h1>
+    </div>
+    <br>
+    <br>
+
+    <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
+        @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarDatosPersonales", id = "FrmGrabarDatosExtranjero", onsubmit = "return GrabarFormDatosExt(this)" }))
+        {
+            @Html.HiddenFor(x => x.DeclaranteId)
+            @Html.HiddenFor(x => x.FichaId)
+            @Html.HiddenFor(x => x.DatosPersonalesId)
+
+            <div class="row">
+                <div class="row">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.PaisInstitucionId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.PaisInstitucionId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new
+                               {
+                                   @class = "form-control",
+                                   data_type = "listbox-dropdown-list",
+                                   data_update_target = "#InstitucioneMilitarExtranjeraId",
+                                   data_filter = "PaisId",
+                                   data_http_method = FormMethod.Get,
+                                   data_url = Url.Action("GetInstitucionesPorPais", "XP1003")
+                               })
+                                    @Html.ValidationMessageFor(x => x.PaisInstitucionId)
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.InstitucioneMilitarExtranjeraId, new { @class = "text-red" }) :
+                                    @Html.DropDownListFor(x => x.InstitucioneMilitarExtranjeraId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                               {
+                                   @class = "form-control",
+                                   data_type = "listbox-dropdown-list",
+                                   data_update_target = "#GradoExtranjeroId",
+                                   data_filter = "InstitucioneMilitarExtranjeraId",
+                                   data_value_member = "InstitucionMilitarExtranjeraId",
+                                   data_text_member = "Descripcion",
+                                   data_http_method = FormMethod.Get,
+                                   data_url = Url.Action("GetGradosExtranjerosPorInstitucion", "XP1003")
+                               })
+
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.GradoExtranjeroId, new { @class = "text-red" }) :
+                                    @Html.DropDownListFor(x => x.GradoExtranjeroId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                               {
+                                   @class = "form-control",
+                                   data_type = "listbox-dropdown-list",
+                                   data_update_target = "#EspecialidadExtranjeraId",
+                                   data_filter = "GradoExtranjeroId",
+                                   data_value_member = "GradoExtranjeroId",
+                                   data_text_member = "Descripcion",
+                                   data_http_method = FormMethod.Get,
+                                   data_url = Url.Action("GetEspecialidadExtranjerosPorInstitucion", "XP1003")
+                               })
+
+                                </div>
+                            </div>
+                            <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.EspecialidadExtranjeraId, new { @class = "text-red" }) :
+                                    @Html.DropDownListFor(x => x.EspecialidadExtranjeraId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                               {
+                                   @class = "form-control",
+                                   data_value_member = "EspecialidadesExtranjerasId",
+                                   data_text_member = "Descripcion"
+                               })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.Paterno, new { @class = "control-label" })
+                                    @Html.TextBoxFor(x => x.Paterno, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Paterno, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.Materno, new { @class = "control-label" })
+                                    @Html.TextBoxFor(x => x.Materno, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Materno, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="row" style="display: flex;justify-content: center;">
+                                    @Html.LabelFor(x => x.Nombres1, new { @class = "control-label" })
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Nombres1, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Nombres1, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Nombres2, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Nombres2, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group">
+                                            @Html.TextBoxFor(x => x.Nombres3, new { @class = "form-control" })
+                                            @Html.ValidationMessageFor(x => x.Nombres3, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.NacionalidadId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.NacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.PaisNacimientoId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.PaisNacimientoId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.LugarNacimiento, new { @class = "control-label" })
+                                    @Html.TextBoxFor(x => x.LugarNacimiento, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.LugarNacimiento, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.FechaNacimiento, new { @class = "control-label" })
+                                    @Html.TextBoxFor(x => x.FechaNacimiento, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.FechaNacimiento, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.EstadoCivilId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.EstadoCivilId, new SelectList(Model.LstEstadoCivil, "EstadoCivilId", "Nombre"), new { @class = "form-control" })
+
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.GrupoSanguineoId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.GrupoSanguineoId, new SelectList(Model.LstGrupoSanguineo, "GrupoSanguineoId", "Nombre"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.EnfermedadTipoId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(model => model.EnfermedadTipoId, new SelectList(Model.LstTipoEnfermedad, "EnfermedadesId", "EnfermedadTipo"), new
+                                    {
+                                    @class = "form-control",
+                                    data_type = "listbox-dropdown-list",
+                                    data_update_target = "#EnfermedadId",
+                                    data_filter = "EnfermedadesId",
+                                    data_value_member = "EnfermedadesId",
+                                    data_text_member = "Enfermedad",
+                                    data_http_method = FormMethod.Get,
+                                    data_url = Url.Action("GetEnfermedadxTipo", "XP1003")
+                                    })
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-md-3 col-lg-3">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.EnfermedadId, new { @class = "control-label" })
+                                    @Html.DropDownListFor(x => x.EnfermedadId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                               {
+                                   @class = "form-control",
+                                   data_value_member = "EnfermedadesId",
+                                   data_text_member = "Enfermedad"
+                               })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                            </div>
+                            <div class="col-sm-7 col-md-7 col-lg-7">
+                                <div class="panel-group accordion">
+                                    <div class="panel panel-primary">
+                                        <div class="panel-heading">
+                                            <center>
+                                                <h3 class="panel-title">
+                                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelDocumentosDeclarante" aria-expanded="false" class="">Documentos Personales</a>
+                                                </h3>
+                                            </center>
+                                        </div>
+                                        <div class="panel-collapse collapse in" id="IdPanelDocumentosDeclarante" aria-expanded="true">
+                                            <div class="panel-body">
+                                                <table id="tblDocumentosDeclarante" class="table table-hover table-condensed">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>Tipo de Documento</th>
+                                                            <th>Nro de Documento</th>
+                                                            <th>Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 col-md-2 col-lg-2">
+                                <button class="btn btn-active-info btn-icon-split" id="btnNuevoDocumentoDeclarante" data-url-create-docDeclarante="@Url.Action("AgregarDocumentoDeclarante", "XP1003")">
+                                    <span class="icon text-white-50">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </span>
+                                    <span class="text">Nuevo</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="uploaderfoto">
+                                        <label for="filedeclarantefoto1">
+
+                                            <input id="filedeclarantefoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                            <img id="imgfiledeclarantefoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail filefoto" />
+                                        </label>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <h6 style="text-align: center">Foto de Frente</h6>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="uploaderfoto">
+                                        <label for="filedeclarantefoto2">
+                                            <input id="filedeclarantefoto2" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                            <img id="imgfiledeclarantefoto2" src="~/Content/img/fotopreliminarposterior.png" class="img-thumbnail filefoto" />
+                                        </label>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <h6 style="text-align: center">Foto Posterior</h6>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="uploaderfoto">
+                                        <label for="filedeclarantefoto3">
+                                            <input id="filedeclarantefoto3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                            <img id="imgfiledeclarantefoto3" src="~/Content/img/fotopreliminarizquierda.png" class="img-thumbnail filefoto" />
+                                        </label>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <h6 style="text-align: center">Foto Lateral Izquierdo</h6>
+                                    </div>
+                                </div>*@
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="row">
+                                    <div class="uploaderfoto">
+                                        <label for="filedeclarantefoto4">
+                                            <input id="filedeclarantefoto4" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                            <img id="imgfiledeclarantefoto4" src="~/Content/img/fotopreliminarderecha.png" class="img-thumbnail filefoto" />
+                                        </label>
+                                    </div>
+                                </div>
+                                @*<div class="row">
+                                    <div class="col-sm-8 col-md-8 col-lg-8">
+                                        <h6 style="text-align: center">Foto Lateral Derecho</h6>
+                                    </div>
+                                </div>*@
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="text-center" style="display: flex;justify-content: center;">
+                    <ul class="nav nav-pills">
+                        <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button id="btnCerrarFrmDatosPersonales" type="button" onclick="clearFormDatosExt();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                        <li class="pull-right btn-warning" style="margin-right: 5px;margin-left: 5px;">
+                            <button id="btnGrabarDatosPersonales" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+
+            <br>
+            <br>
+            <div class="alert_error" style="display:none;" id="frmShowErroUsuario">
+            </div>
+        }
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="verModalDocumentoDeclarante" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div id="verDocumentoDeclaranteContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+

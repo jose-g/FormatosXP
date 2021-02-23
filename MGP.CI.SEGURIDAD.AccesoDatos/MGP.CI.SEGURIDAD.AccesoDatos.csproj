@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{77161DBD-4646-44E1-82FC-3F30044B2488}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MGP.CI.SEGURIDAD.AccesoDatos</RootNamespace>
+    <AssemblyName>MGP.CI.SEGURIDAD.AccesoDatos</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BaseDA.cs" />
+    <Compile Include="ClaseParcial\EstadosDA.cs" />
+    <Compile Include="ClaseParcial\EventosDA.cs" />
+    <Compile Include="ClaseParcial\ModulosDA.cs" />
+    <Compile Include="ClaseParcial\PerfilesDA.cs" />
+    <Compile Include="ClaseParcial\PerfilModulosDA.cs" />
+    <Compile Include="ClaseParcial\PermisoPerfilModulosDA.cs" />
+    <Compile Include="ClaseParcial\PermisosDA.cs" />
+    <Compile Include="ClaseParcial\SistemasDA.cs" />
+    <Compile Include="ClaseParcial\TablasMaestrasDA.cs" />
+    <Compile Include="ClaseParcial\TiposUsuariosDA.cs" />
+    <Compile Include="ClaseParcial\UbigeoNavalDA.cs" />
+    <Compile Include="ClaseParcial\UsuarioAutenticacionesDA.cs" />
+    <Compile Include="ClaseParcial\UsuarioDependenciasDA.cs" />
+    <Compile Include="ClaseParcial\UsuarioPerfilesDA.cs" />
+    <Compile Include="ClaseParcial\UsuariosDA.cs" />
+    <Compile Include="ClaseParcial\DocumentoIdentidadTiposDA.cs" />
+    <Compile Include="XP1003\DatosFamiliares1003DA.cs" />
+    <Compile Include="XP1003\DeportesDA.cs" />
+    <Compile Include="XP1003\DeportesRealizadosDA.cs" />
+    <Compile Include="XP1003\EnfermedadesDA.cs" />
+    <Compile Include="XP1003\FotosDeclarantesDA.cs" />
+    <Compile Include="XP1003\FotoTipoDA.cs" />
+    <Compile Include="XP1003\ObservacionesDA.cs" />
+    <Compile Include="XP1003\OtrosXP1003DA.cs" />
+    <Compile Include="XP1003\AscensosObtenidosDA.cs" />
+    <Compile Include="XP1003\CargosFuncionesDA.cs" />
+    <Compile Include="XP1003\CargosFuncionesRealizadasDA.cs" />
+    <Compile Include="XP1003\CondecoracionesExtranjerasDA.cs" />
+    <Compile Include="XP1003\CondecoracionesObtenidasDA.cs" />
+    <Compile Include="XP1003\CursosEscuelasExtranjerasDA.cs" />
+    <Compile Include="XP1003\CursosRealizadosDA.cs" />
+    <Compile Include="XP1003\EscuelasExtranjerasDA.cs" />
+    <Compile Include="XP1003\IdiomasDominadosDA.cs" />
+    <Compile Include="XP1003\InformacionCastrenseX1003DA.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XP1003\BusquedaDeclaranteDA.cs" />
+    <Compile Include="XP1003\CargosFuncionesX1003DA.cs" />
+    <Compile Include="XP1003\CategoriaMilitarDA.cs" />
+    <Compile Include="XP1003\ContinentesDA.cs" />
+    <Compile Include="XP1003\DatosPersonales1003DA.cs" />
+    <Compile Include="XP1003\DeclaranteDA.cs" />
+    <Compile Include="XP1003\DeclaranteIdentificacionesDA.cs" />
+    <Compile Include="XP1003\DomiciliosDA.cs" />
+    <Compile Include="XP1003\EspecialidadesExtranjerasDA.cs" />
+    <Compile Include="XP1003\EstadoCivilDA.cs" />
+    <Compile Include="XP1003\FichasDA.cs" />
+    <Compile Include="XP1003\GradoMilitarDA.cs" />
+    <Compile Include="XP1003\GradosExtranjerosDA.cs" />
+    <Compile Include="XP1003\GrupoSanguineoDA.cs" />
+    <Compile Include="XP1003\IdiomaDA.cs" />
+    <Compile Include="XP1003\IngresosAlPaisDA.cs" />
+    <Compile Include="XP1003\IngresosAnterioresAlPaisDA.cs" />
+    <Compile Include="XP1003\InstitucionesMilitaresExtranjerasDA.cs" />
+    <Compile Include="XP1003\InstitucionMilitarDA.cs" />
+    <Compile Include="XP1003\NacionalidadDA.cs" />
+    <Compile Include="XP1003\PaisesDA.cs" />
+    <Compile Include="XP1003\ProfesionesDA.cs" />
+    <Compile Include="XP1003\SexoDA.cs" />
+    <Compile Include="XP1003\UbigeoDA.cs" />
+    <Compile Include="XP1003\AutoMarcasDA.cs" />
+    <Compile Include="XP1003\AutoModelosDA.cs" />
+    <Compile Include="XP1003\VehiculosDA.cs" />
+    <Compile Include="XP1003\VehiculoTiposDA.cs" />
+    <Compile Include="XP\AutoridadJudicialTipoDA.cs" />
+    <Compile Include="XP\CentroPenitenciarioDA.cs" />
+    <Compile Include="XP\DelitosEspecificosDA.cs" />
+    <Compile Include="XP\DelitosGenericosDA.cs" />
+    <Compile Include="XP\GradoInstruccionDA.cs" />
+    <Compile Include="XP\OcupacionDA.cs" />
+    <Compile Include="XP\ParentescoDA.cs" />
+    <Compile Include="XP\RasgoDA.cs" />
+    <Compile Include="XP\RasgosTiposDA.cs" />
+    <Compile Include="XP\ReligionDA.cs" />
+    <Compile Include="XP\SalaJuzgadoTipoDA.cs" />
+    <Compile Include="XP\SalasJuzgadosDA.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MGP.CI.SEGURIDAD.Entidades\MGP.CI.SEGURIDAD.Entidades.csproj">
+      <Project>{2e57def1-0dc8-4087-9af2-c26407c1a176}</Project>
+      <Name>MGP.CI.SEGURIDAD.Entidades</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

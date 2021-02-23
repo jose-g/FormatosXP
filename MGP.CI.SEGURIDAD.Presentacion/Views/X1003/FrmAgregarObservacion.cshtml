@@ -1,0 +1,54 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarObservacionViewModel
+
+@{
+    Layout = null;
+}
+
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelRegistrarIdioma" aria-expanded="false" class="">AGREGAR DEPORTE</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelRegistrarIdioma" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistrarObservacion", "XP1003", FormMethod.Post, new { id = "frmRegistarObsevacion", onsubmit = "return RegistrarObservacionInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                                        <div class="form-group">
+                                            @Html.LabelFor(x => x.Observacion, new { @class = "control-label" })
+                                            @Html.TextAreaFor(x => x.Observacion, new { @type = "text", @class = "form-control", @rows = 5 })
+                                            @Html.ValidationMessageFor(x => x.Observacion, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row" style="text-align:center;">
+                                    <ul class="nav nav-pills" style="display:inline-table;">
+                                        <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarObservacion" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                        <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarObservacion" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupObservacion">
+
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>

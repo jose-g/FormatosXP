@@ -1,0 +1,252 @@
+﻿<div>
+
+    <div class="row">
+        <div class="panel-group accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <center>
+                        <h3 class="panel-title">
+                            <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelPerfil" aria-expanded="false" class="">Lista de Perfil <span id="nombreModulo"></span> </a>
+                        </h3>
+                    </center>
+                </div>
+
+                <div class="panel-collapse collapse in" id="IdPanelPerfil" aria-expanded="true">
+                    <div class="panel-body">
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <h4>Lista de perfiles</h4>
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+                                <div class="panel-titlexx" style="padding:2px">
+                                    <div class="row">
+                                        <div class="col-sm-10 col-md-10 col-lg-10">
+                                            <h4 id="TituloTablaModulos">Módulos por perfil ----</h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span id="PerfilIdSelected" style="display:none"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+
+                                <div style="border:1px solid lightgray">
+                                    <table id="tblPerfiles" class="table success table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>NOMBRE DEL PERFIL</th>
+                                                <th>ESTADO</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-6 col-md-6 col-lg-6">
+
+                                <div style="border:1px solid lightgray">
+                                    <div id="loadingGIF" style="display:none"></div>
+                                    <div id="arbolPermisos">
+                                        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+<div class="modal fade" id="verModalPerMod" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verPerModContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        //var IdPerfil = null;
+        //var tablaPerfilMae;
+        //var tblPerfMod;
+        //var modActivos = [];
+
+    function UpdatePermiso(checkbox, perfilModuloId, permisoId) {
+
+        var estado = ($(checkbox).is(':checked')) ? true : false;
+
+        var datos = {
+                'perfilModuloId': perfilModuloId,
+                'permisoId': permisoId,
+                'estado' : estado
+        };
+
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("GrabarPermisos", "PermisoPerfilModulo")",
+            data: datos,
+            async:false,
+            cache:false,
+            success: function (data) {
+                if (data.success == true) {
+                    //$(chk).attr("det_id", data.perm_perf_mod_id);
+                    $.notify("Operación satisfactoria..", "success");
+                } else {
+                    console.log("error");
+                    //est = (est == true) ? false : true;
+                    $.notify("Ocurrio un error", "error");
+                }
+            },
+            error: function (e) {
+                alert(e.responseText);
+            }
+        });
+
+
+        }
+
+        function CargarArbol(perfilId) {
+            modActivos = [];
+
+            var d = {
+                "PerfilId": perfilId
+            }
+
+            $.ajax({
+                url: "@Url.Action("VerPermisosxModulos", "PerfilModulo")",
+                data: d,
+                dataType: 'HTML',
+                type: "POST",
+                beforeSend: function () {
+                    $('#arbolPermisos').hide();
+                    $('#loadingGIF').show();
+                    $('#loadingGIF').html(tag_espera);
+                },
+                success: function (data) {
+                    $('#loadingGIF').hide();
+                    $('#arbolPermisos').show();
+                    $('#arbolPermisos').html(data);
+
+                    modActivos = [];
+                    $('[name="IdModDetalle"]').each(function () {
+                        modActivos.push($(this).val());
+                    });
+                },
+                error: function (data) {
+                    alert("Ocurrio un error ajax");
+                    console.log("Sucedió un error")
+                }
+            });
+
+        }
+
+
+
+        $('#tblPerfiles tbody').on('click', 'tr', function () {
+            var tr = $(this).closest('tr');
+
+            var selectedrow = tablaPerfilMae.api().row(tr);
+            var datarow = selectedrow.data();
+
+            $('#TituloTablaModulos').text("Módulos por perfil - ( " + datarow.Nombre + ")");
+            $('#PerfilIdSelected').text(datarow.PerfilesId);
+            RefreshPerfilModuloTbl(datarow.PerfilesId);
+        });
+
+        function RefreshPerfilModuloTbl(PerfilIdSelected) {
+            if (PerfilIdSelected == -1) return;
+
+            CargarArbol(PerfilIdSelected);
+        }
+
+        $(document).ready(function () {
+            $("#linkPerfilModuloIndex").addClass("click_menu");
+            RefreshPerfilTbl();
+        });
+
+    function RefreshPerfilTbl() {
+            tablaPerfilMae = $("#tblPerfiles").dataTable({
+                'select': {
+                    style: 'single'
+                },
+                'stripeClasses': ['stripe1', 'stripe2'],
+                "autoWidth": false,
+                "destroy": true,
+                "sPaginationType": "full_numbers",
+                "columnDefs": [{
+                    "defaultContent": "-",
+                    "targets": "_all"
+                }],
+                "ajax": {
+                    "url": "@Url.Action("Consultar_listaToDatatable", "Perfiles")",
+                    "type": "GET",
+                    "dataType": "json"
+                },
+                "columns": [
+                   { "data": "Nombre" },
+                   {
+                       "data": "EstadoNombre", "render": function (data) {
+                           if (data == "ACTIVO")
+                               return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                           else
+                               return '<span class="badge badge-danger">INACTIVO</span>';
+
+                       }, "orderable": false
+                   },
+                   {
+                       "data": "PerfilesId", "render": function (data) {
+                           return "<button type='button' id='btnModificarPerfilModal' class='btn btn-sm btn-warning'><i class='fa fa-eye'></i></button>";
+                       }, "orderable": false, "width": "5%"
+                   },
+                ],
+                "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "---",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "<<",
+                        "sLast": ">>",
+                        "sNext": ">",
+                        "sPrevious": "<"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                }
+            });
+        }
+
+
+
+
+
+
+    </script>
+}

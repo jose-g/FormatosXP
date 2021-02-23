@@ -1,0 +1,61 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarDocumentoViewModel
+@{
+    Layout = null;
+}
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelCrearDocumentoDeclarante" aria-expanded="false" class="">AGREGAR DOCUMENTO</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelCrearDocumentoDeclarante" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistarDocumento", "XP1003", FormMethod.Post, new { id = "frmRegistarDocDeclarante", onsubmit = "return RegistrarDocDeclaranteInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(x => x.DocumentoIdentidadTipoId, new { @class = "control-label" })
+                                            @Html.DropDownListFor(model => model.DocumentoIdentidadTipoId, new SelectList(Model.LstTipoDocumentos, "DocumentoIdentidadTipoId", "Descripcion"), new { @class = "form-control" })
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            @Html.LabelFor(x => x.NroDocumentoIdentidad, new { @class = "control-label" })
+                                            @Html.TextBoxFor(x => x.NroDocumentoIdentidad, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroDocumentoDeclarante(event);" })
+                                            @Html.ValidationMessageFor(x => x.NroDocumentoIdentidad, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row" style="text-align:center;">
+                                    <ul class="nav nav-pills" style="display:inline-table;">
+                                        <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarDocumentoDeclarante" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                        <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarCrearFicha" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    </ul>
+
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopup">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,141 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarDomiciliosEnPeruVewModel
+@{
+    Layout = null;
+}
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelRegistrarDomicilioDeclarante" aria-expanded="false" class="">AGREGAR DOMICILIO</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelRegistrarDomicilioDeclarante" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistarDomicilio", "XP1003", FormMethod.Post, new { id = "frmRegistrarDomicilio", onsubmit = "return RegistrarDomicilioInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.DepartamentoDomicilioDeclaranteId, new { @class = "text-red" }) :
+                                                @Html.DropDownListFor(x => x.DepartamentoDomicilioDeclaranteId, new SelectList(Model.LstDepartamentosDomicilioDeclarante, "UbigeoCodigo", "Departamento"), "Seleccione", new
+                                           {
+                                               @class = "form-control",
+                                               data_type = "listbox-dropdown-list",
+                                               data_update_target = "#ProvinciaDomicilioDeclaranteId",
+                                               data_filter = "DepartamentoId",
+                                               data_http_method = FormMethod.Get,
+                                               data_url = Url.Action("GetPronviciaPorDepartamento", "XP1003")
+                                           })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.ProvinciaDomicilioDeclaranteId, new { @class = "text-red" }) :
+                                                @Html.DropDownListFor(x => x.ProvinciaDomicilioDeclaranteId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                                       {
+                                                           @class = "form-control",
+                                                           data_type = "listbox-dropdown-list",
+                                                           data_update_target = "#DistritoDomicilioDeclaranteId",
+                                                           data_filter = "ProvinciaId",
+                                                           data_value_member = "UbigeoCodigo",
+                                                           data_text_member = "Provincia",
+                                                           data_http_method = FormMethod.Get,
+                                                           data_url = Url.Action("GetDistritoPorProvincia", "XP1003")
+                                                       })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.DistritoDomicilioDeclaranteId, new { @class = "text-red" }) :
+                                                @Html.DropDownListFor(x => x.DistritoDomicilioDeclaranteId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                           {
+                                               @class = "form-control",
+                                               data_value_member = "UbigeoCodigo",
+                                               data_text_member = "Distrito"
+                                           })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.TelefonoDomicilioDeclarante, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.TelefonoDomicilioDeclarante, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroTelefonoDeclarante(event);" })
+                                                @Html.ValidationMessageFor(x => x.TelefonoDomicilioDeclarante, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.LugarResidenciaDomicilioDeclarante, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.LugarResidenciaDomicilioDeclarante, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.LugarResidenciaDomicilioDeclarante, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.ReferenciaDomicilioDeclarante, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.ReferenciaDomicilioDeclarante, new { @class = "form-control" })
+                                                @Html.ValidationMessageFor(x => x.ReferenciaDomicilioDeclarante, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="row">
+                                                <div class="row" style="display: flex;justify-content: center;">
+                                                    @Html.LabelFor(x => x.lblEmailDomicilioDeclarante, new { @class = "control-label", style = "margin-left:-170px;padding-left:0px;" })
+                                                </div>
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            @Html.TextBoxFor(x => x.EmailParteIzquierda, new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(x => x.EmailParteIzquierda, "", new { @class = "text-danger" })
+                                                        </div>
+                                                        <div class="col-sm-1 col-md-1 col-lg-1" style="margin-left:0px;padding-left:0px; margin-top:-20px;">
+                                                            <h3>&#64;</h3>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4" style="margin-left:-20px;padding-left:-20px;">
+                                                            @Html.TextBoxFor(x => x.EmailParteDerecha, new { @class = "form-control"})
+                                                            @Html.ValidationMessageFor(x => x.EmailParteDerecha, "", new { @class = "text-danger" })
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+                                            </div>
+
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row" style="text-align:center;">
+                                    <ul class="nav nav-pills" style="display:inline-table;">
+                                        <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarDomicilioEnPeru" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                        <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarDomicilioEnPeru" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupDomicilioEnPeru">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

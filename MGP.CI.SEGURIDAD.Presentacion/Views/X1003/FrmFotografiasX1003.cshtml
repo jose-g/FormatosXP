@@ -1,0 +1,217 @@
+﻿
+@{
+    Layout = null;
+
+}
+
+
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>GALERIA DE FOTOGRAFIAS</h1>
+    </div>
+    <br>
+    <br>
+    @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarDatosPersonales", id = "FrmGrabarDatosExtranjero", onsubmit = "return GrabarFormDatosExt(this)" }))
+    {
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file1">
+                            <input id="file1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile1" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file2">
+                            <input id="file2" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile2" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file3">
+                            <input id="file3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile3" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file3">
+                            <input id="file3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile3" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file4">
+                            <input id="file4" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile4" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file5">
+                            <input id="file5" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile5" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file6">
+                            <input id="file6" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile6" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file6">
+                            <input id="file6" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile6" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file1">
+                            <input id="file1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile1" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file2">
+                            <input id="file2" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile2" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file3">
+                            <input id="file3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile3" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file3">
+                            <input id="file3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile3" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file1">
+                            <input id="file1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile1" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file2">
+                            <input id="file2" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile2" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file3">
+                            <input id="file3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile3" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <div class="form-group">
+                    <div class="uploaderfoto">
+                        <label for="file3">
+                            <input id="file3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivo(this.files, this)" style="display:none">
+                            <img id="imgfile3" src="~/Content/img/fotopreliminar.png" class="img-thumbnail filefoto" />
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="text-center" style="display: flex;justify-content: center;">
+            <ul class="nav nav-pills">
+                <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button id="btnCerrarFrmFrmFotografias" type="button" onclick="clearFormFotografias();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                <li class="pull-right btn-warning" style="margin-right:2 5px;margin-left: 5px;">
+                    <button id="btnGrabarFotografias" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <br>
+
+    }
+</div>

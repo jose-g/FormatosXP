@@ -1,0 +1,379 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.DocumentoIdentidadTiposViewModel
+
+<div>
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 5px; padding-bottom:5px; text-align:right; float:right;">
+            @if (ViewBag.PERMISOS.NUEVO == true)
+            {
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevoRegistroDocumento" data-url-create-usuario="@Url.Action("VerDocumento", "TablasMaestras")">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            }
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="panel-group accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <center>
+                        <h3 class="panel-title">
+                            <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelTablasDetales" aria-expanded="false" class="">Lista de Tablas Maestras</a>
+                        </h3>
+                    </center>
+                </div>
+                <div class="panel-collapse collapse in" id="IdPanelTablasDetales" aria-expanded="true">
+                    <div class="panel-body">
+                        <table id="tblTablasTipoDocumentos" class="table table-hover table-condensed">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Descripcion</th>
+                                    <th>Estado</th>
+                                    <th>F. Modificación</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="ModalEditarDocumento" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div id="ModalEditarDocumentoContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+<script>
+    MostrarListaTablasRegistroTipoDocumento("@Url.Action("ConsultarTipoDocumentos", "TablasMaestras")");
+
+
+    function ValidarTipoDocumento(formulario) {
+         $.ajax({
+             url: $('#FrmEditarDocumento').attr('action'),
+             type: "POST",
+             data: $("#FrmEditarDocumento").serialize(),
+             cache: false,
+             success: function (data) {
+                if (data.success == true) {
+                    $.notify("Operación satisfactoria..", "success");
+                    $('#ModalEditarDocumento').modal('hide');
+                    MostrarListaTablasRegistroTipoDocumento("@Url.Action("ConsultarTipoDocumentos", "TablasMaestras")");
+                } else {
+                    $("#frmShowErrorPopupRsKey").html(data.mensajeError).show();
+                    $.notify("Ocurrio un error", "error");
+                }
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+         });
+        return false;
+    }
+
+
+
+    function FrmActualizarRegistro(Id) {
+        $.ajax({
+                url: "@Url.Action("VerFormEditarDocumento", "TablasMaestras")",
+                data: {
+                    "m_tipodocumentoId": Id
+                },
+            type: "POST",
+            dataType: 'HTML',
+            success: function (data) {
+                $('#ModalEditarDocumentoContainer').html(data);
+                $('#ModalEditarDocumento').modal('show');
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+        });
+
+
+        console.log("UPDATE : codigo -> " + tipodocumentoId);
+    }
+
+
+        function EliminarRegistro(Id) {
+         var opcion = confirm("Desea eliminar el registro seleccionado?");
+                if (opcion == true) {
+                 $.ajax({
+                     url: "@Url.Action("EliminarRegistro", "TablasMaestras")",
+                     type: "POST",
+                     data: {
+                         'm_tipodocumentoId': Id,
+                     },
+                     success: function (data) {
+                         if (data.success == true) {
+                             MostrarListaTablasRegistroTipoDocumento("@Url.Action("ConsultarTipoDocumentos", "TablasMaestras")");
+                             $.notify("El registro ha sido eliminado satisfactoriamente..", "success");
+                         } else {
+                             $.notify("Ocurrió un error.." + data.mensajeError, "error");
+                         }
+                     },
+                     error: function (data) {
+                         console.log("Sucedió un error")
+                     }
+
+                 });
+             }
+    }
+    function cambioEstadoRegistro(Id, estadoId) {
+        var str = "";
+        str = (estadoId == 1) ? "Confirma dar de alta al usuario seleccionado?" : "Confirma dar de baja al usuario seleccionado?";
+        var opcion = confirm(str);
+
+        if (opcion == true) {
+
+            $.ajax({
+            url: "@Url.Action("cambioEstadoRegistro", "TablasMaestras")",
+            type: "POST",
+            data: {
+                'm_tipodocumentoId': parseInt(Id) ,
+                    'm_estadoId': estadoId,
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        console.log("Llamando a actualizar");
+                        MostrarListaTablasRegistroTipoDocumento("@Url.Action("ConsultarTipoDocumentos", "TablasMaestras")");
+                        $.notify("Operación satisfactoria..", "success");
+                    }
+                    else
+                    {
+                        $.notify("Ocurrió un error.." + data.mensajeError, "error");
+                    }
+                },
+                error: function (data) {
+                    console.log("Sucedió un error")
+                }
+
+                });
+            }
+    }
+
+
+    function clearForm() {
+        $("#frmShowErrorPopup").html("").hide();
+        $('#frmTablaRegistroTipoDocumento').trigger("reset");
+        MostrarListaTablasRegistroTipoDocumento("@Url.Action("ConsultarTipoDocumentos", "TablasMaestras")");
+        }
+
+        function BuscarRegistro(frm) {
+         RefreshListaTablasRegistroTipoDocumento($("#Descripcion").val(), "@Url.Action("ListarRegistrosFiltradosDocumentos", "TablasMaestras")");
+         return false;
+     }
+
+    $("#btnNuevoRegistroDocumento").click(function () {
+        var Id = 0;
+        FrmActualizarRegistro(Id)
+    });
+
+ 
+    function RefreshListaTablasRegistroTipoDocumento(tabladescripcion, path_post) {
+            console.log(path_post);
+
+            tablaTipoDocumentos = $("#tblTablasTipoDocumentos").dataTable({
+                rowId: "Id",
+                "pageLength": 25,
+                orderClasses: false,
+                'stripeClasses': ['stripe1', 'stripe2'],
+                "createdRow": function (row, data, index, full) {
+                    if (data.EstadoId == 2)
+                        $(row).css("color", "#8C2A2B");
+                    else
+                        $(row).css("color", "black");
+
+                },
+                "autoWidth": false,
+                "destroy": true,
+                "sPaginationType": "full_numbers",
+                "columnDefs": [{
+                    "defaultContent": "-",
+                    "targets": "_all"
+                }],
+                "ajax": {
+                    "url": path_post,
+                    "type": "POST",
+                    "data": {
+                        "Descripcion": tabladescripcion,
+                    },
+                    "dataType": "json"
+                },
+                "columns": [
+                    { "data": "Codigo" },
+                    { "data": "Descripcion" },
+                    { "data": "FechaModificacionRegistroStr" },
+                {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnCambiarEstado = "";
+                        var BtnActualizarRegistro = "<button type='button' data-toggle='tooltip' data-placement='top' title='Actualizar datos del Registro' id='btnModificarUsuarioModal' onclick='FrmActualizarRegistro(" + full.Id + ")' class='btn btn-sm btn-active-info'><i class='fa fa-edit'></i>&nbsp;Editar</button>&nbsp;" ;
+
+                        if (full.EstadoId == 1)
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de baja Registro' id='' onclick='cambioEstadoRegistro(\"" + full.Id + "\" , 2)' class='btn btn-sm btn-active-info'><i style='color:#623988' class='fa fa-toggle-on'></i></button>&nbsp;";
+                        else
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de alta al Registro' id='' onclick='cambioEstadoRegistro(\"" + full.Id + "\" , 1)' class='btn btn-sm btn-active-info'><i style='color:gray' class='fa fa-toggle-off'></i></button>&nbsp;";
+
+
+                        @if (ViewBag.PERMISOS.MODIFICAR == false){
+                            <text>
+                                BtnCambiarEstado = "";
+                            </text>
+                        }
+                            var BtnEliminarUsuario = "";
+                        @if (ViewBag.PERMISOS.ELIMINAR == true)
+                            {
+                            <text>
+                        BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Registro' id='btnEliminarUsuarioModal' onclick='EliminarRegistro(\"" + full.Id + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                            </text>
+                           }
+
+                        return BtnActualizarRegistro + BtnCambiarEstado + BtnEliminarUsuario;
+                },
+                    "className": "text-right"
+                }
+             ],
+            "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+            "sFirst": "Primero",
+            "sLast": "Último",
+            "sNext": "Siguiente",
+            "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                }
+            }
+        });
+        }
+
+       function MostrarListaTablasRegistroTipoDocumento(path_post) {
+            console.log(path_post);
+
+             tablaTipoDocumentos = $("#tblTablasTipoDocumentos").dataTable({
+                 rowId: "Id",
+                 "pageLength": 25,
+             orderClasses: false,
+             'stripeClasses':['stripe1','stripe2'],
+             "createdRow": function (row, data, index, full) {
+                 if (data.EstadoId == 2)
+                     $(row).css("color", "#8C2A2B");
+                 else
+                     $(row).css("color", "black");
+
+             },
+             "autoWidth": false,
+             "destroy": true,
+             "sPaginationType": "full_numbers",
+             "columnDefs": [{
+                 "defaultContent": "-",
+                 "targets": "_all"
+             }],
+             "ajax": {
+                 "url":path_post,
+                 "type": "POST",
+                 "data": {},
+                 "dataType": "json"
+             },
+             "columns":[
+                 { "data": "Codigo" },
+                 { "data": "Descripcion" },
+                 {
+                     "data": "EstadoNombre", "render": function (data) {
+                         if (data == "ACTIVO")
+                             return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                         else
+                             return '<span class="badge badge-danger">INACTIVO</span>';
+
+                     }, "orderable": false
+                 },
+                 { "data": "FechaModificacionRegistroStr" },
+                {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnCambiarEstado = "";
+                        var BtnActualizarRegistro = "<button type='button' data-toggle='tooltip' data-placement='top' title='Actualizar datos del Registro' id='btnModificarUsuarioModal' onclick='FrmActualizarRegistro(" + full.Id + ")' class='btn btn-sm btn-active-info'><i class='fa fa-edit'></i>&nbsp;Editar</button>&nbsp;" ;
+
+                        if (full.EstadoId == 1)
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de baja Registro' id='' onclick='cambioEstadoRegistro(\"" + full.Id + "\" , 2)' class='btn btn-sm btn-active-info'><i style='color:#623988' class='fa fa-toggle-on'></i></button>&nbsp;";
+                        else
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de alta al Registro' id='' onclick='cambioEstadoRegistro(\"" + full.Id + "\" , 1)' class='btn btn-sm btn-active-info'><i style='color:gray' class='fa fa-toggle-off'></i></button>&nbsp;";
+
+
+                        @if (ViewBag.PERMISOS.MODIFICAR == false){
+                            <text>
+                                BtnCambiarEstado = "";
+                            </text>
+                        }
+                            var BtnEliminarUsuario = "";
+                        @if (ViewBag.PERMISOS.ELIMINAR == true)
+                            {
+                            <text>
+                        BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Registro' id='btnEliminarUsuarioModal' onclick='EliminarRegistro(\"" + full.Id + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                            </text>
+                           }
+
+                        return BtnActualizarRegistro + BtnCambiarEstado + BtnEliminarUsuario;
+                },
+                    "className": "text-right"
+                }
+             ],
+             "language": {
+                 "sProcessing": "Procesando...",
+                 "sLengthMenu": "Mostrar _MENU_",
+                 "sZeroRecords": "No se encontraron resultados",
+                 "sEmptyTable": "Ningún dato disponible en esta tabla",
+                 "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                 "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                 "sInfoPostFix": "",
+                 "sSearch": "Buscar:",
+                 "sUrl": "",
+                 "sInfoThousands": ",",
+                 "sLoadingRecords": "Cargando...",
+                 "oPaginate": {
+                     "sFirst": "Primero",
+                     "sLast": "Último",
+                     "sNext": "Siguiente",
+                     "sPrevious": "Anterior"
+                 },
+                 "oAria": {
+                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                 }
+             }
+         });
+    }
+
+
+</script>
+}

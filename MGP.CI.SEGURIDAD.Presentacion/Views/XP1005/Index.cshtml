@@ -1,0 +1,291 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1005.BusquedaDeclaranteXP1005ViewModel
+
+<style>
+    #tblDeclaranteX1003 tbody td {
+        vertical-align: middle;
+    }
+</style>
+
+
+<div>
+    <div class="panel panel-info">
+        <div class="modal-body">
+            @using (Html.BeginForm("X1005BuscarDeclarantes", "Declarantes", FormMethod.Post, new { id = "frmBuscarDeclaranteXP1005", onsubmit = "return BuscarFichasFromDeclarantesXP1005(this)" }))
+            {
+                <div style="border-bottom:1px solid gray; font-size:18px; margin-bottom:6px; width:50%;color: black; text-shadow: 2px 2px 2px gray;">
+                    <span><b>CONSULTA DE DECLARANTES XP1003 </b></span>
+                </div>
+                <div class="row">
+                    <div class="col-xs-9 col-sm-9 col-md-9 col-lg-9">
+                        <div class="row">
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                @Html.LabelFor(x => x.ApePaterno, new { @class = "text-red" }) :
+                                @Html.TextBoxFor(x => x.ApePaterno, new { @class = "form-control inpe-input", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.ApeMaterno, "", new { @class = "text-danger" })
+
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.ApeMaterno, new { @class = "control-label" })
+                                    @Html.TextBoxFor(x => x.ApeMaterno, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.ApeMaterno, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.Nombres, new { @class = "control-label" })
+                                    @Html.TextBoxFor(x => x.Nombres, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            @*<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+                                    @Html.LabelFor(x => x.DocumentoIdentidadId, new { @class = "text-red" }) :
+                                    @Html.DropDownListFor(x => x.DocumentoIdentidadId, new SelectList(Model.LstDocumentosIdentidad, "CodigoDocumento", "Descripcion"), new { @class = "form-control inpe-input" })
+                                </div>
+                            </div>*@
+                            <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+                                <div class="form-group">
+
+                                    @Html.LabelFor(x => x.DocumentoIdentidadNumero, new { @class = "text-red" }) :
+                                    @Html.TextBoxFor(x => x.DocumentoIdentidadNumero, new { @class = "form-control inpe-input", autocomplete = "off" })
+                                    @Html.ValidationMessageFor(x => x.DocumentoIdentidadNumero, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-lg-6 col-sm-6">
+                        <div class="row">
+
+                            <a href="#" style="color:#a10016">
+                                <span id="btnBuscarDeclaranteX1003" onclick="BuscarFichasFromDeclarantesXP1005(this);" class="fa-stack ml-3" aria-hidden="true" aria-expanded="true">
+                                    <i class="fa fa-search  fa-stack-2x" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Buscar Declarante"></i>
+                                </span>
+                            </a>
+                            <a href="#" id="btnLimpiarDeclaranteX1005" onclick="ResetBusquedaXP1005();" style="color:#a10016; margin-left:40px" data-toggle="collapse">
+                                <span class="fa-stack" aria-hidden="true">
+                                    <i class="ti-eraser fa-stack-2x" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Limpiar campos de búsqueda"></i>
+                                </span>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="alert_error" style="display:none;" id="frmShowError">
+                </div>
+
+            }
+        </div>
+    </div>
+</div>
+
+<div>
+    <div class="row">
+
+
+        <div class="panel-group accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <center>
+                        <h3 class="panel-title">
+                            <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelDeclaranteX1003" aria-expanded="false" class="">Lista de usuarios</a>
+                        </h3>
+                    </center>
+                </div>
+                <div class="panel-collapse collapse in" id="IdPanelDeclaranteX1003" aria-expanded="true">
+                    <div class="panel-body">
+                        <table id="tblDeclaranteX1005" class="table table-hover table-condensed">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Paterno</th>
+                                    <th>Materno</th>
+                                    <th>Nombre</th>
+                                    <th>Fecha de la Ficha</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="verModalConfirmarCrearFicha" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div id="verConfirmarCrearFichaContainer">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts{
+
+    <script>
+        var itemX1003 = 0;
+
+        // Refrescar Tabla
+        function CrearFicha(frm) {
+            $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1005")");
+            return false;
+        }
+
+
+        $(document).on('click', '#btnNuevaFichaXP1005', function () {
+            $.ajax({
+                url: "@Url.Action("VerFrmConfirmacion", "XP1005")",
+                data: {},
+                type: "POST",
+                dataType: 'HTML',
+                success: function (data) {
+                    $('#verConfirmarCrearFichaContainer').html(data);
+                    $('#verModalConfirmarCrearFicha').modal('show');
+                },
+                error: function (data) {
+                    console.log("Sucedió un error")
+                }
+
+            });
+        })
+
+
+
+
+
+    function FichaVerDetalles(m_Ficha1003Id) {
+            $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")" + "?m_Ficha1003Id=" + m_Ficha1003Id);
+        }
+
+
+    function clearForm() {
+        $("#frmShowErrorPopup").html("").hide();
+        $('#frmBusca').trigger("reset");
+        ActualizarListaDeclarantesXP1003("@Url.Action("Consultar_listaToDatatableXP1003", "XP1005")");
+    }
+
+    function PopupProcesando() {
+            $('#popup_procesando').modal('show');
+    }
+
+    function BuscarFichasFromDeclarantes() {
+        if ($('#ApePaterno').val().trim().length == 0 && $('#ApeMaterno').val().trim().length == 0 && $('#Nombres').val().trim().length == 0 && $('#DocumentoIdentidadNumero').val().trim().length == 0)
+        {
+            alert("Debe escribir la busqueda")
+            return false;
+        }
+        ActualizarListaDeclarantesXP1005("@Url.Action("Consultar_listaToDatatableXP1005", "XP1003")");
+    }
+
+
+
+    function ActualizarListaDeclarantesXP1003   (path_post) {
+
+        var frm = $('#frmBuscarDeclaranteXP1003').serialize();
+
+            tablaSis = $("#tblDeclaranteX1003").dataTable({
+            rowId: "Ficha1003Id",
+             orderClasses: false,
+             'stripeClasses':['stripe1','stripe2'],
+             "createdRow": function (row, data, index, full) {
+
+                 if (data.EstadoId == 2)
+                     $(row).css("color", "#8C2A2B");
+                 else
+                     $(row).css("color", "black");
+
+             },
+             "autoWidth": false,
+             "destroy": true,
+             "sPaginationType": "full_numbers",
+                "columnDefs": [{
+                 'className': 'align-middle',
+                 "defaultContent": "-",
+                 "targets": "_all"
+             }],
+             "ajax": {
+                 "url":path_post,
+                 "type": "POST",
+                 "data": {
+                     "ApePaterno": $('#ApePaterno').val(),
+                     "ApeMaterno": $('#ApeMaterno').val(),
+                     "Nombres": $('#Nombres').val(),
+                     "DocumentoIdentidadNumero": $('#DocumentoIdentidadNumero').val(),
+                 },
+                 "dataType": "json"
+             },
+            "columns": [
+                {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        return itemX1003 + 1;
+                    }, "className": "text-center"
+                },
+                { "data": "ApePaterno" },
+                { "data": "ApeMaterno" },
+                { "data": "Nombres" },
+                { "data": "FechaRegistroStr" },
+                {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnImprimirFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Imprimir datos de la Ficha' id='btnImprimirFichaXP1003Modal' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-camera fa-stack-3x'></i> </span></button>";
+                        var BtnEditarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='FichaVerDetalles(" + full.Ficha1003Id + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-edit fa-stack-3x'></i> </span></button>";
+                        var BtnEliminarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Ficha' id='btnEliminarFichaXP1003Modal' class='btn btn-sm btn-active-danger'><span class='fa-stack fa-2x'> <i class='fa fa-trash fa-stack-3x'></i> </span></button>";
+                        return BtnImprimirFicha + BtnEditarFicha + BtnEliminarFicha;
+                },
+                    "className": "text-center"
+                }
+
+
+             ],
+             "language": {
+                 "sProcessing": "Procesando...",
+                 "sLengthMenu": "Mostrar _MENU_",
+                 "sZeroRecords": "No se encontraron resultados",
+                 "sEmptyTable": "Ningún dato disponible en esta tabla",
+                 "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                 "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                 "sInfoPostFix": "",
+                 "sSearch": "Buscar:",
+                 "sUrl": "",
+                 "sInfoThousands": ",",
+                 "sLoadingRecords": "Cargando...",
+                 "oPaginate": {
+                     "sFirst": "Primero",
+                     "sLast": "Último",
+                     "sNext": "Siguiente",
+                     "sPrevious": "Anterior"
+                 },
+                 "oAria": {
+                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                 }
+             }
+         });
+    }
+
+
+
+    </script>
+}
+

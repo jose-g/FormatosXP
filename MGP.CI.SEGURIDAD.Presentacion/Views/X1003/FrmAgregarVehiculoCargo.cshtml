@@ -1,0 +1,85 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarVehiculoViewModel
+@{
+    Layout = null;
+}
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelRegistrarVehiculoDeclarante" aria-expanded="false" class="">AGREGAR vEHICULO</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelRegistrarVehiculoDeclarante" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistarVehiculo", "XP1003", FormMethod.Post, new { id = "frmRegistrarVehiculo", onsubmit = "return RegistrarVehiculoInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.ExtranjeroTipoVehiculoId, new { @class = "text-red" }) :
+                                                @Html.DropDownListFor(x => x.ExtranjeroTipoVehiculoId, new SelectList(Model.LstTipoVehiculos, "VehiculoTipoId", "Nombre"), "Seleccione", new {@class = "form-control"})
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.ExtranjeroVehiculoMarcaId, new { @class = "text-red" }) :
+                                                @Html.DropDownListFor(x => x.ExtranjeroVehiculoMarcaId, new SelectList(Model.LstMarcas, "AutoMarcaId", "Nombre"), "Seleccione", new
+                                           {
+                                               @class = "form-control",
+                                               data_type = "listbox-dropdown-list",
+                                               data_update_target = "#ExtranjeroVehiculoModeloId",
+                                               data_filter = "AutoMarcaId",
+                                               data_http_method = FormMethod.Get,
+                                               data_url = Url.Action("GetModelosxMarca", "XP1003")
+                                           })
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.ExtranjeroVehiculoModeloId, new { @class = "text-red" }) :
+                                                @Html.DropDownListFor(x => x.ExtranjeroVehiculoModeloId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                           {
+                                               @class = "form-control",
+                                               data_value_member = "AutoModeloId",
+                                               data_text_member = "Nombre"
+                                           })
+
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                            <div class="form-group">
+                                                @Html.LabelFor(x => x.ExtranjeroVehiculoPlaca, new { @class = "control-label" })
+                                                @Html.TextBoxFor(x => x.ExtranjeroVehiculoPlaca, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroTelefonoDeclarante(event);" })
+                                                @Html.ValidationMessageFor(x => x.ExtranjeroVehiculoPlaca, "", new { @class = "text-danger" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row" style="text-align:center;">
+                                    <ul class="nav nav-pills" style="display:inline-table;">
+                                        <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarVehiculoDeclarante" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                        <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarVehiculoDeclarante" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    </ul>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupVehiculoDeclarante">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

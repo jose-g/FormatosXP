@@ -1,0 +1,185 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarFamiliarResidentesEnPeru
+@{
+    Layout = null;
+}
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelCrearDocumentoDeclarante" aria-expanded="false" class="">AGREGAR FAMILIAR RESIDENTE</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelCrearDocumentoDeclarante" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistarFamiliarResidente", "XP1003", FormMethod.Post, new { id = "frmRegistarFamiliarResidente", onsubmit = "return RegistrarFamiliarResidenteInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidentePaterno, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidentePaterno, new { @type = "text", @maxlength = "8", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.ResidentePaterno, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteMaterno, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidenteMaterno, new { @type = "text", @maxlength = "8", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.ResidenteMaterno, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteNombre1, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidenteNombre1, new { @type = "text", @maxlength = "8", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.ResidenteNombre1, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteNombre2, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidenteNombre2, new { @type = "text", @maxlength = "8", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.ResidenteNombre2, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteNombre3, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidenteNombre3, new { @type = "text", @maxlength = "8", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.ResidenteNombre3, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteDocumentoIdentidadTipoId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.ResidenteDocumentoIdentidadTipoId, new SelectList(Model.LstTipoDocumentos, "DocumentoIdentidadTipoId", "Descripcion"), new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteNroDocumentoIdentidad, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidenteNroDocumentoIdentidad, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroDocumentoHijo(event);" })
+                                        @Html.ValidationMessageFor(x => x.ResidenteNroDocumentoIdentidad, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteFechaNacimiento, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.ResidenteFechaNacimiento, new { @type = "text", @maxlength = "8", @class = "form-control" })
+                                        @Html.ValidationMessageFor(x => x.ResidenteFechaNacimiento, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteNacionalidadId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.ResidenteNacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.ResidenteParentescoId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.ResidenteParentescoId, new SelectList(Model.LstParentesco, "ParentescoId", "Nombre"), new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="row">
+                                        <div class="uploaderfoto">
+
+                                            <label for="filefamresfoto1">
+                                                <input id="filefamresfoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                <img id="imgfilefamresfoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail filefoto" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                        @Html.LabelFor(x => x.HijostrFotoFrente, new { @class = "control-label",  @style = "text-align: center;display:flow-root" })
+                    </div>
+                </div>*@
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="row">
+                                        <div class="uploaderfoto">
+
+                                            <label for="filefamresfoto2">
+                                                <input id="filefamresfoto2" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                <img id="imgfilefamresfoto2" src="~/Content/img/fotopreliminarposterior.png" class="img-thumbnail filefoto" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                        @Html.LabelFor(x => x.HijostrFotoPosterior, new { @class = "control-label", @style = "text-align: center;display:flow-root" })
+                    </div>
+                </div>*@
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="row">
+                                        <div class="uploaderfoto">
+
+                                            <label for="filefamresfoto3">
+                                                <input id="filefamresfoto3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                <img id="imgfilefamresfoto3" src="~/Content/img/fotopreliminarizquierda.png" class="img-thumbnail filefoto" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                    <div class="col-sm-9 col-md-9 col-lg-9">
+                        @Html.LabelFor(x => x.HijostrFotoLateralIzquierdo, new { @class = "control-label", @style = "text-align: center" })
+                    </div>
+                </div>*@
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="row">
+                                        <div class="uploaderfoto">
+
+                                            <label for="filefamresfoto4">
+                                                <input id="filefamresfoto4" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                <img id="imgfilefamresfoto4" src="~/Content/img/fotopreliminarderecha.png" class="img-thumbnail filefoto" />
+                                            </label>
+                                        </div>
+                                    </div>
+                                    @*<div class="row">
+                    <div class="col-sm-8 col-md-8 col-lg-8">
+                        @Html.LabelFor(x => x.HijostrFotoLateralDerecho, new { @class = "control-label", @style = "text-align: center;display:flow-root" })
+                    </div>
+                </div>*@
+                                </div>
+
+                            </div>
+
+
+                            <br />
+                            <br />
+                            <div class="row" style="text-align:center;">
+                                <ul class="nav nav-pills" style="display:inline-table;">
+                                    <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarDocumentoDeclarante" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarCrearFicha" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                </ul>
+
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupResidente">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

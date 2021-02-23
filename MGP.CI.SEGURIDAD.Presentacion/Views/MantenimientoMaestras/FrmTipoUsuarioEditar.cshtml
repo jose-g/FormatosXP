@@ -1,0 +1,41 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.TiposUsuariosVM
+
+@{
+    Layout = null;
+}
+<div class="modal-header">
+    <h5 class="modal-title" style="color:white">Editar Tipo de Usuario</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" style="color:white"><i class="glyphicon glyphicon-remove"></i><span class="menu-title"></span></span>
+    </button>
+</div>
+
+
+@using (Html.BeginForm("GrabarTipoUsuarios", "TablasMaestras", FormMethod.Post, new { id = "FrmEditarTipoUsuario", onsubmit = "return ValidarTipoUsuario(this)" }))
+{
+    <div class="modal-body">
+        @Html.HiddenFor(x => x.Id)
+        <div class="row">
+            <div class="col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DescCorta, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.DescCorta, new { @class = "form-control" })
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.DescLarga, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.DescLarga, new { @class = "form-control" })
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-right">
+            <div class="row">
+                <div class="col-sm-12 col-md-12 col-lg-12">
+                    <button id="btnGrabarTipoUsuario" type="submit" class="btn btn-warning"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                    <button id="btnCerrarTipoUsuario" type="button" data-dismiss="modal" class="btn btn-danger"><i class="fa fa-times"></i>&nbsp;Cerrar</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+}

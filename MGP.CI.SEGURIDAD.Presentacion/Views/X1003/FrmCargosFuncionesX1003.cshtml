@@ -1,0 +1,244 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.X1003CargosFuncionesViewModel
+
+@{
+    Layout = null;
+
+}
+
+
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>CARGOS O FUNCION A DESEMPEÑAR EN EL PAÍS:</h1>
+    </div>
+    <br>
+    <br>
+    @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarCargosFuncionales", id = "FrmGrabarCargosFuncionales", onsubmit = "return GrabarFormCargosFunciones(this)" }))
+    {
+        @Html.HiddenFor(x => x.DeclaranteId)
+        @Html.HiddenFor(x => x.FichaId)
+        <div class="row">
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                </div>
+                <div class="col-sm-7 col-md-7 col-lg-7">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdDomiciliosXP1003" aria-expanded="false" class="">Domicilios en el Peru</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdDomiciliosXP1003" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblDomicilioExtranjeroXP1003" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Departamento</th>
+                                                <th>Provincia</th>
+                                                <th>Distrito</th>
+                                                <th>Lugar de Residencia</th>
+                                                <th>Referencia</th>
+                                                <th>Telefono</th>
+                                                <th>E-mail</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoDomicilioPeruXP1003">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                </div>
+                <div class="col-sm-7 col-md-7 col-lg-7">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdVehiculosXP1003" aria-expanded="false" class="">Vehiculos a su Cargo</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdVehiculosXP1003" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblVehiculosXP1003" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Tipo de Vehiculo</th>
+                                                <th>Placa Vehicular</th>
+                                                <th>Marca </th>
+                                                <th>Modelo</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoVehiculoDeclaranteExtranjero">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                </div>
+                <div class="col-sm-7 col-md-7 col-lg-7">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdIngresoToPaisXP1003" aria-expanded="false" class="">Ingreso al Pais</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdIngresoToPaisXP1003" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblIngresoToPaisXP1003" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Fecha de Llegada al Pais</th>
+                                                <th>Fecha de Inicio de Mision </th>
+                                                <th>Fecha de Termino de Mision</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoIngresoAlPeruXP1003">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                </div>
+                <div class="col-sm-7 col-md-7 col-lg-7">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdIngresoAnterioresToPaisXP1003" aria-expanded="false" class="">Ingreso Anteriores al Pais</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdIngresoAnterioresToPaisXP1003" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblIngresoAnteriorAlPaisXP1003" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>Fecha de Ingreso</th>
+                                                <th>Fecha de Salida</th>
+                                                <th>Destino</th>
+                                                <th>Motivo</th>
+                                                <th>Donde Residio</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoIngresoAnteriorToPeruXP1003">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <br>
+            <br>
+        </div>
+
+        <div class="text-center" style="display: flex;justify-content: center;">
+            <ul class="nav nav-pills">
+                <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button id="btnCerrarFrmCargosFuncionales" type="button" onclick="clearFormCargosFuncionales();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                <li class="pull-right btn-warning" style="margin-right:2 5px;margin-left: 5px;">
+                    <button id="btnGrabarCargosFuncionales" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <br>
+        <div class="alert_error" style="display:none;" id="frmShowErrorCargoFunciones">
+        </div>
+    }
+</div>
+
+    <div class="modal fade" id="verModalAgregarDomicilioEnPeru" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="verAgregarDomicilioEnPeruContainer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="verModalAgregarVehiculoExtranjero" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="verAgregarVehiculoExtranjeroContainer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="verModalAgregarIngresoAlPais" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="verAgregarIngresoAlPaisContainer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="verModalAgregarIngresosAnterioresAlPais" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div id="verAgregarIngresosAnterioresAlPaisContainer">
+                </div>
+            </div>
+        </div>
+    </div>

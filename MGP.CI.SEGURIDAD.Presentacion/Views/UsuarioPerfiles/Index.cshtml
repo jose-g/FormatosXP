@@ -1,0 +1,473 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.UsuarioViewModel
+
+<style>
+    .panel.with-nav-tabs .panel-heading {
+        padding: 5px 5px 0 5px;
+    }
+
+    .panel.with-nav-tabs .nav-tabs {
+        border-bottom: none;
+    }
+
+    .panel.with-nav-tabs .nav-justified {
+        margin-bottom: -1px;
+    }
+</style>
+
+<div class="panel panel-info">
+    <div class="modal-body">
+        <div class="row">
+            <h4 style="border-bottom:1px solid lightgray">Datos del usuario</h4>
+        </div>
+        <div class="row">
+            @Html.HiddenFor(x => x.UsuarioId)
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.NombresCompletos, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.NombresCompletos, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-4 col-lg-4">
+                <div class="form-group">
+                    @Html.LabelFor(x => x.Login, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.Login, new { @class = "form-control", @readonly = "true" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="containerXXXXX">
+    <ul class="nav nav-tabs">
+        <li id="liTabUsuario">@Html.ActionLink("Datos del Usuario", "UsuarioVerDetalles", "Usuario", new { m_usuarioId = Model.UsuarioId }, null)</li>
+        <li id="liTabPermisoPerfil" class="active"><a data-toggle="tab" style="background-color:white">Perfil / Permisos</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="tabABC" class="tab-pane fade in active">
+
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelUsuario" aria-expanded="false" class="">Perfiles por usuario</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
+                        <div class="modal-body">
+
+                            <div class="row">
+                                <div class="col-sm-5 col-md-5 col-lg-5">
+                                    <h4>Sin acceso</h4>
+                                </div>
+                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                </div>
+                                <div class="col-sm-5 col-md-5 col-lg-5">
+                                    <h4>Perfiles asignados al usuario</h4>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                    <div style="border:1px solid lightgray; padding:2px">
+                                        <table id="tblPerfil" class="table success table-hover table-condensed">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>PERFIL</th>
+                                                    <th>ESTADO</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                    @*<div>
+                                            <div id="divIzqTit"><h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Para ver detalle seleccione un perfil...</h5></div>
+                                            <div id="divProcIzq"></div>
+                                            <div id="detIzquierdo" style="overflow-x: auto; font-size:11px; border:1px solid lightgray">
+                                                <br /><br /><br /><br /><br /><br />
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <div class="col-sm-1 col-md-1 col-lg-1">
+                                    <div class="row">
+                                        <center>
+                                            @if (ViewBag.PERMISOS.NUEVO == true || ViewBag.PERMISOS.MODIFICAR == true)
+                                            {
+                                                <button class="btn btn-warning btn-icon-split" id="btnAgregar">
+                                                    <span class="icon text-white-50">
+                                                        <i class="glyphicon glyphicon-forward"></i>
+                                                    </span>
+                                                    <span class="text">&nbsp; Agregar</span>
+                                                </button>
+                                            }
+                                        </center>
+                                    </div>
+                                    <div class="row" style="margin-top:3px">
+                                        <center>
+                                            @if (ViewBag.PERMISOS.ELIMINAR == true)
+                                            {
+                                                <button class="btn btn-warning btn-icon-split" id="btnQuitar">
+                                                    <span class="icon text-white-50">
+                                                        <i class="glyphicon glyphicon-backward"></i>
+                                                    </span>
+                                                    <span class="text">&nbsp; Quitar&nbsp; &nbsp; </span>
+                                                </button>
+                                            }
+
+                                        </center>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5 col-md-5 col-lg-5">
+                                    <div style="border:1px solid lightgray; padding:2px">
+                                        <table id="tblPerfilUsuario" class="table success table-hover table-condensed">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th></th>
+                                                    <th>PERFIL</th>
+                                                    <th style="display:none"></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+
+                                    @*<div>
+                                            <div id="divDerTit"><h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Para ver detalle seleccione un perfil...</h5></div>
+                                            <div id="divProcDerecha"></div>
+                                            <div id="detDerecho" style="overflow-x: auto; font-size:11px; border:1px solid lightgray">
+                                                <br /><br /><br /><br /><br /><br />
+                                            </div>
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer text-right">
+                            <ul class="nav nav-pills">
+                                @*<li class="pull-right btn-danger" style="margin-right: 5px;margin-left: 5px;"><button id="btnCerrar" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                                    <li class="pull-right btn-warning" style="margin-right: 5px;margin-left: 5px;"><button id="btnGrabarSistema" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button></li>*@
+                            </ul>
+                        </div>
+                        <div class="alert_error" style="display:none;" id="frmShowErrorPopup">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer text-right">
+    <ul class="nav nav-pills">
+        <li class="pull-right btn-danger" style="margin-right: 5px;margin-left: 5px;"><button id="btnCerrarDetUsr" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+    </ul>
+</div>
+
+@section Scripts{
+    <script>
+            var tablaPerfilMae;
+            var tablaPerfil_Usuario;
+            RefreshTablaPerfilesDisponibles();
+            RefreshTablaPerfilesAsignados();
+
+        function RefreshTablaPerfilesDisponibles() {
+                var UsuarioId = "@Model.UsuarioId";
+
+                tablaPerfilMae = $("#tblPerfil").dataTable({
+                    'stripeClasses':['stripe1','stripe2'],
+                    "info":     false,
+                    "autoWidth": false,
+                    "destroy": true,
+                    "ajax": {
+                        "url":"@Url.Action("ListarPerfilesDisponibles", "Perfiles")",
+                        "data": {
+                            "UsuarioId": UsuarioId
+                        },
+                        "type": "GET",
+                        "dataType": "json"
+                    },
+                    "columns": [
+                        {
+                        "data": "PerfilesId",
+                        "render": function (data, type, full, meta) {
+                                return '<input type="checkbox" name="chkPerfil" value="' + data + '" rowIndexTablaPerfilMae="' + meta.row + '">';
+                            }, "orderable": false, "width": "5%"
+                         },
+                        {"data": "Nombre" },
+                        {
+                           "data": "EstadoNombre", "render": function (data) {
+                               if (data == "ACTIVO")
+                                   return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                               else
+                                   return '<span class="badge badge-danger">INACTIVO</span>';
+                           }, "orderable": false
+                        },
+                    ],
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sLengthMenu": "Mostrar _MENU_",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "---",
+                        "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                        "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                        "sInfoPostFix": "",
+                        "sSearch": "Buscar:",
+                        "sUrl": "",
+                        "sInfoThousands": ",",
+                        "sLoadingRecords": "Cargando...",
+                        "oPaginate": {
+                            "sFirst": "Primero",
+                            "sLast": "Último",
+                            "sNext": ">>",
+                            "sPrevious": "<<"
+                        }
+                    }
+                });
+        }
+
+        function RefreshTablaPerfilesAsignados() {
+            var UsuarioId = "@Model.UsuarioId";
+
+                tablaPerfil_Usuario = $("#tblPerfilUsuario").dataTable({
+                    "searching": false,
+                    "paging": false,
+                    "info":     false,
+                    "autoWidth": false,
+                    "destroy": true,
+                    'stripeClasses':['stripe1','stripe2'],
+                    "ajax": {
+                        "url": "@Url.Action("ListarPerfilesAsignados", "UsuarioPerfiles")",
+                        "data": {
+                            "UsuarioId": UsuarioId
+                        },
+                        "type": "GET",
+                        "dataType": "json"
+                    },
+                    "columns": [
+                    {
+                            "data": "UsuarioPerfilId", "render": function (data, type, full, meta) {
+                            return '<input type="checkbox" name="chkPerfil_Usuario" value="'+data+'" rowIndexTablaPerfilUsuario = "' + meta.row + '">';
+                        }, "orderable": false, "width": "5%"
+                    },
+                    { "data": "PerfilNombre" },
+                    { "data": "PerfilId","visible": false },
+                    ],
+                    "language": {
+                        "sProcessing": "Procesando...",
+                        "sZeroRecords": "No se encontraron resultados",
+                        "sEmptyTable": "---"
+                    }
+                });
+
+        }
+
+
+
+
+    $(document).on('click', '#btnQuitar', function () {
+
+                var refreshData=false;
+
+                $("[name='chkPerfil_Usuario']:checked").each(function () {
+                    refreshData=true;
+                    var fila = $(this).attr("rowIndexTablaPerfilUsuario");
+                    var UsuarioPerfilId = $(this).attr("value");
+
+                    var datos = {
+                        'UsuarioPerfilId': UsuarioPerfilId
+                    };
+                    $.ajax({
+                        type: "POST",
+                        url: "@Url.Action("EliminarPerfil", "UsuarioPerfiles")",
+                        data: datos,
+                        async:false,
+                        cache:false,
+                        success: function (data) {
+                            if (data.success == true) {
+                                $("#divDerTit").html("<h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Para ver detalle seleccione un perfil...</h5>");
+                                $("#detDerecho").html('<br /><br /><br /><br /><br /><br />');
+                                $("#divIzqTit").html("<h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Para ver detalle seleccione un perfil...</h5>");
+                                $("#detIzquierdo").html('<br /><br /><br /><br /><br /><br />');
+                                $.notify("Operación satisfactoria..", "success");
+                            } else {
+                                $("#frmShowErrorPopup").show();
+                                $("#frmShowErrorPopup").html(data.mensajeError);
+                                $.notify("Ocurrio un error", "error");
+                            }
+                        },
+                        error: function (e) {
+
+                            alert(e.responseText);
+                        }
+                    });
+                    if(refreshData){
+                        tablaPerfilMae.api().ajax.reload();
+                        tablaPerfil_Usuario.api().ajax.reload();
+                    }
+
+                });
+
+                    });
+
+    $(document).on('click', '#btnCerrarDetUsr', function () {
+            $(location).attr('href', "@Url.Action("index", "Usuario")");
+    });
+
+
+
+    $(document).on('click', '#btnAgregar', function () {
+        var refreshData=false;
+        $("[name='chkPerfil']:checked").each(function () {
+            refreshData=true;
+
+            var fila = $(this).attr("rowIndexTablaPerfilMae");
+            var PerfilesId = $(this).attr("value");
+
+            var datos =
+            {
+                'PerfilId': PerfilesId,
+                'UsuarioId': @Model.UsuarioId
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AsignarPerfil", "UsuarioPerfiles")",
+                data: datos,
+                async:false,
+                cache:false,
+                success: function (data)
+                {
+                    if (data.success == true) {
+                        $.notify("Operación satisfactoria..", "success");
+                        $("#divDerTit").html("<h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Para ver detalle seleccione un perfil...</h5>");
+                        $("#detDerecho").html('<br /><br /><br /><br /><br /><br />');
+                        $("#divIzqTit").html("<h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Para ver detalle seleccione un perfil...</h5>");
+                        $("#detIzquierdo").html('<br /><br /><br /><br /><br /><br />');
+                    } else {
+                        $("#frmShowErrorPopup").show();
+                        $("#frmShowErrorPopup").html(data.mensajeError);
+                        $.notify("Ocurrio un error", "error");
+                        alert("Ocurrio un error : "+data.mensajeError);
+                    }
+                },
+                error: function (e) {
+                alert(e.responseText);
+                }
+            });
+        });
+
+        if(refreshData){
+            tablaPerfilMae.api().ajax.reload();
+            tablaPerfil_Usuario.api().ajax.reload();
+        }
+    });
+
+
+
+             @*$('#tblPerfil tbody').on('click', 'tr', function (e) {
+                var tr = $(this).closest('tr');
+
+                var r = tablaPerfilMae.api().row(tr);
+                var d = r.data();
+
+                var colIndex =  tablaPerfilMae.dataTable().api().cell($(e.target).closest('td')).index().column
+                if (colIndex == 0) return;
+
+                 var dat = {
+                     "PerfilesId": d.PerfilesId
+                }
+
+                $("#divIzqTit").html("<div><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Módulos del <span>&nbsp;<b>Perfil:</b> <span class='badge badge-success'>"+d.nombre + "</span> <b>Descripción:</b> <i>"+d.descripcion+".</i>&nbsp;</span></div>");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("VerArbolPermisos", "Perfil_Modulo")",
+                    data: dat,
+                cache:false,
+                beforeSend: function () {
+                    $('#detIzquierdo').hide();
+                    $('#divProcIzq').show();
+                    $('#divProcIzq').html(tag_espera);
+                },
+                success: function (data) {
+                    $('#divProcIzq').hide();
+                    $('#detIzquierdo').show();
+                    $("#detIzquierdo").html(data);
+                    $("#detIzquierdo").find('input:checkbox').prop('disabled', true);
+                },
+                error: function (e) {
+                    alert(e.responseText);
+                }
+            });
+
+             });*@
+
+
+@*
+
+            $(document).ready(function () {
+                $("#linkUsuarioIndex").addClass("click_menu");
+            });
+
+
+
+
+
+            $('#tblPerfilUsuario tbody').on('click', 'tr', function (e) {
+                var tr = $(this).closest('tr');
+
+                var r = tablaPerfil_Usuario.api().row(tr);
+                var d = r.data();
+
+                var colIndex =  tablaPerfil_Usuario.dataTable().api().cell($(e.target).closest('td')).index().column
+                if (colIndex == 0) return;//si es la columna de los botones
+
+                var dat = {
+                    "PERFIL_ID": d.PERFIL_ID
+                }
+
+                $("#divDerTit").html("<h5><span style='color:forestgreen'><i class='glyphicon glyphicon-arrow-right'></i></span>&nbsp;&nbsp;Módulos del <b>Perfil: </b><span class='badge badge-success'>&nbsp;"+d.PERFIL_NOMBRE+"&nbsp;</span></h5>");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("VerArbolPermisos", "Perfil_Modulo")",
+                    data: dat,
+                    cache:false,
+                    beforeSend: function () {
+                        $('#detDerecho').hide();
+                        $('#divProcDerecha').show();
+                        $('#divProcDerecha').html(tag_espera);
+                    },
+                    success: function (data) {
+                        $('#divProcDerecha').hide();
+                        $('#detDerecho').show();
+                        $("#detDerecho").html(data);
+                        $("#detDerecho").find('input:checkbox').prop('disabled', true);
+                    },
+                    error: function (e) {
+                        alert(e.responseText);
+                    }
+                });
+
+            });
+
+
+
+
+
+
+
+
+
+
+
+    *@
+    </script>
+
+}

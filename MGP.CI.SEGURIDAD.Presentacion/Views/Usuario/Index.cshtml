@@ -1,0 +1,579 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.UsuarioViewModel
+
+<div>
+    <div class="panel panel-info">
+        @using (Html.BeginForm("ListarGrilla", "Usuario", FormMethod.Post, new { onsubmit = "return BuscarUsuario(this)", id = "frmBusca" }))
+        {
+            @Html.HiddenFor(m => m.UsuarioId)
+            <div class="modal-body">
+
+
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.ApePaterno, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.ApePaterno, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.ApePaterno, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.ApeMaterno, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.ApeMaterno, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.ApeMaterno, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Nombres, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.Nombres, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Nombres, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.Label("Estado", new { @class = "control-label col-md-4" })
+                            <div class="col-md-12" style="border:1px solid #d3d3d4">
+                                @Html.RadioButtonFor(model => model.EstadoId, "1") Activo &nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.RadioButtonFor(model => model.EstadoId, "2") Inactivo &nbsp;&nbsp;&nbsp;&nbsp;
+                                @Html.RadioButtonFor(model => model.EstadoId, "-1", new { Checked = "checked" }) Todos
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Login, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.Login, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Login, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.ZonaNaval, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.ZonaNaval, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.ZonaNaval, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3 col-lg-3">
+                        <div class="form-group">
+                            @Html.LabelFor(x => x.Dependencia, new { @class = "control-label" })
+                            @Html.TextBoxFor(x => x.Dependencia, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.Dependencia, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-2 col-md-2 col-lg-2">
+                        <div class="form-group">
+                            <ul class="nav nav-pills">
+                                <li class="pull-left  btn-active-info" style="margin-left : 5px;margin-left: 5px;"><button id="btnBuscarSistema" type="submit" class="btn"><i class="fa fa-search"></i>&nbsp;&nbsp;Buscar&nbsp;</button></li>
+                                <li class="pull-left  btn-active-info" style="margin-left : 5px;margin-left: 5px;"><button id="btnCerrar" type="button" onclick="clearForm();" class="btn"><i class="fa fa-eraser"></i>&nbsp;Limpiar</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="alert_error" style="display:none;" id="frmShowErrorPopup">
+            </div>
+        }
+    </div>
+</div>
+
+<div>
+    <div class="row">
+        <div class="col-sm-12" style="margin-top: 5px; padding-bottom:5px; text-align:right; float:right;">
+            @if (ViewBag.PERMISOS.NUEVO == true)
+            {
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevoUsuario" data-url-create-usuario="@Url.Action("VerUsuario", "Usuario")">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            }
+        </div>
+
+        <div class="panel-group accordion">
+            <div class="panel panel-info">
+                <div class="panel-heading">
+                    <center>
+                        <h3 class="panel-title">
+                            <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelUsuario" aria-expanded="false" class="">Lista de usuarios</a>
+                        </h3>
+                    </center>
+                </div>
+                <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
+                    <div class="panel-body">
+                        <table id="tblUsuario" class="table table-hover table-condensed">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Login</th>
+                                    <th>Usuario</th>
+                                    <th>Zona Naval</th>
+                                    <th>Dependencia</th>
+                                    <th>Estado</th>
+                                    <th>Tipo de Usuario</th>
+                                    <th>F. Creacion</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verModalCambioClave" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div id="verCambioClaveContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+
+    <script>
+        var UsuarioLogueadoId = null;
+        var tablaSis;
+
+
+
+    RefreshEstructuraTabla("@Url.Action("Consultar_listaToDatatable", "Usuario")");
+
+    $(document).ready(function () {
+        $("#linkUsuarioIndex").addClass("click_menu");
+        UsuarioLogueadoId = $('#UsuarioLogueadoId').val();
+        PopupProcesando();
+    });
+
+     function RefreshEstructuraTabla(path_post) {
+
+         tablaSis = $("#tblUsuario").dataTable({
+             rowId: "UsuarioId",
+             orderClasses: false,
+             'stripeClasses':['stripe1','stripe2'],
+             "createdRow": function (row, data, index, full) {
+
+                 if (data.EstadoId == 2)
+                     $(row).css("color", "#8C2A2B");
+                 else
+                     $(row).css("color", "black");
+
+             },
+             "autoWidth": false,
+             "destroy": true,
+             "sPaginationType": "full_numbers",
+             "columnDefs": [{
+                 "defaultContent": "-",
+                 "targets": "_all"
+             }],
+             "ajax": {
+                 "url":path_post,
+                 "type": "POST",
+                 "data": {},
+                 "dataType": "json"
+             },
+             "columns":[
+                { "data": "Login" },
+                { "data": "NombresCompletos" },
+                { "data": "ZonaNaval" },
+                { "data": "Dependencia" },
+                { "data": "EstadoNombre", "render": function (data) {
+                        if(data=="ACTIVO")
+                            return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                        else
+                            return '<span class="badge badge-danger">INACTIVO</span>';
+
+                    },"orderable":false
+                },
+                 { "data": "TipoUsuario" },
+                 { "data": "FechaRegistroStr" },
+                {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnCambiarEstado = "";
+                        var BtnCambiarClave= "";
+                        var BtnEditarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos del usuario' id='btnModificarUsuarioModal' onclick='VerDetalleUsuario(" + full.UsuarioId + ")' class='btn btn-sm btn-active-info'><i class='fa fa-edit'></i>&nbsp;Editar</button>&nbsp;" ;
+
+                        if (full.EstadoId == 1)
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de baja usuario' id='' onclick='cambioEstadoUser(" + full.UsuarioId + ",1)' class='btn btn-sm btn-active-info'><i style='color:#623988' class='fa fa-toggle-on'></i></button>&nbsp;";
+                        else
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de alta al usuario' id='' onclick='cambioEstadoUser(" + full.UsuarioId + ",2)' class='btn btn-sm btn-active-info'><i style='color:gray' class='fa fa-toggle-off'></i></button>&nbsp;";
+
+                        BtnCambiarClave = "<button type='button' data-toggle='tooltip' data-placement='top' title='Cambiar contraseña' id='btnModificarClaveModal' onclick='VerFormCambioClaveUsr(" + full.UsuarioId + ")' class='btn btn-sm btn-active-info'><i class='fa fa-key'></i>&nbsp;</button>&nbsp;";
+
+                        @if (ViewBag.PERMISOS.MODIFICAR == false){
+                            <text>
+                                BtnCambiarEstado = "";
+                                BtnCambiarClave = "";
+                            </text>
+                        }
+                            var BtnEliminarUsuario = "";
+                        @if (ViewBag.PERMISOS.ELIMINAR == true)
+                            {
+                            <text>
+                                BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar usuario' id='btnEliminarUsuarioModal' onclick='EliminarUsuario(" + full.UsuarioId + ")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                            </text>
+                           }
+
+                        return BtnCambiarClave + BtnEditarUsuario + BtnCambiarEstado + BtnEliminarUsuario;
+                },
+                    "className": "text-right"
+                }
+             ],
+             "language": {
+                 "sProcessing": "Procesando...",
+                 "sLengthMenu": "Mostrar _MENU_",
+                 "sZeroRecords": "No se encontraron resultados",
+                 "sEmptyTable": "Ningún dato disponible en esta tabla",
+                 "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                 "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                 "sInfoPostFix": "",
+                 "sSearch": "Buscar:",
+                 "sUrl": "",
+                 "sInfoThousands": ",",
+                 "sLoadingRecords": "Cargando...",
+                 "oPaginate": {
+                     "sFirst": "Primero",
+                     "sLast": "Último",
+                     "sNext": "Siguiente",
+                     "sPrevious": "Anterior"
+                 },
+                 "oAria": {
+                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                 }
+             }
+         });
+    }
+
+
+        function VerFormCambioClaveUsr(m_UsuarioId) {
+
+            $.ajax({
+                url: "@Url.Action("VerFormCambioClave", "Usuario")",
+                data: {
+                    "UsuarioId": m_UsuarioId
+                },
+            type: "POST",
+            dataType: 'HTML',
+            success: function (data) {
+                $('#verCambioClaveUsrContainer').html(data);
+                $('#verModalCambioClaveUsr').modal('show');
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+            });
+    }
+
+    function grabarCambioClave(formulario) {
+
+        if ($("#Password").val() != $("#PasswordRepeat").val()) {
+            $("#frmShowErrorPopupRsKey_2").show();
+            $("#frmShowErrorPopupRsKey_2").html("Las contraseñas no coinciden, vuelva a intentarlo");
+            $("#Password").val('');
+            $("#PasswordRepeat").val('');
+            $("#Password").focus();
+            return false;
+        }
+
+        if ($("#UsuarioId").val() > 10 && $("#PasswordOld").val().trim().length <= 4) {
+                $("#frmShowErrorPopupRsKey_2").show();
+                $("#frmShowErrorPopupRsKey_2").html("La contraseña antiguo no puede ser vacio.");
+                $("#PasswordOld").focus();
+                return false;
+        }
+
+        $.ajax({
+            url: $('#FrmCambiarClave').attr('action'),
+            type: "POST",
+            data: $("#FrmCambiarClave").serialize(),
+            cache: false,
+            success: function (data) {
+                if (data.success == true) {
+                    var miysuyaruo = $('#id_usuario').val();
+                    if (UsuarioLogueadoId == $('#id_usuario').val()) {
+                        alert("Operación satisfactoria... se cerrará la sessión para confirmar cambios.");
+                        window.location.href = '@Url.Action("Log_out", "Login")';
+                    }
+                    else {
+                        $.notify("Operación satisfactoria..", "success");
+                        alert("Operación satisfactoria...");
+                        location.reload();
+                    }
+                } else {
+                    $("#frmShowErrorPopupRsKey_2").show();
+                    $("#frmShowErrorPopupRsKey_2").html(data.mensajeError);
+                    $.notify("Ocurrio un error", "error");
+                }
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+
+        });
+
+    return false;
+    }
+
+
+    function clearForm() {
+        $("#frmShowErrorPopup").html("").hide();
+        $('#frmBusca').trigger("reset");
+        RefreshEstructuraTabla("@Url.Action("Consultar_listaToDatatable", "Usuario")");
+
+    }
+
+    function PopupProcesando() {
+        $('#popup_procesando').modal('show');
+    }
+
+    function BuscarUsuario(frm) {
+         var m_EstadoId = 0;
+
+         $("form#frmBusca input[name='EstadoId']:checked").each(function () {
+             m_EstadoId = $(this).val();
+         });
+
+         RefreshEstructuraTablaBusqueda($("#ApePaterno").val(), $("#ApeMaterno").val(), $("#Nombres").val(),  $("#Login").val(), $("#ZonaNaval").val(), $("#Dependencia").val(),   m_EstadoId, "@Url.Action("ListarUsuariosFiltrados", "Usuario")");
+
+         return false;
+     }
+
+    function RefreshEstructuraTablaBusqueda(ape_pat, ape_mat, nom, login, zonanaval, dependencia, estadoId,  path_post) {
+
+         tablaSis = $("#tblUsuario").dataTable({
+             rowId: "UsuarioId",
+             orderClasses: false,
+             'stripeClasses':['stripe1','stripe2'],
+             "createdRow": function (row, data, index, full) {
+
+                 if (data.EstadoId == 2)
+                     $(row).css("color", "#8C2A2B");
+                 else
+                     $(row).css("color", "black");
+
+             },
+             "autoWidth": false,
+             "destroy": true,
+             "sPaginationType": "full_numbers",
+             "columnDefs": [{
+                 "defaultContent": "-",
+                 "targets": "_all"
+             }],
+             "ajax": {
+                 "url":path_post,
+                 "type": "POST",
+                 "data": {
+                     "ApePaterno": ape_pat,
+                     "ApeMaterno": ape_mat,
+                     "Nombres": nom,
+                     "Login": login,
+                     "ZonaNaval": zonanaval,
+                     "Dependencia": dependencia,
+                     "EstadoId": estadoId,
+                 },
+                 "dataType":"json"
+             },
+             "columns":[
+                { "data": "Login" },
+                { "data": "NombresCompletos" },
+                { "data": "ZonaNaval" },
+                { "data": "Dependencia" },
+                { "data": "EstadoNombre", "render": function (data) {
+                        if(data=="ACTIVO")
+                            return '<span class="badge badge-success"> &nbsp;&nbsp;ACTIVO&nbsp;&nbsp; </span>';
+                        else
+                            return '<span class="badge badge-danger">INACTIVO</span>';
+
+                    },"orderable":false
+                },
+                 { "data": "TipoUsuario" },
+                 { "data": "FechaRegistroStr" },
+                {
+                    sortable: false,
+                    "render": function (data, type, full, meta) {
+                        var BtnCambiarEstado = "";
+                        var BtnCambiarClave= "";
+                        var BtnEditarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos del usuario' id='btnModificarUsuarioModal' onclick='VerDetalleUsuario(" + full.UsuarioId + ")' class='btn btn-sm btn-active-info'><i class='fa fa-edit'></i>&nbsp;Editar</button>&nbsp;" ;
+
+                        if (full.EstadoId == 1)
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de baja usuario' id='' onclick='cambioEstadoUser(" + full.UsuarioId + ",1)' class='btn btn-sm btn-active-info'><i style='color:#623988' class='fa fa-toggle-on'></i></button>&nbsp;";
+                        else
+                            BtnCambiarEstado = "<button type='button' data-toggle='tooltip' data-placement='top' title='Dar de alta al usuario' id='' onclick='cambioEstadoUser(" + full.UsuarioId + ",2)' class='btn btn-sm btn-active-info'><i style='color:gray' class='fa fa-toggle-off'></i></button>&nbsp;";
+
+                            BtnCambiarClave = "<button type='button' data-toggle='tooltip' data-placement='top' title='Cambiar contraseña' id='btnModificarClaveModal' onclick='VerFormCambioClave(" + full.UsuarioId + ")' class='btn btn-sm btn-active-info'><i class='fa fa-key'></i>&nbsp;</button>&nbsp;";
+
+                        @if (ViewBag.PERMISOS.MODIFICAR == false)
+                        {
+                            <text>
+                                BtnCambiarEstado = "";
+                                BtnCambiarClave = "";
+                            </text>
+                        }
+                            var BtnEliminarUsuario = "";
+                        @if (ViewBag.PERMISOS.ELIMINAR == true)
+                        {
+                            <text>
+                                BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar usuario' id='btnEliminarUsuarioModal' onclick='EliminarUsuario(" + full.UsuarioId + ")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                            </text>
+                        }
+
+
+
+                        return BtnCambiarClave + BtnEditarUsuario + BtnCambiarEstado + BtnEliminarUsuario;
+                },
+                    "className": "text-right"
+                }
+             ],
+             "language": {
+                 "sProcessing": "Procesando...",
+                 "sLengthMenu": "Mostrar _MENU_",
+                 "sZeroRecords": "No se encontraron resultados",
+                 "sEmptyTable": "Ningún dato disponible en esta tabla",
+                 "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                 "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                 "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                 "sInfoPostFix": "",
+                 "sSearch": "Buscar:",
+                 "sUrl": "",
+                 "sInfoThousands": ",",
+                 "sLoadingRecords": "Cargando...",
+                 "oPaginate": {
+                     "sFirst": "Primero",
+                     "sLast": "Último",
+                     "sNext": "Siguiente",
+                     "sPrevious": "Anterior"
+                 },
+                 "oAria": {
+                     "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                     "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                 }
+             }
+         });
+        }
+
+     function VerFormCambioClave(IdUsuario) {
+
+            $.ajax({
+                url: "@Url.Action("VerFormCambioClave", "Usuario")",
+                data: {
+                    "id_usuario": IdUsuario
+                },
+                type: "POST",
+            dataType: 'HTML',
+            success: function (data) {
+                $('#verCambioClaveContainer').html(data);
+                $('#verModalCambioClave').modal('show');
+                $('#CabeceraDetails').hide();
+
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+
+        });
+     }
+
+    function cambioEstadoUser(idUsuario, estadoId) {
+        var str = "";
+
+        str = (estadoId == 1) ? "Confirma dar de alta al usuario seleccionado?" : "Confirma dar de baja al usuario seleccionado?";
+
+        var opcion = confirm(str);
+
+        if (opcion == true) {
+            estadoId = (estadoId == 1) ? 1 : 2;
+
+            $.ajax({
+                url: "@Url.Action("UsuarioCambiarEstado", "Usuario")",
+                type: "POST",
+                data: {
+                    'm_usuarioId':idUsuario,
+                    'm_estadoId': estadoId,
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        RefreshEstructuraTabla("@Url.Action("Consultar_listaToDatatable", "Usuario")");
+                        $.notify("Operación satisfactoria..", "success");
+                    }
+                    else
+                    {
+                        $.notify("Ocurrió un error.." + data.mensajeError, "error");
+                    }
+                },
+                error: function (data) {
+                    console.log("Sucedió un error")
+                }
+
+                });
+            }
+        }
+
+        @if (ViewBag.PERMISOS.ELIMINAR == true) {
+            <text>
+            function EliminarUsuario(id) {
+                var opcion = confirm("Desea eliminar el registro seleccionado?");
+                if (opcion == true) {
+                 $.ajax({
+                     url: "@Url.Action("Anular", "Usuario")",
+                     type: "POST",
+                     data: {
+                         'UsuarioId': id,
+                     },
+                     success: function (data) {
+                         if (data.success == true) {
+                             tablaSis.api().ajax.reload();
+                             $.notify("El registro ha sido eliminado satisfactoriamente..", "success");
+                         } else {
+                             $.notify("Ocurrió un error.." + data.mensajeError, "error");
+                         }
+                     },
+                     error: function (data) {
+                         console.log("Sucedió un error")
+                     }
+
+                 });
+             }
+         }
+        </text>
+    }
+
+
+     function VerDetalleUsuario(m_UsuarioId) {
+         $(location).attr('href', "@Url.Action("UsuarioVerDetalles", "Usuario")" + "?m_usuarioId=" + m_UsuarioId);
+     }
+
+
+     $(document).on('click', '#btnNuevoUsuario', function () {
+         $(location).attr('href', "@Url.Action("UsuarioVerDetalles", "Usuario")");
+     });
+
+
+
+     function VistaPreviaImg() {
+         var reader = new FileReader();
+         reader.readAsDataURL(document.getElementById('ImagenAdjunto').files[0]);
+         reader.onload = function (e) {
+             document.getElementById('visorPrevioImg').src = e.target.result;
+         };
+     }
+
+    </script>
+}

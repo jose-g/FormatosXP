@@ -1,0 +1,53 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.X1003DeportesViewModel
+
+@{
+    Layout = null;
+
+}
+
+
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>DEPORTES QUE PRACTICA:</h1>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-sm-2 col-md-2 col-lg-2">
+        </div>
+        <div class="col-sm-7 col-md-7 col-lg-7">
+            <div class="panel-group accordion">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdDomiciliosXP1003" aria-expanded="false" class="">Deportes que practica</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdDomiciliosXP1003" aria-expanded="true">
+                        <div class="panel-body">
+                            <table id="tblDomicilioPeruXP1003" class="table table-hover table-condensed">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Deporte</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-2 col-md-2 col-lg-2">
+            <button class="btn btn-active-info btn-icon-split" id="btnNuevoDomicilioPeruXP1003" data-url-create-domicilio="@Url.Action("AgregarDomicilioPeru", "XP1003")">
+                <span class="icon text-white-50">
+                    <i class="glyphicon glyphicon-plus"></i>
+                </span>
+                <span class="text">Nuevo</span>
+            </button>
+        </div>
+    </div>
+
+</div>

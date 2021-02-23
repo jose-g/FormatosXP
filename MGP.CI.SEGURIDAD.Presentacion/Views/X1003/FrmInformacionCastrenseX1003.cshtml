@@ -1,0 +1,287 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.X1003InformacionCastrenseViewModel
+
+@{
+    Layout = null;
+
+}
+
+
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>INFORMACION CASTRENSE:</h1>
+    </div>
+    <br>
+    <br>
+
+    @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarInformacionCastrense", id = "FrmGrabarInformacionCastrense", onsubmit = "return GrabarFormInformacionCastrense(this)" }))
+    {
+
+
+
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdAscensosObtenidosXP1003" aria-expanded="false" class="">Ascensos Obtenidos</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdAscensosObtenidosXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblAscensosXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Pais</th>
+                                            <th>Institucion Militar</th>
+                                            <th>Grado</th>
+                                            <th>Fecha</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevoAscensoObtenidoXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdCargosComisionesXP1003" aria-expanded="false" class="">Cargos, Comisiones o Servicios en los 5 ultimos años</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdCargosComisionesXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblCargosComisionesXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Cargo</th>
+                                            <th>Grado</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Fin</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevoCargoComisionXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdCondecoracionesXP1003" aria-expanded="false" class="">Condecoraciones</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdCondecoracionesXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblCondecoracionesXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Pais</th>
+                                            <th>InstitucionMilitar</th>
+                                            <th>Tipo de Condecoracion</th>
+                                            <th>Año</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevaCondecoracionXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdEscuelasCursadasXP1003" aria-expanded="false" class="">Escuelas Cursadas</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdEscuelasCursadasXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblEscuelasCursadasXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Pais</th>
+                                            <th>InstitucionMilitar</th>
+                                            <th>Escuela</th>
+                                            <th>Curso</th>
+                                            <th>Año</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevaEscuelaCursadaXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-sm-2 col-md-2 col-lg-2">
+            </div>
+            <div class="col-sm-7 col-md-7 col-lg-7">
+                <div class="panel-group accordion">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <center>
+                                <h3 class="panel-title">
+                                    <a data-parent="#accordion" data-toggle="collapse" href="#IdIdiomasXP1003" aria-expanded="false" class="">Idioma</a>
+                                </h3>
+                            </center>
+                        </div>
+                        <div class="panel-collapse collapse in" id="IdIdiomasXP1003" aria-expanded="true">
+                            <div class="panel-body">
+                                <table id="tblIdiomasXP1003" class="table table-hover table-condensed">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th>Idioma que Domina</th>
+                                            <th>Habla (%)</th>
+                                            <th>Escribe (%)</th>
+                                            <th>Lee(%)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2">
+                <button class="btn btn-active-info btn-icon-split" id="btnNuevoIdiomaXP1003">
+                    <span class="icon text-white-50">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </span>
+                    <span class="text">Nuevo</span>
+                </button>
+            </div>
+        </div>
+
+
+        <div class="text-center" style="display: flex;justify-content: center;">
+            <ul class="nav nav-pills">
+                <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button type="button" onclick="clearFormInfoCastrense();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                <li class="pull-right btn-warning" style="margin-right:2 5px;margin-left: 5px;">
+                    <button id="btnGrabarInformacionCastrense" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                </li>
+            </ul>
+        </div>
+        <br>
+        <br>
+
+    }
+
+
+
+</div>
+<div class="modal fade" id="verModalAgregarAscensoObtenido" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarAscensoObtenidoContainer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verModalAgregarCargoComision" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarCargoComisionContainer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verModalAgregarCondecoracion" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarCondecoracionContainer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verModalAgregarEscuelaCursada" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarEscuelaCursadaContainer">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="verModalAgregarIdioma" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarIdiomaContainer">
+            </div>
+        </div>
+    </div>
+</div>

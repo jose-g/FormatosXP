@@ -1,0 +1,289 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Seguridad CONTRA INTELIGENCIA</title>
+
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-theme.min.css" rel="stylesheet" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+    <link href="@Url.Content("~/Content/css/nifty.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/font-awesome/css/font-awesome.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/css/demo/themify-icons.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/magic-check/css/magic-check.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/switchery/switchery.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/bootstrap-select/bootstrap-select.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/select2/css/select2.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/noUiSlider/nouislider.min.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/datatables/media/css/dataTables.bootstrap.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/datatables/extensions/Responsive/css/dataTables.responsive.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/jqGrid/ui.jqgrid-bootstrap-ui.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/jqGrid/ui.jqgrid.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/jqGrid/themes/redmond/jquery-ui-custom.css")" rel="stylesheet" type="text/css">
+    <link href="@Url.Content("~/Content/plugins/switchery/switchery.min.css")" rel="stylesheet" type="text/css">
+    @*<link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css">*@
+    <link href="~/Content/css/bootstrap-multiselect.css" rel="stylesheet" />
+
+    @RenderSection("Styles", false)
+</head>
+<body>
+    <div id="container" class="effect aside-float aside-bright mainnav-lg">
+
+        <header id="navbar">
+            <div id="navbar-container" class="boxed">
+
+                <div class="navbar-header">
+                    <a href="#" class="navbar-brand" style="        color: white;
+        background-color: #623988;
+        font-size: 14px">
+                        <div style="font-size:16px; color:white; text-shadow: 2px 2px 4px #020101">
+                            <center>
+                                @*<b>S.C.A.I.</b> <br /><b style="font-size:11px">Versión 1.0</b>*@
+                            </center>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="navbar-content clearfix img_minibarr" style="        color: #A3B2D3;
+        background-repeat: no-repeat;
+        background-color: #623988;">
+                    <ul class="nav navbar-top-links pull-left">
+
+                        <li class="tgl-menu-btn">
+                            <a class="mainnav-toggle" href="#">
+                                <i class="ti-view-list" style="color:white"></i>
+                            </a>
+                        </li>
+
+                    </ul>
+                    <ul class="nav navbar-top-links pull-right">
+                        <li id="dropdown-user" class="dropdown" style="background-color: #623988">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle text-right" aria-expanded="true">
+                                <span class="pull-right">
+                                    <img class="img-circle img-user media-object" src="~/Content/img/profile-photos/fotopaul.jpg" alt="Profile Picture">
+                                </span>
+
+                                <div id="barramenu" class="username hidden-xs">@((Session["objsesion"] as MGP.CI.SEGURIDAD.Presentacion.ViewModels.SesionViewModel).UsuarioNombres) </div>
+                                <input id="UsuarioLogueadoId" name="UsuarioLogueadoId" type="hidden" value=@((Session["objsesion"] as MGP.CI.SEGURIDAD.Presentacion.ViewModels.SesionViewModel).UsuarioId)>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-md dropdown-menu-right panel-default">
+                                <ul class="head-list">
+                                    <li>
+                                        <a id="RefUsuarioId" href="#" onclick="VerFormCambioClaveUsr(@((Session["objsesion"] as MGP.CI.SEGURIDAD.Presentacion.ViewModels.SesionViewModel).UsuarioId))">
+                                            <i class="ti-user icon-lg icon-fw"></i> Cambiar contraseña
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="@Url.Action("Log_out", "Login")">
+                                            <i class="ti-arrow-left icon-lg icon-fw"></i> Cerrar Sesión
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </header>
+        <div class="boxed">
+            <div id="content-container">
+                @if (IsSectionDefined("Breadcrumbs"))
+                {
+                    <ol class="breadcrumb">
+                        <li><a href="@Url.Action("")"> Home </a></li>
+                        @RenderSection("Breadcrumbs", false)
+                        <li class="active">@ViewBag.Title</li>
+                    </ol>
+                }
+                <div id="page-content">
+                    <div class="row">
+                        <div class="col-sm-12" id="postMessage">
+                            @MessageHelpers.ShowMessages(TempData)
+                        </div>
+                    </div>
+                    @RenderBody()
+
+                </div>
+            </div>
+
+            <nav id="mainnav-container">
+                <div id="mainnav">
+                    <div id="mainnav-menu-wrap">
+                        <div class="nano">
+                            <div class="nano-content">
+
+                                <div id="mainnav-profile" class="mainnav-profile">
+                                    <div class="profile-wrapx" style="margin-left:1px; margin-right:1px">
+                                    </div>
+                                </div>
+
+                                <ul id="mainnav-menu" class="list-group">
+                                    <li class="list-divider"></li>
+                                    <li class="list-header"><center>SEGURIDAD</center></li>
+                                    <a href="@Url.Action("Index", "Usuario")" id="linkUsuarioIndex"><i class="fa fa-user"></i><span class="menu-title"><strong>Usuarios </strong></span></a></li>
+                                    <li><a href="@Url.Action("Index", "PerfilModulo")" id="linkPerfilModuloIndex"><i class="fa fa-edit"></i><span class="menu-title"><strong>Módulos por perfiles</strong></span></a></li>
+                                    @*<li><a href="@Url.Action("Index", "Modulo")" id="linkModuloIndex"><i class="fa fa-cogs"></i><span class="menu-title"><strong>Sistemas / Módulos</strong></span></a></li>*@
+
+                                    @*<li>
+        <a href="@Url.Action("Index", "Usuario")" id="linkUsuarioIndex"><i class="fa fa-user"></i><span class="menu-title"><strong>Usuarios </strong></span></a></li>
+        @if (b_perfil_x_mod)
+        {
+            <li><a href="@Url.Action("Index", "Perfil_Modulo")" id="linkPerfilModuloIndex"><i class="fa fa-edit"></i><span class="menu-title"><strong>Módulos por perfiles</strong></span></a></li>
+        }
+        @if (b_sistemas)
+        {
+            <li><a href="@Url.Action("Index", "Modulo")" id="linkModuloIndex"><i class="fa fa-cogs"></i><span class="menu-title"><strong>Sistemas / Módulos</strong></span></a></li>
+        }*@
+
+                                    <li class="list-divider"></li>
+                                    <li class="list-header"><center>MANTENIMIENTO</center></li>
+
+                                    <li><a href="@Url.Action("Index", "TablasMaestras")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>Tablas Seguridad </strong></span></a></li>
+                                    <li><a href="@Url.Action("VerTablasXP", "TablasMaestras")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>Tablas Formatos XP</strong></span></a></li>
+                                    @*<li><a href="@Url.Action("Index", "Estado")" id="linkEstadoIndex"><i class="glyphicon glyphicon-record"></i><span class="menu-title"><strong>Tipos de estados</strong></span></a></li>*@
+
+                                    @*<li><a href="@Url.Action("Index", "Permiso")" id="linkPermisoIndex"><i class="glyphicon glyphicon-tags"></i><span class="menu-title"><strong>Tipos de permisos</strong></span></a></li>*@
+                                    @*@if (b_perfil)
+        {
+            <li><a href="@Url.Action("Index", "Perfil")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>Perfiles</strong></span></a></li>
+        }
+
+        @if (b_estado)
+        {
+            <li><a href="@Url.Action("Index", "Estado")" id="linkEstadoIndex"><i class="glyphicon glyphicon-record"></i><span class="menu-title"><strong>Tipos de estados</strong></span></a></li>
+        }
+        @if (b_t_permiso)
+        {
+            <li><a href="@Url.Action("Index", "Permiso")" id="linkPermisoIndex"><i class="glyphicon glyphicon-tags"></i><span class="menu-title"><strong>Tipos de permisos</strong></span></a></li>
+        }*@
+
+                                    <li class="list-divider"></li>
+                                    <li class="list-header"><center>FORMATOS XP</center></li>
+                                    <li><a href="@Url.Action("Index", "XP101")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>XP-101</strong></span></a></li>
+                                    <li><a href="@Url.Action("Index", "XP1003")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>XP-1003</strong></span></a></li>
+                                    <li><a href="@Url.Action("Index", "XP1005")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>XP-1005</strong></span></a></li>
+                                    <li><a href="@Url.Action("Index", "Valoracion")" id="linkPerfilIndex"><i class="glyphicon glyphicon-credit-card"></i><span class="menu-title"><strong>Valoracion de la Ficha</strong></span></a></li>
+
+                                </ul>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </nav>
+        </div>
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto" hidden>
+                    <hr style="border:white solid 1px" />
+                    <span>Copyright &copy; MGP 2021</span>
+                    <br />
+                    <span>SISTEMA DE CONTROL DE ACCESO INTEGRAL - SCAI Versión 1.0</span>
+                    <hr style="border:white solid 1px" />
+                </div>
+            </div>
+        </footer>
+        <button class="scroll-top btn">
+            <i class="pci-chevron chevron-up"></i>
+        </button>
+    </div>
+
+
+    <div class="modal fade" id="verModalCambioClaveUsr" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div id="verCambioClaveUsrContainer">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="popup_espera" data-backdrop="static" class="modal" style="text-align:center; color:#d95604; font-weight: bold; display:none">
+        <div class="lds-hourglass" style="margin-top : 10px"></div>
+        <div style="margin-bottom:10px">
+            Procesando....
+        </div>
+    </div>
+
+
+    <script src="@Url.Content("~/Content/js/jquery-2.2.4.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/demo/icons.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/nifty.min.js")" type="text/javascript"></script>
+    <script src="~/Content/js/bootstrap-multiselect.js"></script>
+    <script src="@Url.Content("~/Content/plugins/switchery/switchery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-select/bootstrap-select.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-tagsinput/bootstrap-tagsinput.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/select2/js/select2.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/select2/js/i18n/es.js")"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/bootstrap-datepicker.es.js")" type="text/javascript"></script>
+    <script src="@Url.Content("https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("https://cdn.datatables.net/select/1.3.0/js/dataTables.select.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/datatables/extensions/Responsive/js/dataTables.responsive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/jqGrid/themes/redmond/i18n/grid.locale-es.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/jqgrid/jquery.jqgrid.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/plugins/switchery/switchery.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/js/demo/ui-panels.js")" type="text/javascript"></script>
+
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/UtilWeb.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/responsivevoice.js")" type="text/javascript"></script>
+
+    <script src="~/Scripts/bootstrap.min.js"></script>
+
+    <script src="@Url.Content("~/Scripts/Pages/Shared/Global.js")" type="text/javascript"></script>
+    <script src="~/Scripts/notify.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
+    <script>
+        var tag_espera = '<div style="text-align:center; color:#d95604; font-weight: bold;">' +
+            '<div class="lds-hourglass" style="margin-top : 10px"></div>' +
+            '<div style="margin-bottom:10px">' +
+            'Procesando....' +
+            '</div>' +
+            '</div>';
+        //div id popup_espera popup procesando en background
+        $(".nav li").click(function () {
+            if ($(this).hasClass('disabled')) {
+                return false;
+            } else {
+                return true;
+            }
+        });
+
+        $('[data-toggle="tooltip"]').tooltip();
+
+        function inputOnlyNumber(e) {//onkeypress="return inputOnlyNumber(event)"
+            var charCode
+            charCode = e.keyCode
+            status = charCode
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false
+            }
+            return true
+        }
+
+
+
+
+
+
+    </script>
+
+    @RenderSection("Scripts", false)
+</body>
+</html>

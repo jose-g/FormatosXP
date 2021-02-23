@@ -1,0 +1,72 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.AgregarIdiomaDominadoViewModel
+@{
+    Layout = null;
+}
+
+<div>
+    <div class="tab-content">
+        <div class="tab-pane fade in active">
+            <div class="panel-group accordion">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <center>
+                            <h3 class="panel-title">
+                                <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelRegistrarIdioma" aria-expanded="false" class="">AGREGAR IDIOMA</a>
+                            </h3>
+                        </center>
+                    </div>
+                    <div class="panel-collapse collapse in" id="IdPanelRegistrarIdioma" aria-expanded="true">
+
+                        @using (Html.BeginForm("RegistrarIdioma", "XP1003", FormMethod.Post, new { id = "frmRegistarIdioma", onsubmit = "return RegistrarIdiomaInDataTable(this)", enctype = "multipart/form-data" }))
+                        {
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.IdiomaDominadoId, new { @class = "control-label" })
+                                        @Html.DropDownListFor(model => model.IdiomaDominadoId, new SelectList(Model.LstIdiomas, "IdiomaId", "Nombre"), new { @class = "form-control" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.IdiomaHabla, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.IdiomaHabla, new { @class = "form-control", @maxlength = "2", onkeypress = "return ValidarPorcentajeIdioma(event);" })
+                                        @Html.ValidationMessageFor(x => x.IdiomaHabla, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.IdiomaEscrito, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.IdiomaEscrito, new { @class = "form-control", @maxlength = "2", onkeypress = "return ValidarPorcentajeIdioma(event);" })
+                                        @Html.ValidationMessageFor(x => x.IdiomaEscrito, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
+                                    <div class="form-group">
+                                        @Html.LabelFor(x => x.IdiomaLeido, new { @class = "control-label" })
+                                        @Html.TextBoxFor(x => x.IdiomaLeido, new { @class = "form-control", @maxlength = "2", onkeypress = "return ValidarPorcentajeIdioma(event);" })
+                                        @Html.ValidationMessageFor(x => x.IdiomaLeido, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                            </div>
+                            <br />
+                            <br />
+                            <div class="row" style="text-align:center;">
+                                <ul class="nav nav-pills" style="display:inline-table;">
+                                    <li class="pull-center btn-danger" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnDenegarIdioma" type="button" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;No&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                    <li class="pull-center btn-warning" style="display:inline;margin-right: 25px;margin-left: 25px;"><button id="btnAceptarIdioma" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Si&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></li>
+                                </ul>
+
+                            </div>
+                        </div>
+                        }
+                    </div>
+                    <div class="alert_error" style="display:none;" id="frmShowErrorPopupIdioma">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+

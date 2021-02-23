@@ -1,0 +1,118 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.ConsultaUsuarioViewModel
+@{
+    Layout = null;
+}
+
+<div class="modal-header">
+    <h5 class="modal-title" id="exampleModalCenterTitle" style="color:white">Buscar Usuario</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true" style="color:white"><i class="glyphicon glyphicon-remove"></i><span class="menu-title"></span></span>
+    </button>
+</div>
+
+<div>
+    <div class="panel panel-info" style="margin:10px">
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-sm-10 col-md-10 col-lg-10">
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group ">
+                                @Html.LabelFor(x => x.NumeroDocConsulta, new { @class = "control-label" })
+                                @Html.TextBoxFor(x => x.NumeroDocConsulta, new { @class = "form-control", @placeholder = "00000000", @maxlength = 8,onkeypress = "return ValidarCIP(event);" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group" style="margin:0 auto; justify-content: center;display: flex;">
+                                <label for="Address" style="margin-right: 5px;margin-left: 5px;">Declarante</label>
+                                @Html.RadioButtonFor(m => m.TipoFuente, "Declarantes", new { @checked = "checked" })
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group" style="margin:0 auto;justify-content: center;display: flex;">
+                                <label for="Address" style="margin-right: 5px;margin-left: 5px;">Recursos Humanos </label>
+                                @Html.RadioButtonFor(m => m.TipoFuente, "Recursos Humanos")
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4 col-lg-4">
+                            <div class="form-group" style="margin:0 auto;justify-content: center;display: flex;">
+                                <label for="Address" style="margin-right: 5px;margin-left: 5px;">Reniec</label>
+                                @Html.RadioButtonFor(m => m.TipoFuente, "Reniec")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 col-md-2 col-lg-2">
+                    <div class="row">
+                        <div class="form-group">
+                            <ul class="nav nav-pills">
+                                <li class="pull-right btn-warning" style="margin-right: 5px;margin-left: 5px; margin-bottom:5px"><button id="btnFrmBuscarUsuario" type="submit" class="btn"><i class="fa fa-search"></i>&nbsp;Buscar&nbsp;&nbsp;</button><br /></li>
+                                <li class="pull-right btn-warning" style="margin-right: 5px;margin-left: 5px; margin-bottom:5px"><button id="btnFrmCleanUsuario" type="reset" class="btn"><i class="fa fa-eraser"></i>&nbsp;Limpiar</button></li>
+                                <li class="pull-right btn-danger" style="margin-right: 5px;margin-left: 5px;"><button type="button" id="btnCerrarModal" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;&nbsp;Cerrar&nbsp;&nbsp;</button></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="modal-body">
+    <div class="panel panel-info" style="margin:8px; margin-top:1px !important; padding:8px;">
+        <div class="row" id="pnlDetalle" style="border:1px solid lightgray; padding-left:3px; padding-right:3px">
+            @*vista detalle reniec*@
+            <div class="row" style="padding-top:4px;">
+                <div class="col-sm-8 col-md-8 col-lg-8">
+                    <div class="row" style="padding-bottom:3px">
+                        <div class="col-sm-4 col-md-4 col-lg-4">DNI</div>
+                        <div class="col-sm-8 col-md-4 col-lg-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                    <input type="text" id="txtDniUsuario" class="form-control" readonly />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-bottom:3px">
+                        <div class="col-sm-4 col-md-4 col-lg-4">Ape. Paterno</div>
+                        <div class="col-sm-4 col-md-4 col-lg-4"><input type="text" id="txtApePatUsuario" class="form-control" readonly /></div>
+                    </div>
+                    <div class="row" style="padding-bottom:3px">
+                        <div class="col-sm-4 col-md-4 col-lg-4">Ape. Materno</div>
+                        <div class="col-sm-4 col-md-4 col-lg-4"><input type="text" id="txtApeMatUsuario" class="form-control" readonly /></div>
+                    </div>
+                    <div class="row" style="padding-bottom:3px">
+                        <div class="col-sm-4 col-md-4 col-lg-4">Nombres</div>
+                        <div class="col-sm-4 col-md-4 col-lg-4"><input type="text" id="txtNombreUSuario" class="form-control" readonly /></div>
+                    </div>
+                    <div class="row" style="padding-bottom:3px">
+                        <div class="col-sm-4 col-md-4 col-lg-4">Fecha Nac.</div>
+                        <div class="col-sm-4 col-md-4 col-lg-4"><input type="text" id="txtFecNacUsuario" class="form-control" readonly /></div>
+                    </div>
+                    <div class="row" style="padding-bottom:3px">
+                        <div class="col-sm-4 col-md-4 col-lg-4">Sexo</div>
+                        <div class="col-sm-4 col-md-4 col-lg-4"><input type="text" id="txtSexoUsuario" class="form-control" readonly /></div>
+                    </div>
+                </div>
+                <div class="col-sm-4 col-md-4 col-lg-4">
+                    <img src="" id="imgFotoUsuario" style="width:80%; height:80%; display:none; " class="img-rounded" />
+                </div>
+            </div>
+            <div class="row">
+            <div class="modal-footer text-right">
+                <ul class="nav nav-pills">
+                    <li class="pull-right btn-warning" style="margin-right: 5px;margin-left: 5px;"><button id="btnImportaData" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Importar</button></li>
+                </ul>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="alert_error" style="display:none;" id="frmErrores">
+</div>
+

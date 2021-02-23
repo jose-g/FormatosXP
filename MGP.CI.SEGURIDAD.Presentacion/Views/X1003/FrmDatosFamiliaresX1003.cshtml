@@ -1,0 +1,438 @@
+﻿@model MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003.x1003DatosFamiliaresVM
+
+@{
+    Layout = null;
+
+}
+<div class="container-fluid">
+    <div class="row" style="text-align: center">
+        <h1>DATOS FAMILIARES</h1>
+    </div>
+    <br>
+    <br>
+
+    <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
+        @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarDatosFamiliares", id = "FrmGrabarDatosFamiliares", onsubmit = "return GrabarFormDatosFamExt(this)" }))
+        {
+            <div class="row">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" id="panelheadingtipoconviviente" href="#IdPanelDocumentosConviviente" aria-expanded="false" class="">Datos de la Esposa</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdPanelDocumentosConviviente" aria-expanded="true">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-sm-6 col-md-6 col-lg-6">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(x => x.EsposaPaterno, new { @class = "control-label" })
+                                                        @Html.TextBoxFor(x => x.EsposaPaterno, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(x => x.EsposaPaterno, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(x => x.EsposaMaterno, new { @class = "control-label" })
+                                                        @Html.TextBoxFor(x => x.EsposaMaterno, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(x => x.EsposaMaterno, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-12 col-md-12 col-lg-12">
+                                                    <div class="row" style="display: flex;justify-content: center;">
+                                                        @Html.LabelFor(x => x.EsposaNombre1, new { @class = "control-label" })
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.TextBoxFor(x => x.EsposaNombre1, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(x => x.EsposaNombre1, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.TextBoxFor(x => x.EsposaNombre2, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(x => x.EsposaNombre1, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.TextBoxFor(x => x.EsposaNombre3, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(x => x.EsposaNombre1, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-9 col-md-9 col-lg-9">
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(x => x.EsposaNacionalidadId, new { @class = "control-label" })
+                                                                @Html.DropDownListFor(model => model.EsposaNacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), new { @class = "form-control" })
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(x => x.EsposaFechaNacimiento, new { @class = "control-label" })
+                                                                @Html.TextBoxFor(x => x.EsposaFechaNacimiento, new { @class = "form-control" })
+                                                                @Html.ValidationMessageFor(x => x.EsposaFechaNacimiento, "", new { @class = "text-danger" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(x => x.EsposaPaisNacimientoId, new { @class = "control-label" })
+                                                                @Html.DropDownListFor(model => model.EsposaPaisNacimientoId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new { @class = "form-control" })
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(x => x.EsposaAProfesionId, new { @class = "control-label" })
+                                                                @Html.DropDownListFor(model => model.EsposaAProfesionId, new SelectList(Model.LstProfesiones, "ProfesionId", "Nombre"), new { @class = "form-control" })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(x => x.EsposaEnfermedadTipoId, new { @class = "control-label" })
+                                                                @Html.DropDownListFor(model => model.EsposaEnfermedadTipoId, new SelectList(Model.LstTipoEnfermedad, "EnfermedadesId", "EnfermedadTipo"), new
+                                                                {
+                                                                @class = "form-control",
+                                                                data_type = "listbox-dropdown-list",
+                                                                data_update_target = "#EsposaEnfermedadId",
+                                                                data_filter = "EnfermedadesId",
+                                                                data_value_member = "EnfermedadesId",
+                                                                data_text_member = "Enfermedad",
+                                                                data_http_method = FormMethod.Get,
+                                                                data_url = Url.Action("GetEnfermedadxTipo", "XP1003")
+                                                                })
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                                            <div class="form-group">
+                                                                @Html.LabelFor(x => x.EsposaEnfermedadId, new { @class = "control-label" })
+                                                                @Html.DropDownListFor(x => x.EsposaEnfermedadId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                                           {
+                                                               @class = "form-control",
+                                                               data_value_member = "EnfermedadesId",
+                                                               data_text_member = "Enfermedad"
+                                                           })
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="row">
+                                                        <div class="form-group">
+                                                            @Html.LabelFor(x => x.EsposaIdiomaId, new { @class = "control-label" })
+                                                            @Html.ListBoxFor(model => model.LstIdiomas, new SelectList(Model.LstIdiomas.OrderBy(x => x.Nombre), "IdiomaId", "Nombre") as MultiSelectList, new { @class = "form-control", size = "5", style = "height: 100%;" })
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(x => x.EsposaGrupoSanguineoId, new { @class = "control-label" })
+                                                        @Html.DropDownListFor(model => model.EsposaGrupoSanguineoId, new SelectList(Model.LstGrupoSanguineo, "GrupoSanguineoId", "Nombre"), new { @class = "form-control" })
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-3 col-md-3 col-lg-3">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(x => x.EsposaActividades, new { @class = "control-label" })
+                                                        @Html.TextBoxFor(x => x.EsposaActividades, new { @class = "form-control" })
+                                                        @Html.ValidationMessageFor(x => x.EsposaActividades, "", new { @class = "text-danger" })
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4 col-lg-4">
+                                            <div class="row">
+                                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                                </div>
+                                                <div class="col-sm-7 col-md-7 col-lg-7">
+                                                    <div class="panel-group accordion">
+                                                        <div class="panel panel-primary">
+                                                            <div class="panel-heading">
+                                                                <center>
+                                                                    <h3 class="panel-title">
+                                                                        <a data-parent="#accordion" data-toggle="collapse" id="panelheadingtbltipoconviviente" href="#IdPanelDocumentosEsposa" aria-expanded="false" class="">Documentos de la Esposa</a>
+                                                                    </h3>
+                                                                </center>
+                                                            </div>
+                                                            <div class="panel-collapse collapse in" id="IdPanelDocumentosEsposa" aria-expanded="true">
+                                                                <div class="panel-body">
+                                                                    <table id="tblDocumentosEsposa" class="table table-hover table-condensed">
+                                                                        <thead class="thead-dark">
+                                                                            <tr>
+                                                                                <th>Tipo de Documento</th>
+                                                                                <th>Nro de Documento</th>
+                                                                                <th>Acciones</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody></tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-2 col-md-2 col-lg-2">
+                                                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoDocumentoEsposa" style="margin-left:-15px">
+                                                        <span class="icon text-white-50">
+                                                            <i class="glyphicon glyphicon-plus"></i>
+                                                        </span>
+                                                        <span class="text">Nuevo</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2 col-md-2 col-lg-2">
+                                            <div class="row">
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <label for="fileesposafoto1" style="margin-left:-30px;max-width:130px;max-height:160px;">
+                                                        <input id="fileesposafoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                        <img id="imgfileesposafoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail" />
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <label for="fileesposafoto2" style="margin-left:-30px;max-width:130px;max-height:160px;">
+                                                        <input id="fileesposafoto2" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                        <img id="imgfileesposafoto2" src="~/Content/img/fotopreliminarposterior.png" class="img-thumbnail" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <label for="fileesposafoto3" style="margin-left:-30px;max-width:130px;max-height:160px;">
+                                                        <input id="fileesposafoto3" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                        <img id="imgfileesposafoto3" src="~/Content/img/fotopreliminarizquierda.png" class="img-thumbnail" />
+                                                    </label>
+                                                </div>
+                                                <div class="col-sm-6 col-md-6 col-lg-6">
+                                                    <label for="fileesposafoto4" style="margin-left:-30px;max-width:130px;max-height:160px;">
+                                                        <input id="fileesposafoto4" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                                        <img id="imgfileesposafoto4" src="~/Content/img/fotopreliminarderecha.png" class="img-thumbnail" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                </div>
+                <div class="col-sm-10 col-md-10 col-lg-10">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelHijos" aria-expanded="false" class="">Lista de Hijos</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdPanelHijos" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblHijos" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>A. Paterno</th>
+                                                <th>A. Materno</th>
+                                                <th>Nombre 1</th>
+                                                <th>Nombre 2</th>
+                                                <th>Nombre 3</th>
+                                                <th>Fecha de Nacimiento</th>
+                                                <th>Tipo de Pasaporte</th>
+                                                <th>Nro de Pasaporte</th>
+                                                <th>Nacionalidad</th>
+                                                <th class="ocultar">FotoFrente</th>
+                                                <th class="ocultar">FotoPosterior</th>
+                                                <th class="ocultar">FotoLadoIzquierdo</th>
+                                                <th class="ocultar">FotoLadoDerecho</th>
+                                                <th class="ocultar">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoHijo">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                </div>
+                <div class="col-sm-10 col-md-10 col-lg-10">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelFamiliares" aria-expanded="false" class="">Lista de Familiares que lo acompañan</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdPanelFamiliares" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblFamiliares" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>A. Paterno</th>
+                                                <th>A. Materno</th>
+                                                <th>Nombre 1</th>
+                                                <th>Nombre 2</th>
+                                                <th>Nombre 3</th>
+                                                <th>Fecha de Nacimiento</th>
+                                                <th>Tipo de Pasaporte</th>
+                                                <th>Nro de Pasaporte</th>
+                                                <th>Nacionalidad</th>
+                                                <th>Parentesco</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoFamiliar">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                </div>
+                <div class="col-sm-10 col-md-10 col-lg-10">
+                    <div class="panel-group accordion">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <center>
+                                    <h3 class="panel-title">
+                                        <a data-parent="#accordion" data-toggle="collapse" href="#IdPanelFamiliaresResidentes" aria-expanded="false" class="">Lista de Familiares que Residen en el Perú</a>
+                                    </h3>
+                                </center>
+                            </div>
+                            <div class="panel-collapse collapse in" id="IdPanelFamiliaresResidentes" aria-expanded="true">
+                                <div class="panel-body">
+                                    <table id="tblFamiliaresResidentes" class="table table-hover table-condensed">
+                                        <thead class="thead-dark">
+                                            <tr>
+                                                <th>A. Paterno</th>
+                                                <th>A. Materno</th>
+                                                <th>Nombre 1</th>
+                                                <th>Nombre 2</th>
+                                                <th>Nombre 3</th>
+                                                <th>Fecha de Nacimiento</th>
+                                                <th>Tipo de Pasaporte</th>
+                                                <th>Nro de Pasaporte</th>
+                                                <th>Nacionalidad</th>
+                                                <th>Parentesco</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-1 col-md-1 col-lg-1">
+                    <button class="btn btn-active-info btn-icon-split" id="btnNuevoFamiliarResidente">
+                        <span class="icon text-white-50">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                        <span class="text">Nuevo</span>
+                    </button>
+                </div>
+            </div>
+            <div class="text-center" style="display: flex;justify-content: center;">
+                <ul class="nav nav-pills">
+                    <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button id="btnCerrarFrmFamiliares" type="button" onclick="clearFormDatosFamiliares();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                    <li class="pull-right btn-warning" style="margin-right:25px;margin-left: 5px;">
+                        <button id="btnGrabarDatosFamiliares" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <br>
+            <div class="alert_error" style="display:none;" id="frmShowErroFamiliar">
+            </div>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="verModalDocumentoEsposa" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div id="verDocumentoEsposaContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verModalAgregarHijo" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarHijoContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="verModalAgregarFamiliar" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarFamiliarContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="verModalAgregarFamiliarResidente" tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div id="verAgregarFamiliarResidenteContainer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
