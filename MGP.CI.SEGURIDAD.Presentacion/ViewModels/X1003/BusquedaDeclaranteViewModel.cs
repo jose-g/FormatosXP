@@ -96,7 +96,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             ent.Materno = vm.ApeMaterno;
             ent.Nombres = vm.Nombres;
             ent.TipoDocumento = vm.DocumentoIdentidadId;
-            ent.NroDocumento = vm.DocumentoIdentidadNombre;
+            ent.NroDocumento = vm.DocumentoIdentidadNumero;
             ent.Ficha1003Id = vm.Ficha1003Id;
             ent.FechaRegistro = vm.FechaRegistro;
 
