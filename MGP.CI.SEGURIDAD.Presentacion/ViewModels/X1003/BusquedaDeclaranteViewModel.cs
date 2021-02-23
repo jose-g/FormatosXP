@@ -71,7 +71,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         public void CargarListaDocumentosIdentidad()
         {
-            LstDocumentosIdentidad = new DocumentoIdentidadTiposBL().Consultar_Lista().OrderBy(x => x.Descripcion).ToList();
+            LstDocumentosIdentidad = new DocumentoIdentidadTiposBL().Consultar_Lista().OrderBy(x => x.CodigoDocumento).ToList();
         }
 
         private BusquedaDeclaranteViewModel DTOtoViewModel(BusquedaDeclaranteXP1003DTO ent)
