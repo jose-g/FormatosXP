@@ -61,12 +61,30 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             else
                 vm.CrearNuevaFichaXP1003(sesionVM.Login);
 
+            
+
+
             vm.CargarTablasMaestras();
 
             return PartialView("../X1003/FrmFichaDetalles", vm);
 
         }
-
+        [HttpGet]
+        public ActionResult DeclaranteVerDetalles(string m_DeclaranteId)
+        {
+            X1003ViewModel vm = new X1003ViewModel();
+            SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
+            if (m_DeclaranteId != null)
+            {
+                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxId(Convert.ToInt32(m_DeclaranteId));
+            }
+            else
+            {
+                vm.CrearNuevaFichaXP1003(sesionVM.Login);
+            }
+            vm.CargarTablasMaestras();
+            return PartialView("../X1003/FrmFichaDetalles", vm);
+        }
         //**************************************
         //SECCION FRM DECLARANTE
         //**************************************
@@ -83,10 +101,10 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         [HttpPost]
         public JsonResult GrabarDatosPersonales(X1003DatosPersonalesViewModel vm, List<AgregarDocumentoViewModel> LstIdentificaciones, List<FotosViewModel> LstFotos)
         {
-            if (!ModelState.IsValid)
-            {
-                return Json(new { success = false, mensajeError = "Modelo Invalido"}, JsonRequestBehavior.AllowGet);
-            }
+            //if (!ModelState.IsValid)
+            //{
+            //    return Json(new { success = false, mensajeError = "Modelo Invalido"}, JsonRequestBehavior.AllowGet);
+            //}
 
 
             bool ret = true; ;
@@ -117,6 +135,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
 
         public JsonResult GetEnfermedadxTipo(String EnfermedadesId)
         {
+            if (EnfermedadesId == "") EnfermedadesId = "-1";
             return Json(new X1003DatosPersonalesViewModel().GetEnfermedadxTipo(EnfermedadesId).Select(x => new { x.EnfermedadesId, x.Enfermedad, }).ToList(), JsonRequestBehavior.AllowGet);
         }
 

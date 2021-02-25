@@ -66,6 +66,9 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@Nombres3", e_DatosPersonales1003.Nombres3);
                     ParametroSP("@NacionalidadId", e_DatosPersonales1003.NacionalidadId);
                     ParametroSP("@PaisId", e_DatosPersonales1003.PaisId);
+                    ParametroSP("@PaisInstitucionId", e_DatosPersonales1003.PaisInstitucionId);
+                    ParametroSP("@InstitucionMilitarExtranjeroId", e_DatosPersonales1003.InstitucionMilitarExtranjeroId);
+                    ParametroSP("@EnfermedadTipoId", e_DatosPersonales1003.EnfermedadTipoId);
                     ParametroSP("@LugarNacimiento", e_DatosPersonales1003.LugarNacimiento);
                     ParametroSP("@FechaNamiento", e_DatosPersonales1003.FechaNamiento);
                     ParametroSP("@EstadoCivilId", e_DatosPersonales1003.EstadoCivilId);

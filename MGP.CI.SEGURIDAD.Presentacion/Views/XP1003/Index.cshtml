@@ -226,7 +226,10 @@
 
 
     function FichaVerDetalles(m_Ficha1003Id) {
-            $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")" + "?m_Ficha1003Id=" + m_Ficha1003Id);
+        $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")" + "?m_FichaId=" + m_Ficha1003Id);
+        }
+        function DeclaranteVerDetalles(m_Declarante1003Id) {
+            $(location).attr('href', "@Url.Action("DeclaranteVerDetalles", "XP1003")" + "?m_DeclaranteId=" + m_Declarante1003Id);
         }
 
 
@@ -306,11 +309,11 @@
                 {
                     sortable: false,
                     "render": function (data, type, full, meta) {
-                        var BtnImprimirFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Imprimir datos de la Ficha' id='btnImprimirFichaXP1003Modal' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-camera fa-stack-3x'></i> </span></button>";
-                        //var BtnEditarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='FichaVerDetalles(" + full.Ficha1003Id + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-edit fa-stack-3x'></i> </span></button>";
-                        var BtnEditarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='BuscarFichasFromDeclarantes(" + full.DatosPersonalesId + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-list fa-stack-3x'></i> </span></button>";
-                        var BtnEliminarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Ficha' id='btnEliminarFichaXP1003Modal' class='btn btn-sm btn-active-danger'><span class='fa-stack fa-2x'> <i class='fa fa-trash fa-stack-3x'></i> </span></button>";
-                        return BtnImprimirFicha + BtnEditarFicha + BtnEliminarFicha;
+                        //var BtnImprimirFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Imprimir datos de la Ficha' id='btnImprimirFichaXP1003Modal' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-camera fa-stack-3x'></i> </span></button>";
+                        var BtnEditarDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='DeclaranteVerDetalles(" + full.DatosPersonalesId + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-edit fa-stack-3x'></i> </span></button>";
+                        var BtnListarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='BuscarFichasFromDeclarantes(" + full.DatosPersonalesId + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-list fa-stack-3x'></i> </span></button>";
+                        var BtnEliminarDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Ficha' id='btnEliminarFichaXP1003Modal' class='btn btn-sm btn-active-danger'><span class='fa-stack fa-2x'> <i class='fa fa-trash fa-stack-3x'></i> </span></button>";
+                        return BtnListarFicha + BtnEditarDeclarante + BtnEliminarDeclarante;
                 },
                     "className": "text-center"
                 }

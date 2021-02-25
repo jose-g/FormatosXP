@@ -25,7 +25,7 @@
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.PaisInstitucionId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.PaisInstitucionId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new
+                                    @Html.DropDownListFor(model => model.PaisInstitucionId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), "[--Seleccione--]",new
                                {
                                    @class = "form-control",
                                    data_type = "listbox-dropdown-list",
@@ -40,27 +40,27 @@
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.InstitucioneMilitarExtranjeraId, new { @class = "text-red" }) :
-                                    @Html.DropDownListFor(x => x.InstitucioneMilitarExtranjeraId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
-                               {
-                                   @class = "form-control",
-                                   data_type = "listbox-dropdown-list",
-                                   data_update_target = "#GradoExtranjeroId",
-                                   data_filter = "InstitucioneMilitarExtranjeraId",
-                                   data_value_member = "InstitucionMilitarExtranjeraId",
-                                   data_text_member = "Descripcion",
-                                   data_http_method = FormMethod.Get,
-                                   data_url = Url.Action("GetGradosExtranjerosPorInstitucion", "XP1003")
-                               })
+                                    @Html.DropDownListFor(x => x.InstitucioneMilitarExtranjeraId, new SelectList(Model.LstInstitucionesMilitaresExtranjeras, "InstitucionMilitarExtranjeraId", "Descripcion"), "[--Seleccione--]", new
+                                {
+                                    @class = "form-control",
+                                    data_type = "listbox-dropdown-list",
+                                    data_update_target = "#GradoExtranjeroId",
+                                    data_filter = "InstitucioneMilitarExtranjeraId",
+                                    data_value_member = "InstitucionMilitarExtranjeraId",
+                                    data_text_member = "Descripcion",
+                                    data_http_method = FormMethod.Get,
+                                    data_url = Url.Action("GetGradosExtranjerosPorInstitucion", "XP1003")
+                                })
 
                                 </div>
                             </div>
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.GradoExtranjeroId, new { @class = "text-red" }) :
-                                    @Html.DropDownListFor(x => x.GradoExtranjeroId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                               @Html.DropDownListFor(x => x.GradoExtranjeroId, new SelectList(Model.LstGradosExtranjeros, "GradoExtranjeroId", "Descripcion"), "[--Seleccione--]", new
                                {
                                    @class = "form-control",
-                                   data_type = "listbox-dropdown-list",
+                                   @data_type = "listbox-dropdown-list",
                                    data_update_target = "#EspecialidadExtranjeraId",
                                    data_filter = "GradoExtranjeroId",
                                    data_value_member = "GradoExtranjeroId",
@@ -74,13 +74,12 @@
                             <div class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.EspecialidadExtranjeraId, new { @class = "text-red" }) :
-                                    @Html.DropDownListFor(x => x.EspecialidadExtranjeraId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
-                               {
-                                   @class = "form-control",
-                                   data_value_member = "EspecialidadesExtranjerasId",
-                                   data_text_member = "Descripcion"
-                               })
-
+                                    @Html.DropDownListFor(x => x.EspecialidadExtranjeraId, new SelectList(Model.LstEspecialidadesExtranjeras, "EspecialidadesExtranjerasId", "Descripcion"), "[--Seleccione--]", new
+                                    {
+                                        @class = "form-control",
+                                        data_value_member = "EspecialidadesExtranjerasId",
+                                        data_text_member = "Descripcion"
+                                    })
                                 </div>
                             </div>
                         </div>
@@ -129,13 +128,13 @@
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.NacionalidadId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.NacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.NacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.PaisNacimientoId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.PaisNacimientoId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.PaisNacimientoId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), "[--Seleccione--]",new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
@@ -157,38 +156,39 @@
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.EstadoCivilId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.EstadoCivilId, new SelectList(Model.LstEstadoCivil, "EstadoCivilId", "Nombre"), new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.EstadoCivilId, new SelectList(Model.LstEstadoCivil, "EstadoCivilId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
 
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.GrupoSanguineoId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.GrupoSanguineoId, new SelectList(Model.LstGrupoSanguineo, "GrupoSanguineoId", "Nombre"), new { @class = "form-control" })
+                                    @Html.DropDownListFor(model => model.GrupoSanguineoId, new SelectList(Model.LstGrupoSanguineo, "GrupoSanguineoId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
                                 </div>
                             </div>
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
-                                    @Html.LabelFor(x => x.EnfermedadTipoId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(model => model.EnfermedadTipoId, new SelectList(Model.LstTipoEnfermedad, "EnfermedadesId", "EnfermedadTipo"), new
+                                    @Html.LabelFor(x => x.EnfermedadTipoId, new { @class = "text-red" })
+                                    @Html.DropDownListFor(model => model.EnfermedadTipoId, new SelectList(Model.LstTipoEnfermedad, "EnfermedadesId", "EnfermedadTipo"), "[--Seleccione--]", new
                                     {
-                                    @class = "form-control",
-                                    data_type = "listbox-dropdown-list",
-                                    data_update_target = "#EnfermedadId",
-                                    data_filter = "EnfermedadesId",
-                                    data_value_member = "EnfermedadesId",
-                                    data_text_member = "Enfermedad",
-                                    data_http_method = FormMethod.Get,
-                                    data_url = Url.Action("GetEnfermedadxTipo", "XP1003")
+                                        @class = "form-control",
+                                        data_type = "listbox-dropdown-list",
+                                        data_update_target = "#EnfermedadId",
+                                        data_filter = "EnfermedadesId",
+                                        data_value_member = "EnfermedadesId",
+                                        data_text_member = "EnfermedadTipo",
+                                        data_http_method = FormMethod.Get,
+                                        data_url = Url.Action("GetEnfermedadxTipo", "XP1003")
                                     })
-                                </div>
-                            </div>
+                                </div >
+                            </div >
                             <div class="col-sm-3 col-md-3 col-lg-3">
                                 <div class="form-group">
                                     @Html.LabelFor(x => x.EnfermedadId, new { @class = "control-label" })
-                                    @Html.DropDownListFor(x => x.EnfermedadId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                    @Html.DropDownListFor(model => model.EnfermedadId, new SelectList(Model.LstEnfermedad, "EnfermedadesId", "Enfermedad"), "[--Seleccione--]", new
                                {
                                    @class = "form-control",
+                                   data_filter = "EnfermedadesId",
                                    data_value_member = "EnfermedadesId",
                                    data_text_member = "Enfermedad"
                                })
@@ -210,7 +210,7 @@
                                         </div>
                                         <div class="panel-collapse collapse in" id="IdPanelDocumentosDeclarante" aria-expanded="true">
                                             <div class="panel-body">
-                                                <table id="tblDocumentosDeclarante" class="table table-hover table-condensed">
+                                                <table id = "tblDocumentosDeclarante" class="table table-hover table-condensed">
                                                     <thead class="thead-dark">
                                                         <tr>
                                                             <th>Tipo de Documento</th>
@@ -242,8 +242,8 @@
                                     <div class="uploaderfoto">
                                         <label for="filedeclarantefoto1">
 
-                                            <input id="filedeclarantefoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
-                                            <img id="imgfiledeclarantefoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail filefoto" />
+                                            <input id = "filedeclarantefoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                            <img id = "imgfiledeclarantefoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail filefoto" />
                                         </label>
                                     </div>
                                 </div>
@@ -338,8 +338,3 @@
 </div>
 
 
-@section scripts{
-    <script type="text/javascript">
-
-    </script>
-}

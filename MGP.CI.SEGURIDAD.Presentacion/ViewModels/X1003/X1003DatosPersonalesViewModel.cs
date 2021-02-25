@@ -23,19 +23,19 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         #region Declarante
         [Required]
         [Display(Name = "Pais")]
-        public int PaisInstitucionId { get; set; } = 5;
+        public int PaisInstitucionId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Institucion Militar ")]
-        public int InstitucioneMilitarExtranjeraId { get; set; } = 5;
+        public int InstitucioneMilitarExtranjeraId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Grado")]
-        public int GradoExtranjeroId { get; set; } = 3;
+        public int GradoExtranjeroId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Especialidad")]
-        public int EspecialidadExtranjeraId { get; set; } = 3;
+        public int EspecialidadExtranjeraId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Apellido Paterno")]
@@ -57,11 +57,11 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Required]
         [Display(Name = "Nacionalidad")]
-        public int NacionalidadId { get; set; } = 5;
+        public int NacionalidadId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Pais de Nacimiento")]
-        public int PaisNacimientoId { get; set; } = 1;
+        public int PaisNacimientoId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Lugar de Nacimiento")]
@@ -73,17 +73,19 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Required]
         [Display(Name = "Grupo Sanguineo")]
-        public int GrupoSanguineoId { get; set; } = 1;
+        public int GrupoSanguineoId { get; set; } = -1;
 
+        [Required]
         [Display(Name = "Tipo de Enfermedad")]
-        public int EnfermedadTipoId { get; set; } = 1;
-              [Required]
+        public int EnfermedadTipoId { get; set; } = -1;
+
+        [Required]
         [Display(Name = "Enfermedad")]
-        public string EnfermedadId { get; set; }
+        public int EnfermedadId { get; set; } = -1;
 
         [Required]
         [Display(Name = "Estado Civil")]
-        public int EstadoCivilId { get; set; } = 1;
+        public int EstadoCivilId { get; set; } = -1;
 
         public List<FotosViewModel> LstFotos { get; set; }
 
@@ -132,6 +134,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         #region Maestras
         public List<PaisesBE> LstPaises { get; set; }
         public List<InstitucionesMilitaresExtranjerasBE> LstInstitucionesMilitaresExtranjeras{ get; set; }
+        public List<GradosExtranjerosBE> LstGradosExtranjeros { get; set; }
+        public List<EspecialidadesExtranjerasBE> LstEspecialidadesExtranjeras { get; set; }
         public List<NacionalidadBE> LstNacionalidades { get; set; }
         public List<EstadoCivilBE> LstEstadoCivil { get; set; }
         public List<GrupoSanguineoBE> LstGrupoSanguineo { get; set; }
@@ -148,6 +152,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         {
             LstPaises = new List<PaisesBE>();
             LstInstitucionesMilitaresExtranjeras = new List<InstitucionesMilitaresExtranjerasBE>();
+            LstGradosExtranjeros = new List<GradosExtranjerosBE>();
+            LstEspecialidadesExtranjeras = new List<EspecialidadesExtranjerasBE>();
             LstNacionalidades = new List<NacionalidadBE>();
             LstEstadoCivil = new List<EstadoCivilBE>();
             LstGrupoSanguineo = new List<GrupoSanguineoBE>();
@@ -157,6 +163,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             LstTipoEnfermedad = new List<EnfermedadesBE>();
             LstFotos = new List<FotosViewModel>();
             LstIdentificaciones = new List<DeclaranteIdentificacionesBE>();
+            LstEnfermedad = new List<EnfermedadesBE>();
         }
         public bool Insertar(string login)
         {
@@ -233,13 +240,15 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             BE.Nombres3 = m_vm.Nombres3;
             BE.FechaNamiento = m_vm.FechaNacimiento;
             BE.NacionalidadId = m_vm.NacionalidadId;
+            BE.PaisInstitucionId = m_vm.PaisInstitucionId;
             BE.PaisId = m_vm.PaisNacimientoId;
             BE.LugarNacimiento = m_vm.LugarNacimiento;
             BE.EstadoCivilId = m_vm.EstadoCivilId;
             BE.GrupoSanguineoId = m_vm.GrupoSanguineoId;
-            BE.EnfermedadId = Int32.Parse(m_vm.EnfermedadId);
+            BE.EnfermedadId = m_vm.EnfermedadId;
+            BE.EnfermedadTipoId = m_vm.EnfermedadTipoId;
             //BE.Enfermedades = m_vm.Enfermedades;
-          //  BE.Alergias = m_vm.Alergias;
+            //  BE.Alergias = m_vm.Alergias;
             BE.EstadoId = m_vm.EstadoId;
             BE.UsuarioRegistro = m_vm.UsuarioRegistro;
             BE.FechaRegistro = m_vm.FechaRegistro;
@@ -254,13 +263,15 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public void CargarTablasMaestras()
         {
             LstPaises = new PaisesBL().Consultar_Lista().OrderBy(x => x.Nombre).ToList();
-            LstInstitucionesMilitaresExtranjeras = new InstitucionesMilitaresExtranjerasBL().Consultar_Lista();
+            LstInstitucionesMilitaresExtranjeras=new InstitucionesMilitaresExtranjerasBL().Consultar_Lista().Where(x => x.PaisId.ToString().Equals(PaisInstitucionId.ToString())).OrderBy(x => x.Descripcion).ToList();
+            LstGradosExtranjeros = new GradosExtranjerosBL().Consultar_Lista().Where(x => x.InstitucionMilitarExtranjeraId.ToString().Equals(InstitucioneMilitarExtranjeraId.ToString())).ToList();
+            LstEspecialidadesExtranjeras = new EspecialidadesExtranjerasBL().Consultar_Lista().Where(x => x.InstitucionMilitarExtranjeraId == InstitucioneMilitarExtranjeraId).ToList();
             LstNacionalidades = new NacionalidadBL().Consultar_Lista();
             LstEstadoCivil = new EstadoCivilBL().Consultar_Lista();
             LstGrupoSanguineo = new GrupoSanguineoBL().Consultar_Lista();
             LstTipoDocumentos = new DocumentoIdentidadTiposBL().Consultar_Lista();
             LstTipoEnfermedad = new EnfermedadesBL().Consultar_Lista().DistinctBy(x => x.EnfermedadTipo).ToList();
-
+            LstEnfermedad = new EnfermedadesBL().Consultar_Lista().Where(x => x.EnfermedadesId.ToString().StartsWith(EnfermedadId.ToString().Substring(0, 2))).ToList();
         }
         public List<InstitucionesMilitaresExtranjerasBE> GetInstitucionesPorPais(string PaisId)
         {
@@ -276,6 +287,51 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             int InstMilExtId = new GradosExtranjerosBL().Consultar_PK(Int32.Parse(GradoExtranjeroId)).FirstOrDefault().InstitucionMilitarExtranjeraId.Value;
 
             return new EspecialidadesExtranjerasBL().Consultar_Lista().Where(x => x.InstitucionMilitarExtranjeraId == InstMilExtId).ToList();
+        }
+
+        public X1003DatosPersonalesViewModel BuscarxId(int m_DatosPersonalesId)
+        {
+            DatosPersonales1003BE m_BE = new DatosPersonales1003BL().Consultar_PK(m_DatosPersonalesId).FirstOrDefault();
+
+            if (m_BE != null)
+                return BEToViewModel(m_BE);
+
+            return null;
+        }
+        private X1003DatosPersonalesViewModel BEToViewModel(DatosPersonales1003BE m_BE)
+        {
+            X1003DatosPersonalesViewModel m_vm = new X1003DatosPersonalesViewModel();
+
+             m_vm.DatosPersonalesId= m_BE.DatosPersonalesId;
+             m_vm.FichaId= m_BE.FichaId;
+             m_vm.GradoExtranjeroId= m_BE.GradoExtranjeroId.Value;
+             m_vm.EspecialidadExtranjeraId= m_BE.EspecialidaIdExtranjeraId.Value;
+            m_vm.InstitucioneMilitarExtranjeraId = m_BE.InstitucionMilitarExtranjeroId.Value;
+             m_vm.Paterno= m_BE.Paterno;
+             m_vm.Materno= m_BE.Materno;
+             m_vm.Nombres1= m_BE.Nombres1;
+             m_vm.Nombres2= m_BE.Nombres2;
+             m_vm.Nombres3= m_BE.Nombres3;
+             m_vm.FechaNacimiento= m_BE.FechaNamiento;
+             m_vm.NacionalidadId= m_BE.NacionalidadId.Value;
+            m_vm.PaisInstitucionId = m_BE.PaisInstitucionId;
+            //m_vm.PaisId = m_BE.PaisId;
+            m_vm.PaisNacimientoId= m_BE.PaisId;
+             m_vm.LugarNacimiento= m_BE.LugarNacimiento;
+             m_vm.EstadoCivilId= m_BE.EstadoCivilId.Value;
+             m_vm.GrupoSanguineoId= m_BE.GrupoSanguineoId.Value;
+             m_vm.EnfermedadId= m_BE.EnfermedadId.Value;
+            m_vm.EnfermedadTipoId = m_BE.EnfermedadTipoId.Value;
+            m_vm.EstadoId= m_BE.EstadoId;
+             m_vm.UsuarioRegistro= m_BE.UsuarioRegistro;
+             m_vm.FechaRegistro= m_BE.FechaRegistro;
+             m_vm.UsuarioModificacionRegistro= m_BE.UsuarioModificacionRegistro;
+             m_vm.FechaModificacionRegistro= m_BE.FechaModificacionRegistro;
+             m_vm.NroIpRegistro = m_BE.NroIpRegistro;
+             m_vm.SexoId= m_BE.SexoId;
+            
+
+            return m_vm;
         }
     }
 }

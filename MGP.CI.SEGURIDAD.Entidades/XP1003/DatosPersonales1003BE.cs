@@ -13,11 +13,15 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public int DatosPersonalesId { get; set; }
         [DataMember]
+        public int PaisInstitucionId { get; set; }
+        [DataMember]
         public int FichaId { get; set; }
         [DataMember]
         public int? GradoExtranjeroId { get; set; }
         [DataMember]
         public int? EspecialidaIdExtranjeraId { get; set; }
+        [DataMember]
+        public int? InstitucionMilitarExtranjeroId { get; set; }
         [DataMember]
         public string Paterno { get; set; }
         [DataMember]
@@ -42,6 +46,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         public int? GrupoSanguineoId { get; set; }
         [DataMember]
         public int? EnfermedadId { get; set; }
+        [DataMember]
+        public int? EnfermedadTipoId { get; set; }
         [DataMember]
         public int? EstadoId { get; set; }
         [DataMember]
@@ -68,6 +74,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int m_FichaId,
             int? m_GradoExtranjeroId,
             int? m_EspecialidaIdExtranjeraId,
+            int? m_InstitucionMilitarExtranjeroId,
             string m_Paterno,
             string m_Materno,
             string m_Nombres1,
@@ -80,6 +87,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int? m_EstadoCivilId,
             int? m_GrupoSanguineoId,
             int m_EnfermedadId,
+            int m_EnfermedadTipoId,
             int? m_EstadoId,
             int m_SexoId,
             bool m_EstadoDatosPersonales,
@@ -94,6 +102,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             FichaId = m_FichaId;
             GradoExtranjeroId = m_GradoExtranjeroId;
             EspecialidaIdExtranjeraId = m_EspecialidaIdExtranjeraId;
+            InstitucionMilitarExtranjeroId = m_InstitucionMilitarExtranjeroId;
             Paterno = m_Paterno;
             Materno = m_Materno;
             Nombres1 = m_Nombres1;
@@ -106,6 +115,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             EstadoCivilId = m_EstadoCivilId;
             GrupoSanguineoId = m_GrupoSanguineoId;
             EnfermedadId = m_EnfermedadId;
+            EnfermedadTipoId = m_EnfermedadTipoId;
             EstadoId = m_EstadoId;
             SexoId = m_SexoId;
             EstadoDatosPersonales = m_EstadoDatosPersonales;
@@ -122,18 +132,21 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             FichaId = ValidarInt(Registro["FichaId"]);
             GradoExtranjeroId = ValidarIntNulos(Registro["GradoExtranjeroId"]);
             EspecialidaIdExtranjeraId = ValidarIntNulos(Registro["EspecialidaIdExtranjeraId"]);
+            InstitucionMilitarExtranjeroId = ValidarIntNulos(Registro["InstitucionMilitarExtranjeroId"]);
             Paterno = ValidarString(Registro["Paterno"]);
             Materno = ValidarString(Registro["Materno"]);
             Nombres1 = ValidarString(Registro["Nombres1"]);
             Nombres2 = ValidarString(Registro["Nombres2"]);
             Nombres3 = ValidarString(Registro["Nombres3"]);
             NacionalidadId = ValidarIntNulos(Registro["NacionalidadId"]);
+            PaisInstitucionId = ValidarInt(Registro["PaisInstitucionId"]);
             PaisId = ValidarInt(Registro["PaisId"]);
             LugarNacimiento = ValidarString(Registro["LugarNacimiento"]);
             FechaNamiento = ValidarDatetime(Registro["FechaNamiento"]);
             EstadoCivilId = ValidarIntNulos(Registro["EstadoCivilId"]);
             GrupoSanguineoId = ValidarIntNulos(Registro["GrupoSanguineoId"]);
             EnfermedadId = ValidarIntNulos(Registro["EnfermedadId"]);
+            EnfermedadTipoId = ValidarIntNulos(Registro["EnfermedadTipoId"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             SexoId = ValidarInt(Registro["SexoId"]);
             EstadoDatosPersonales = ValidarBool(Registro["EstadoDatosPersonales"]);
