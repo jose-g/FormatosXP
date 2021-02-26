@@ -148,6 +148,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<DeclaranteIdentificacionesBE> Consultar_FK(
+               int m_DatosPersonalesId)
+        {
+            List<DeclaranteIdentificacionesBE> lista = new List<DeclaranteIdentificacionesBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_DeclaranteIdentificacionesConsultar_FK", connection);
+                    ParametroSP("@DatosPersonalesId", m_DatosPersonalesId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new DeclaranteIdentificacionesBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

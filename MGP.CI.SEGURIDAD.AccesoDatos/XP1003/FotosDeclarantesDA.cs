@@ -178,6 +178,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<FotosDeclarantesBE> Consultar_FK(
+                int m_DatosPersonalesId)
+        {
+            List<FotosDeclarantesBE> lista = new List<FotosDeclarantesBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_FotosDeclarantesConsultar_FK", connection);
+                    ParametroSP("@DatosPersonalesId", m_DatosPersonalesId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new FotosDeclarantesBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

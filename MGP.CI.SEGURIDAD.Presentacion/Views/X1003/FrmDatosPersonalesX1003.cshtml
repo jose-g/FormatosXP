@@ -241,9 +241,8 @@
                                 <div class="row">
                                     <div class="uploaderfoto">
                                         <label for="filedeclarantefoto1">
-
-                                            <input id = "filedeclarantefoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
-                                            <img id = "imgfiledeclarantefoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail filefoto" />
+                                            <input id="filedeclarantefoto1" class="upload" type="file" accept="image/jpeg" onchange="cargararchivodeclarante(this.files, this)" style="display:none">
+                                            <img id="imgfiledeclarantefoto1" src="~/Content/img/fotopreliminarfrente.png" class="img-thumbnail filefoto" />
                                         </label>
                                     </div>
                                 </div>
@@ -337,4 +336,32 @@
     </div>
 </div>
 
+<script >
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoFrente == ""))
+        {
+            @:document.getElementById("imgfiledeclarantefoto1").setAttribute("src", "@Model.LstFotos[0].FotoFrente");
+                }
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoPosterior == ""))
+        {
+            @:document.getElementById("imgfiledeclarantefoto2").setAttribute("src", "@Model.LstFotos[0].FotoPosterior");
+                }
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoLateralIzquierdo == ""))
+        {
+            @:document.getElementById("imgfiledeclarantefoto3").setAttribute("src", "@Model.LstFotos[0].FotoLateralIzquierdo");
+                }
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoLateralDerecho == ""))
+        {
+            @:document.getElementById("imgfiledeclarantefoto4").setAttribute("src", "@Model.LstFotos[0].FotoLateralDerecho");
+                }
+
+        @foreach (var element in Model.LstIdentificaciones)
+        {
+            @:idfilaDocDeclarante = '@element.DocumentoIdentidadTipoId' + '_' + '@element.DeclaranteNumeroDocumento';
+            @:BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoDeclarante(\"" + idfilaDocDeclarante + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+            @:$('#tblDocumentosDeclarante').find('tbody').append('<tr id=' + idfilaDocDeclarante + '><td>' + '@element.DocumentoIdentidadTipoId' + '</td><td>' + '@element.DeclaranteNumeroDocumento' + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
+        }
+    });
+</script>
 

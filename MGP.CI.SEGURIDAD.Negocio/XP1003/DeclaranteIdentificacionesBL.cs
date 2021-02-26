@@ -70,9 +70,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        public List<DeclaranteIdentificacionesBE> Consultar_PK(
-                              int m_DeclaranteIdentificacionId
-                              )
+        public List<DeclaranteIdentificacionesBE> Consultar_PK(int m_DeclaranteIdentificacionId)
         {
             List<DeclaranteIdentificacionesBE> lista = new List<DeclaranteIdentificacionesBE>();
             try
@@ -87,6 +85,18 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
                 throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
             }
         }
-
+        public List<DeclaranteIdentificacionesBE> Consultar_FK(int m_DatosPersonalesId)
+        {
+            List<DeclaranteIdentificacionesBE> lista = new List<DeclaranteIdentificacionesBE>();
+            try
+            {
+                DeclaranteIdentificacionesDA o_DeclaranteIdentificaciones = new DeclaranteIdentificacionesDA(m_BaseDatos);
+                return o_DeclaranteIdentificaciones.Consultar_FK(m_DatosPersonalesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

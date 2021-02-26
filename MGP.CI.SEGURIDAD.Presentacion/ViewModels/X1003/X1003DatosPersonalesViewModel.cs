@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using MGP.CI.SEGURIDAD.Negocio;
 using Microsoft.Ajax.Utilities;
 using MGP.CI.SEGURIDAD.Presentacion.Views.X1003;
+using System.Text;
 
 namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 {
@@ -241,6 +242,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             BE.FechaNamiento = m_vm.FechaNacimiento;
             BE.NacionalidadId = m_vm.NacionalidadId;
             BE.PaisInstitucionId = m_vm.PaisInstitucionId;
+            BE.InstitucionMilitarExtranjeroId = m_vm.InstitucioneMilitarExtranjeraId;
             BE.PaisId = m_vm.PaisNacimientoId;
             BE.LugarNacimiento = m_vm.LugarNacimiento;
             BE.EstadoCivilId = m_vm.EstadoCivilId;
@@ -293,6 +295,46 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         {
             DatosPersonales1003BE m_BE = new DatosPersonales1003BL().Consultar_PK(m_DatosPersonalesId).FirstOrDefault();
 
+            FotosDeclarantesBL objFotosBL = new FotosDeclarantesBL();
+            List<FotosDeclarantesBE> lstFotos = new List<FotosDeclarantesBE>();
+            lstFotos = objFotosBL.Consultar_FK(m_DatosPersonalesId);
+
+            FotosDeclarantesBE m_fotos_BE = new FotosDeclarantesBE();
+            FotosViewModel f_vm = new FotosViewModel();
+
+            m_fotos_BE =lstFotos.Where(x => x.FotoTipoId == 1).FirstOrDefault();
+            f_vm.FotoFrente= Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 2).FirstOrDefault();
+            f_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 3).FirstOrDefault();
+            f_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 4).FirstOrDefault();
+            f_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            LstFotos.Add(f_vm);
+
+            DeclaranteIdentificacionesBL objIdentBL = new DeclaranteIdentificacionesBL();
+            //List<DeclaranteIdentificacionesBE> lstIdent = new List<DeclaranteIdentificacionesBE>();
+            LstIdentificaciones = objIdentBL.Consultar_FK(m_DatosPersonalesId);
+
+            //foreach (DeclaranteIdentificacionesBE obj in lstIdent)
+            //{
+            //    LstIdentificaciones.Add(obj);
+            //}
+
+            //    DeclaranteIdentificacionesBE decla1 = new DeclaranteIdentificacionesBE();
+            //decla1.DocumentoIdentidadTipoId = 7;
+            //decla1.DeclaranteNumeroDocumento = "07495722";
+            //LstIdentificaciones.Add(decla1);
+            //DeclaranteIdentificacionesBE decla2 = new DeclaranteIdentificacionesBE();
+            //decla2.DocumentoIdentidadTipoId = 10;
+            //decla2.DeclaranteNumeroDocumento = "07495721";
+            //LstIdentificaciones.Add(decla2);
+
+
             if (m_BE != null)
                 return BEToViewModel(m_BE);
 
@@ -329,7 +371,9 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
              m_vm.FechaModificacionRegistro= m_BE.FechaModificacionRegistro;
              m_vm.NroIpRegistro = m_BE.NroIpRegistro;
              m_vm.SexoId= m_BE.SexoId;
-            
+
+            m_vm.LstFotos = this.LstFotos;
+            m_vm.LstIdentificaciones = this.LstIdentificaciones;
 
             return m_vm;
         }

@@ -284,6 +284,10 @@
     <Content Include="Content\fonts\ionicons.svg" />
     <Content Include="Content\img\folder.png" />
     <Content Include="Content\img\fotopreliminar.png" />
+    <Content Include="Content\img\fotopreliminarderecha.png" />
+    <Content Include="Content\img\fotopreliminarfrente.png" />
+    <Content Include="Content\img\fotopreliminarizquierda.png" />
+    <Content Include="Content\img\fotopreliminarposterior.png" />
     <Content Include="Content\img\profile-photos\fotopaul.jpg" />
     <Content Include="Content\js\bootstrap-multiselect.js" />
     <Content Include="Content\js\bootstrap-multiselect.min.js" />
