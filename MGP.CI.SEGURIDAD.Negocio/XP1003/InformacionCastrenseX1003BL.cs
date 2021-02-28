@@ -29,7 +29,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             return l;
         }
 
-        bool Insertar(InformacionCastrenseX1003BE e_InformacionCastrenseX1003)
+        public bool Insertar(InformacionCastrenseX1003BE e_InformacionCastrenseX1003)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        bool Actualizar(InformacionCastrenseX1003BE e_InformacionCastrenseX1003)
+        public bool Actualizar(InformacionCastrenseX1003BE e_InformacionCastrenseX1003)
         {
             try
             {
@@ -57,7 +57,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        bool Anular(InformacionCastrenseX1003BE e_InformacionCastrenseX1003)
+        public bool Anular(InformacionCastrenseX1003BE e_InformacionCastrenseX1003)
         {
             try
             {

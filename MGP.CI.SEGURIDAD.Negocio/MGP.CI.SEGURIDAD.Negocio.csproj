@@ -64,9 +64,12 @@
     <Compile Include="ClaseParcial\DocumentoIdentidadTiposBL.cs" />
     <Compile Include="XP1003\BusquedaFichaBL.cs" />
     <Compile Include="XP1003\DatosFamiliares1003BL.cs" />
+    <Compile Include="XP1003\FamiliarIdiomasBL.cs" />
+    <Compile Include="XP1003\FamiliarIdentificacionBL.cs" />
     <Compile Include="XP1003\DeportesBL.cs" />
     <Compile Include="XP1003\DeportesRealizadosBL.cs" />
     <Compile Include="XP1003\EnfermedadesBL.cs" />
+    <Compile Include="XP1003\FotosFamiliaresBL.cs" />
     <Compile Include="XP1003\FotosDeclarantesBL.cs" />
     <Compile Include="XP1003\FotoTipoBL.cs" />
     <Compile Include="XP1003\ObservacionesBL.cs" />

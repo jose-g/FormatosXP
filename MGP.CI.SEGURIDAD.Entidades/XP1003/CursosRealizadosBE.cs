@@ -13,9 +13,19 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public int CursosRealizadosId { get; set; }
         [DataMember]
+        public int InformacionCastrenseId { get; set; }
+
+        [DataMember]
+        public int PaisId { get; set; }
+        [DataMember]
+        public int InstitucionMilitaresExtranjerasId { get; set; }
+        [DataMember]
+        public int EscuelaExtranjeraId { get; set; }
+        [DataMember]
         public int CursoEscuelaExtranjeraId { get; set; }
         [DataMember]
-        public int InformacionCastrenseId { get; set; }
+        public int? Ano { get; set; }
+
         [DataMember]
         public int? EstadoId { get; set; }
         [DataMember]
@@ -37,6 +47,10 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int m_CursosRealizadosId,
             int m_CursoEscuelaExtranjeraId,
             int m_InformacionCastrenseId,
+            int m_PaisId,
+             int m_InstitucionMilitaresExtranjerasId,
+                int m_EscuelaExtranjeraId,
+                      int m_Ano,
             int? m_EstadoId,
             string m_UsuarioRegistro,
             DateTime? m_FechaRegistro,
@@ -48,6 +62,10 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             CursosRealizadosId = m_CursosRealizadosId;
             CursoEscuelaExtranjeraId = m_CursoEscuelaExtranjeraId;
             InformacionCastrenseId = m_InformacionCastrenseId;
+            PaisId = m_PaisId;
+            InstitucionMilitaresExtranjerasId = m_InstitucionMilitaresExtranjerasId;
+            EscuelaExtranjeraId = m_EscuelaExtranjeraId;
+            Ano = m_Ano;
             EstadoId = m_EstadoId;
             UsuarioRegistro = m_UsuarioRegistro;
             FechaRegistro = m_FechaRegistro;
@@ -61,6 +79,12 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             CursosRealizadosId = ValidarInt(Registro["CursosRealizadosId"]);
             CursoEscuelaExtranjeraId = ValidarInt(Registro["CursoEscuelaExtranjeraId"]);
             InformacionCastrenseId = ValidarInt(Registro["InformacionCastrenseId"]);
+
+            PaisId = ValidarInt(Registro["PaisId"]);
+            InstitucionMilitaresExtranjerasId = ValidarInt(Registro["InstitucionMilitaresExtranjerasId"]);
+            EscuelaExtranjeraId = ValidarInt(Registro["EscuelaExtranjeraId"]);
+            Ano = ValidarInt(Registro["Ano"]);
+
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);
             FechaRegistro = ValidarDatetime(Registro["FechaRegistro"]);

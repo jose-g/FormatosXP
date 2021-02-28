@@ -11,11 +11,15 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         #region Propiedades
         public readonly string Table_Name = "CargosFuncionesRealizadas";
         [DataMember]
-        public int CargosFuncionesRealizadas { get; set; }
+        public int CargosFuncionesRealizadasId { get; set; }
         [DataMember]
         public int? CargosFuncionesId { get; set; }
         [DataMember]
         public int? InformacionCastrenseId { get; set; }
+        [DataMember]
+        public DateTime? Cargos_Funciones_FechaInicio { get; set; }
+        [DataMember]
+        public DateTime? Cargos_Funciones_FechaFin { get; set; }
         [DataMember]
         public int? EstadoId { get; set; }
         [DataMember]
@@ -34,9 +38,11 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         public CargosFuncionesRealizadasBE() { }
 
         public CargosFuncionesRealizadasBE(
-            int m_CargosFuncionesRealizadas,
+            int m_CargosFuncionesRealizadasId,
             int? m_CargosFuncionesId,
             int? m_InformacionCastrenseId,
+            DateTime? m_Cargos_Funciones_FechaInicio,
+            DateTime? m_Cargos_Funciones_FechaFin,
             int? m_EstadoId,
             string m_UsuarioRegistro,
             DateTime? m_FechaRegistro,
@@ -45,9 +51,11 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             string m_NroIpRegistro
         )
         {
-            CargosFuncionesRealizadas = m_CargosFuncionesRealizadas;
+            CargosFuncionesRealizadasId = m_CargosFuncionesRealizadasId;
             CargosFuncionesId = m_CargosFuncionesId;
             InformacionCastrenseId = m_InformacionCastrenseId;
+            Cargos_Funciones_FechaInicio = m_Cargos_Funciones_FechaInicio;
+            Cargos_Funciones_FechaFin = m_Cargos_Funciones_FechaFin;
             EstadoId = m_EstadoId;
             UsuarioRegistro = m_UsuarioRegistro;
             FechaRegistro = m_FechaRegistro;
@@ -58,9 +66,11 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
 
         public CargosFuncionesRealizadasBE(IDataReader Registro)
         {
-            CargosFuncionesRealizadas = ValidarInt(Registro["CargosFuncionesRealizadas"]);
+            CargosFuncionesRealizadasId = ValidarInt(Registro["CargosFuncionesRealizadasId"]);
             CargosFuncionesId = ValidarIntNulos(Registro["CargosFuncionesId"]);
             InformacionCastrenseId = ValidarIntNulos(Registro["InformacionCastrenseId"]);
+            Cargos_Funciones_FechaInicio = ValidarDatetime(Registro["FechaInicio"]);
+            Cargos_Funciones_FechaFin = ValidarDatetime(Registro["FechaFin"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);
             FechaRegistro = ValidarDatetime(Registro["FechaRegistro"]);

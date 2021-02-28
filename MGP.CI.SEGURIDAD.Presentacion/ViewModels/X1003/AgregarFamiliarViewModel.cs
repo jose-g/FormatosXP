@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using MGP.CI.SEGURIDAD.Presentacion.Views.X1003;
 
 namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 {
@@ -35,6 +36,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Display(Name = "Numero de Documento")]
         public string FamiliarNroDocumentoIdentidad { get; set; }
+        public List<FotosFamiliaresViewModel> LstFotos { get; set; }
         public List<NacionalidadBE> LstNacionalidades { get; set; }
         public List<ParentescoBE> LstParentesco { get; set; }
 
@@ -45,6 +47,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         {
             LstParentesco = new List<ParentescoBE>();
             LstNacionalidades = new List<NacionalidadBE>();
+            LstFotos = new List<FotosFamiliaresViewModel>();
             LstParentesco = new ParentescoBL().Consultar_Lista().OrderBy(x => x.Nombre).ToList();
             LstNacionalidades = new NacionalidadBL().Consultar_Lista().OrderBy(x => x.Nombre).ToList();
             LstTipoDocumentos = new List<DocumentoIdentidadTiposBE>();

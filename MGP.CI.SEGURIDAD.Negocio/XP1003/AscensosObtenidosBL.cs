@@ -14,8 +14,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
 
         public AscensosObtenidosBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public AscensosObtenidosBL() { }
-
-        protected internal bool Insertar(AscensosObtenidosBE e_AscensosObtenidos)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new AscensosObtenidosDA(m_BaseDatos)).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+        public bool Insertar(AscensosObtenidosBE e_AscensosObtenidos)
         {
             try
             {
@@ -29,7 +41,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(AscensosObtenidosBE e_AscensosObtenidos)
+        public bool Actualizar(AscensosObtenidosBE e_AscensosObtenidos)
         {
             try
             {
@@ -43,7 +55,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(AscensosObtenidosBE e_AscensosObtenidos)
+        public bool Anular(AscensosObtenidosBE e_AscensosObtenidos)
         {
             try
             {

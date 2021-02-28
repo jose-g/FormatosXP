@@ -14,8 +14,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
 
         public IdiomasDominadosBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public IdiomasDominadosBL() { }
-
-        protected internal bool Insertar(IdiomasDominadosBE e_IdiomasDominados)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new IdiomasDominadosDA(m_BaseDatos)).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+        public bool Insertar(IdiomasDominadosBE e_IdiomasDominados)
         {
             try
             {
@@ -29,7 +41,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(IdiomasDominadosBE e_IdiomasDominados)
+        public bool Actualizar(IdiomasDominadosBE e_IdiomasDominados)
         {
             try
             {
@@ -43,7 +55,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(IdiomasDominadosBE e_IdiomasDominados)
+        public bool Anular(IdiomasDominadosBE e_IdiomasDominados)
         {
             try
             {

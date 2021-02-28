@@ -23,6 +23,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public string Motivo { get; set; }
         [DataMember]
+        public string Destino { get; set; }
+        [DataMember]
         public string DondeResidio { get; set; }
         [DataMember]
         public int? EstadoId { get; set; }

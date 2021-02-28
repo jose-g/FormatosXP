@@ -34,52 +34,15 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         [Display(Name = "Nacionalidad")]
         public string HijoNacionalidadId { get; set; }
 
-        public List<FotosViewModel> LstFotos { get; set; }
-
-        [Display(Name = "Foto de Frente")]
-        public string HijostrFotoFrente { get; set; } = "";
-        [Display(Name = "Foto Posterior")]
-        public string HijostrFotoPosterior { get; set; } = "";
-        [Display(Name = "Foto Lateral Izquierdo")]
-        public string HijostrFotoLateralIzquierdo { get; set; } = "";
-        [Display(Name = "Foto Lateral Derecho")]
-        public string HijostrFotoLateralDerecho { get; set; } = "";
-        // public byte[] HijoFotoFrente
-        // {
-        //     get
-        //     {
-        //         return Convert.FromBase64String(HijostrFotoFrente);
-        //     }
-        // }
-        //public byte[] HijoFotoPosterior
-        // {
-        //     get
-        //     {
-        //         return Convert.FromBase64String(HijostrFotoPosterior);
-        //     }
-        // }
-        // public byte[] HijoFotoLateralIzquierdo
-        // {
-        //     get
-        //     {
-        //         return Convert.FromBase64String(HijostrFotoLateralIzquierdo);
-        //     }
-        // }
-        // public byte[] HijoFotoLateralDerecho
-        // {
-        //     get
-        //     {
-        //         return Convert.FromBase64String(HijostrFotoLateralDerecho);
-        //     }
-        // }
 
         public List<DocumentoIdentidadTiposBE> LstTipoDocumentos;
         public List<NacionalidadBE> LstNacionalidades { get; set; }
+        public List<FotosFamiliaresViewModel> LstFotos { get; set; }
         public AgregarHijoViewModel()
         {
             LstTipoDocumentos = new List<DocumentoIdentidadTiposBE>();
             LstNacionalidades = new List<NacionalidadBE>();
-            LstFotos = new List<FotosViewModel>();
+            LstFotos = new List<FotosFamiliaresViewModel>();
             LstTipoDocumentos = new DocumentoIdentidadTiposBL().Consultar_Lista().OrderBy(x => x.Descripcion).ToList();
             LstNacionalidades = new NacionalidadBL().Consultar_Lista().OrderBy(x => x.Nombre).ToList();
         }

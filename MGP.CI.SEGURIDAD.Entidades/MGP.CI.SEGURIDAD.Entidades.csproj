@@ -83,9 +83,12 @@
     <Compile Include="ClaseParcial\UsuariosBE.cs" />
     <Compile Include="ClaseParcial\DocumentoIdentidadTiposBE.cs" />
     <Compile Include="XP1003\DatosFamiliares1003BE.cs" />
+    <Compile Include="XP1003\FamiliarIdiomasBE.cs" />
+    <Compile Include="XP1003\FamiliarIdentificacionBE.cs" />
     <Compile Include="XP1003\DeportesBE.cs" />
     <Compile Include="XP1003\DeportesRealizadosBE.cs" />
     <Compile Include="XP1003\EnfermedadesBE.cs" />
+    <Compile Include="XP1003\FotosFamiliaresBE.cs" />
     <Compile Include="XP1003\FotosDeclarantesBE.cs" />
     <Compile Include="XP1003\FotoTipoBE.cs" />
     <Compile Include="XP1003\ObservacionesBE.cs" />

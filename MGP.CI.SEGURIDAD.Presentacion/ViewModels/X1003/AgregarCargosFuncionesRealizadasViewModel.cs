@@ -17,10 +17,10 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public int CargosFuncionesId { get; set; }
 
         [Display(Name = "Fecha de Inicio")]
-        public DateTime? Asc_Obt_FechaInicio { get; set; }
+        public DateTime? Cargos_Funciones_FechaInicio { get; set; }
 
         [Display(Name = "Fecha de Fin")]
-        public DateTime? Asc_Obt_FechaFin { get; set; }
+        public DateTime? Cargos_Funciones_FechaFin { get; set; }
 
         public List<CargosFuncionesBE> LstCargosFunciones { get; set; }
         public AgregarCargosFuncionesRealizadasViewModel()

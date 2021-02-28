@@ -14,7 +14,36 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
 
         public ObservacionesDA(String BaseDatos) { m_BaseDatos = BaseDatos; }
         public ObservacionesDA() { }
+        public int GetMaxId()
+        {
+            int maxId = -1;
 
+            using (SqlConnection connection = Conectar())
+            {
+                try
+                {
+                    ComandoSP("usp_ObservacionesGetMaxId", connection);
+
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!DBNull.Value.Equals(reader["CodigoMaxId"])) { maxId = Convert.ToInt32(reader["CodigoMaxId"]); }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+            return maxId;
+        }
         public int Insertar(ObservacionesBE e_Observaciones)
         {
             using (SqlConnection connection = Conectar(m_BaseDatos))

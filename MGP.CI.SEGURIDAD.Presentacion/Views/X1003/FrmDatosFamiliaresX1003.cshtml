@@ -77,7 +77,7 @@
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 @Html.LabelFor(x => x.EsposaNacionalidadId, new { @class = "control-label" })
-                                                                @Html.DropDownListFor(model => model.EsposaNacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), new { @class = "form-control" })
+                                                                @Html.DropDownListFor(model => model.EsposaNacionalidadId, new SelectList(Model.LstNacionalidades, "NacionalidadId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
 
                                                             </div>
                                                         </div>
@@ -91,7 +91,7 @@
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 @Html.LabelFor(x => x.EsposaPaisNacimientoId, new { @class = "control-label" })
-                                                                @Html.DropDownListFor(model => model.EsposaPaisNacimientoId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), new { @class = "form-control" })
+                                                                @Html.DropDownListFor(model => model.EsposaPaisNacimientoId, new SelectList(Model.LstPaises, "PaisId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
 
                                                             </div>
                                                         </div>
@@ -101,13 +101,13 @@
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 @Html.LabelFor(x => x.EsposaAProfesionId, new { @class = "control-label" })
-                                                                @Html.DropDownListFor(model => model.EsposaAProfesionId, new SelectList(Model.LstProfesiones, "ProfesionId", "Nombre"), new { @class = "form-control" })
+                                                                @Html.DropDownListFor(model => model.EsposaAProfesionId, new SelectList(Model.LstProfesiones, "ProfesionId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
                                                             </div>
                                                         </div>
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
-                                                            @*<div class="form-group">
+                                                            <div class="form-group">
                                                                 @Html.LabelFor(x => x.EsposaEnfermedadTipoId, new { @class = "control-label" })
-                                                                @Html.DropDownListFor(model => model.EsposaEnfermedadTipoId, new SelectList(Model.LstTipoEnfermedad, "EnfermedadesId", "EnfermedadTipo"), new
+                                                                @Html.DropDownListFor(model => model.EsposaEnfermedadTipoId, new SelectList(Model.LstTipoEnfermedad, "EnfermedadesId", "EnfermedadTipo"), "[--Seleccione--]", new
                                                            {
                                                                @class = "form-control",
                                                                data_type = "listbox-dropdown-list",
@@ -118,7 +118,7 @@
                                                                data_http_method = FormMethod.Get,
                                                                data_url = Url.Action("GetEnfermedadxTipo", "XP1003")
                                                            })
-                                                            </div>*@
+                                                            </div>
                                                         </div>
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
                                                             <div class="form-group">
@@ -148,7 +148,7 @@
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
                                                     <div class="form-group">
                                                         @Html.LabelFor(x => x.EsposaGrupoSanguineoId, new { @class = "control-label" })
-                                                        @Html.DropDownListFor(model => model.EsposaGrupoSanguineoId, new SelectList(Model.LstGrupoSanguineo, "GrupoSanguineoId", "Nombre"), new { @class = "form-control" })
+                                                        @Html.DropDownListFor(model => model.EsposaGrupoSanguineoId, new SelectList(Model.LstGrupoSanguineo, "GrupoSanguineoId", "Nombre"), "[--Seleccione--]", new { @class = "form-control" })
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3 col-md-3 col-lg-3">
@@ -315,6 +315,10 @@
                                                 <th>Nro de Pasaporte</th>
                                                 <th>Nacionalidad</th>
                                                 <th>Parentesco</th>
+                                                <th class="ocultar">FotoFrente</th>
+                                                <th class="ocultar">FotoPosterior</th>
+                                                <th class="ocultar">FotoLadoIzquierdo</th>
+                                                <th class="ocultar">FotoLadoDerecho</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>
@@ -362,6 +366,10 @@
                                                 <th>Nro de Pasaporte</th>
                                                 <th>Nacionalidad</th>
                                                 <th>Parentesco</th>
+                                                <th class="ocultar">FotoFrente</th>
+                                                <th class="ocultar">FotoPosterior</th>
+                                                <th class="ocultar">FotoLadoIzquierdo</th>
+                                                <th class="ocultar">FotoLadoDerecho</th>
                                                 <th>Acciones</th>
                                             </tr>
                                         </thead>

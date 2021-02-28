@@ -22,48 +22,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Views.X1003
         public string FotoLateralIzquierdo { get; set; } = "";
         [Display(Name = "Foto Lateral Derecho")]
         public string FotoLateralDerecho { get; set; } = "";
-
-
-        //public string StrFotoFrente { get; set; } = "";
-        //public string StrFotoPosterior { get; set; } = "";
-        //public string StrFotoLateralIzquierdo { get; set; } = "";
-        //public string StrFotoLateralDerecho { get; set; } = "";
-        //public byte[] Base64FotoFrente { get; set; }
-        //public byte[] Base64FotoPosterior { get; set; }
-        //public byte[] Base64FotoLateralIzquierdo { get; set; }
-        //public byte[] Base64FotoLateralDerecho { get; set; }
-
-
-        //public byte[] Base64FotoFrente
-        //{
-        //    get
-        //    {
-        //        return Convert.FromBase64String(StrFotoFrente);
-        //    }
-        //}
-        //public byte[] Base64FotoPosterior
-        //{
-        //    get
-        //    {
-        //        return Convert.FromBase64String(StrFotoPosterior);
-        //    }
-        //}
-        //public byte[] Base64FotoLateralIzquierdo
-        //{
-        //    get
-        //    {
-        //        return Convert.FromBase64String(StrFotoLateralIzquierdo);
-        //    }
-        //}
-        //public byte[] Base64FotoLateralDerecho
-        //{
-        //    get
-        //    {
-        //        return Convert.FromBase64String(StrFotoLateralDerecho);
-        //    }
-        //}
-
-
+        
         public bool GrabarFotos(int DatosPersonalesId, string Paterno, string Materno, string login)
         {
             int FotoDeclaranteId = new FotosDeclarantesBL().GetMaxId();

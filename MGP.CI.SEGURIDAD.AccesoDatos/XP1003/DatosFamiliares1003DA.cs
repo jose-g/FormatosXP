@@ -65,13 +65,14 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@PaisId", e_DatosFamiliares1003.PaisId);
                     ParametroSP("@LugarNacimiento", e_DatosFamiliares1003.LugarNacimiento);
                     ParametroSP("@GrupoSanguineoId", e_DatosFamiliares1003.GrupoSanguineoId);
-                    ParametroSP("@Enfermedades", e_DatosFamiliares1003.Enfermedades);
-                    ParametroSP("@Alergias", e_DatosFamiliares1003.Alergias);
+                    ParametroSP("@EnfermedadTipoId", e_DatosFamiliares1003.EnfermedadTipoId);
+                    ParametroSP("@EnfermedadId", e_DatosFamiliares1003.EnfermedadId);
                     ParametroSP("@ProfesionId", e_DatosFamiliares1003.ProfesionId);
                     ParametroSP("@Actividades", e_DatosFamiliares1003.Actividades);
                     ParametroSP("@EstadoId", e_DatosFamiliares1003.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_DatosFamiliares1003.UsuarioRegistro);
                     ParametroSP("@NroIpRegistro", e_DatosFamiliares1003.NroIpRegistro);
+                    ParametroSP("@EsResidente", e_DatosFamiliares1003.EsResidente);
                     return comando.ExecuteNonQuery();
                 }
                 catch (SqlException ex)
@@ -105,8 +106,8 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@PaisId", e_DatosFamiliares1003.PaisId);
                     ParametroSP("@LugarNacimiento", e_DatosFamiliares1003.LugarNacimiento);
                     ParametroSP("@GrupoSanguineoId", e_DatosFamiliares1003.GrupoSanguineoId);
-                    ParametroSP("@Enfermedades", e_DatosFamiliares1003.Enfermedades);
-                    ParametroSP("@Alergias", e_DatosFamiliares1003.Alergias);
+                    ParametroSP("@EnfermedadTipoId", e_DatosFamiliares1003.EnfermedadTipoId);
+                    ParametroSP("@EnfermedadId", e_DatosFamiliares1003.EnfermedadId);
                     ParametroSP("@ProfesionId", e_DatosFamiliares1003.ProfesionId);
                     ParametroSP("@Actividades", e_DatosFamiliares1003.Actividades);
                     ParametroSP("@EstadoId", e_DatosFamiliares1003.EstadoId);

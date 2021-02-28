@@ -179,91 +179,91 @@
         var MsjError = "";
 
 
-    $('#FechaNacimiento').datepicker({
-        format: "dd/mm/yyyy"
-    }).on('change', function () {
-        $('.datepicker').hide();
-    });
+        $('#FechaNacimiento').datepicker({
+            format: "dd/mm/yyyy"
+        }).on('change', function () {
+            $('.datepicker').hide();
+        });
 
 
-    // Seccion Declarante
+        // Seccion Declarante
 
 
-    function EliminarDocumentoDeclarante(FilaId) {
-        $('#' + FilaId).remove();
-    }
+        function EliminarDocumentoDeclarante(FilaId) {
+            $('#' + FilaId).remove();
+        }
 
-    $(document).on('click', '#btnNuevoDocumentoDeclarante', function () {
+        $(document).on('click', '#btnNuevoDocumentoDeclarante', function () {
 
-        $.ajax({
-            url:  "@Url.Action("verfrmagregarnuevodocumento", "xp1003")",
-            data: {},
-            type: "post",
-             datatype: 'html',
-             success: function (data) {
+            $.ajax({
+                url:  "@Url.Action("verfrmagregarnuevodocumento", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
                     $('#verDocumentoDeclaranteContainer').html(data);
                     $('#verModalDocumentoDeclarante').modal('show');
                 },
-             error: function (data) {
+                error: function (data) {
                     console.log("sucedió un error")
                 }
+            });
+            return false;
         });
-        return false;
-    });
 
 
 
-    function EncontrarCoincidenciaDocDeclarante(value) {
-        var found = 'false';
-        $('#tblDocumentosDeclarante tbody tr').each(function (index) {
-            $row = $(this);
-            var col1_value = $row.find("td:eq(0)").text();
-            var col2_value = $row.find("td:eq(1)").text();
-            if (col1_value == value || col2_value == value) {
-                found = 'true';
+        function EncontrarCoincidenciaDocDeclarante(value) {
+            var found = 'false';
+            $('#tblDocumentosDeclarante tbody tr').each(function (index) {
+                $row = $(this);
+                var col1_value = $row.find("td:eq(0)").text();
+                var col2_value = $row.find("td:eq(1)").text();
+                if (col1_value == value || col2_value == value) {
+                    found = 'true';
+                }
+            });
+            return found;
+        }
+
+
+        function RegistrarDocDeclaranteInDataTable() {
+
+            var NroDoc = $('#NroDocumentoIdentidad').val();
+            if ($('#NroDocumentoIdentidad').val() == null || $("#NroDocumentoIdentidad").val() == "" || $("#NroDocumentoIdentidad").val().trim().length != 8) {
+                MsjError = ".-Numero de Documento de Identidad no Valido<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+                return false;
             }
-        });
-        return found;
-    }
 
+            if (EncontrarCoincidenciaDocDeclarante(NroDoc) == "true") {
+                MsjError = ".- El Nro de Documento ya fue registrado<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
 
-    function RegistrarDocDeclaranteInDataTable() {
+                return false;
+            }
 
-        var NroDoc = $('#NroDocumentoIdentidad').val();
-        if ($('#NroDocumentoIdentidad').val() == null || $("#NroDocumentoIdentidad").val() == "" || $("#NroDocumentoIdentidad").val().trim().length != 8) {
-            MsjError = ".-Numero de Documento de Identidad no Valido<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
+            $("#frmShowErroUsuario").hide();
+
+            var textoTipoDoc = $("#DocumentoIdentidadTipoId option:selected").text();
+            var valorTipoDoc = $("#DocumentoIdentidadTipoId").val();
+
+            if (EncontrarCoincidenciaDocDeclarante(textoTipoDoc) == "true") {
+                MsjError = ".- El Tipo de Documento ya fue registrado<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+                return false;
+            }
+
+            var idfilaDocDeclarante = $('#NroDocumentoIdentidad').val() + '_' + $('#DocumentoIdentidadTipoId').val();
+            BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoDeclarante(\"" + idfilaDocDeclarante + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+
+            $('#tblDocumentosDeclarante').find('tbody').append('<tr id=' + idfilaDocDeclarante + '><td>' + textoTipoDoc + '</td><td>' + NroDoc + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
+            $('#verModalDocumentoDeclarante').modal('hide');
             return false;
         }
-
-        if (EncontrarCoincidenciaDocDeclarante(NroDoc) == "true") {
-            MsjError = ".- El Nro de Documento ya fue registrado<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
-
-            return false;
-        }
-
-        $("#frmShowErroUsuario").hide();
-
-        var textoTipoDoc = $("#DocumentoIdentidadTipoId option:selected").text();
-        var valorTipoDoc = $("#DocumentoIdentidadTipoId").val();
-
-        if (EncontrarCoincidenciaDocDeclarante(textoTipoDoc) == "true") {
-            MsjError = ".- El Tipo de Documento ya fue registrado<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
-            return false;
-        }
-
-        var idfilaDocDeclarante = $('#NroDocumentoIdentidad').val() + '_' + $('#DocumentoIdentidadTipoId').val();
-        BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoDeclarante(\"" + idfilaDocDeclarante + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-
-        $('#tblDocumentosDeclarante').find('tbody').append('<tr id=' + idfilaDocDeclarante + '><td>' + textoTipoDoc + '</td><td>' + NroDoc + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
-        $('#verModalDocumentoDeclarante').modal('hide');
-        return false;
-    }
 
 
         function GrabarFormDatosExt() {
@@ -306,27 +306,27 @@
             }
 
 
-        ArrayDataTable = new Array();
-        $("#tblDocumentosDeclarante tbody").find("tr").each(function () {
-            var IdRow = $(this).attr('id');
-            var Doc = IdRow.split("_");
-            var valor = {};
-            valor.NroDocumentoIdentidad = Doc[0];
-            valor.DocumentoIdentidadTipoId = Doc[1];
+            ArrayDataTable = new Array();
+            $("#tblDocumentosDeclarante tbody").find("tr").each(function () {
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                var valor = {};
+                valor.NroDocumentoIdentidad = Doc[0];
+                valor.DocumentoIdentidadTipoId = Doc[1];
 
-            ArrayDataTable.push(valor);
-        });
+                ArrayDataTable.push(valor);
+            });
 
-        var lstdoc = jQuery.param({ LstIdentificaciones: ArrayDataTable });
-        var lstfotos = jQuery.param({ LstFotos: ArrayFotos });
+            var lstdoc = jQuery.param({ LstIdentificaciones: ArrayDataTable });
+            var lstfotos = jQuery.param({ LstFotos: ArrayFotos });
 
-        $.ajax({
-            url: "@Url.Action("GrabarDatosPersonales", "XP1003")",
-            data: $('#FrmGrabarDatosExtranjero').serialize() + "&" + lstdoc + "&" + lstfotos,
+            $.ajax({
+                url: "@Url.Action("GrabarDatosPersonales", "XP1003")",
+                data: $('#FrmGrabarDatosExtranjero').serialize() + "&" + lstdoc + "&" + lstfotos,
 
-            type: "POST",
-            dataType: 'JSON',
-            success: function (data) {
+                type: "POST",
+                dataType: 'JSON',
+                success: function (data) {
                     if (data.success == true) {
                         $.notify("Operación satisfactoria..", "success");
 
@@ -344,25 +344,25 @@
                 }
 
             });
-        return false;
-
-    }
-
-    function ValidarNroDocumentoDeclarante(e) {
-        var evt = (e) ? e : window.event;
-        var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
-
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
             return false;
+
         }
-    }
+
+        function ValidarNroDocumentoDeclarante(e) {
+            var evt = (e) ? e : window.event;
+            var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
+
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+        }
 
 
 
 
 
 
-    // Seccion Esposa
+        // Seccion Esposa
 
         $('#EsposaFechaNacimiento').datepicker({
             format: "dd/mm/yyyy"
@@ -370,121 +370,186 @@
             $('.datepicker').hide();
         });
 
-    function GrabarFormDatosFamExt() {
+        function GrabarFormDatosFamExt() {
 
-    if ($('#tblDocumentosEsposa tbody tr').length == 0) {
-        $("#frmShowErroFamiliar").show();
-        $("#frmShowErroFamiliar").html("Faltan Registrar Documentos");
-                $.notify("Ocurrio un error", "error");
-                return false;
-    }
-      if ($('#tblHijos tbody tr').length == 0) {
-          $("#frmShowErroFamiliar").show();
-          $("#frmShowErroFamiliar").html("Faltan Registrar Hijos");
-          $.notify("Ocurrio un error", "error");
-          return false;
-      }
+            var foto1 = $('#imgfileesposafoto1').attr('src');
+            //if ((foto1 == null) || foto1.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto de Frente<br>";
+            //    return false;
+            //}
+            var foto2 = $('#imgfileesposafoto2').attr('src');
+            //if ((foto2 == null) || foto2.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto posterior<br>";
+            //    return false;
+            //}
+            var foto3 = $('#imgfileesposafoto3').attr('src');
+            //if ((foto3 == null) || foto3.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto Perfil izquierdo<br>";
+            //    return false;
+            //}
+            var foto4 = $('#imgfileesposafoto4').attr('src');
+            //if ((foto4 == null) || foto4.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto perfil derecho<br>";
+            //    return false;
+            //}
 
-      if ($('#tblFamiliares tbody tr').length == 0) {
-          $("#frmShowErroFamiliar").show();
-          $("#frmShowErroFamiliar").html("Faltan Registrar Familiares");
-          $.notify("Ocurrio un error", "error");
-          return false;
-      }
-
-
-      if ($('#tblFamiliaresResidentes tbody tr').length == 0) {
-          $("#frmShowErroFamiliar").show();
-          $("#frmShowErroFamiliar").html("Faltan Registrar Familiares Residentes");
-          $.notify("Ocurrio un error", "error");
-          return false;
-      }
-
-        ArrayDocEsposa = new Array();
-        $("#tblDocumentosEsposa tbody").find("tr").each(function () {
-            var IdRow = $(this).attr('id');
-            var Doc = IdRow.split("_");
+            ArrayFotos = new Array();
             var valor = {};
-            valor.NroDocumentoIdentidad = Doc[0];
-            valor.DocumentoIdentidadTipoId = Doc[1];
+            valor.FotoFrente = (foto1.search("Content") == -1 ? foto1 : '');
+            valor.FotoPosterior = (foto2.search("Content") == -1 ? foto2 : '');
+            valor.FotoLateralIzquierdo = (foto3.search("Content") == -1 ? foto3 : '');
+            valor.FotoLateralDerecho = (foto4.search("Content") == -1 ? foto4 : '');
+            ArrayFotos.push(valor);
 
-            ArrayDocEsposa.push(valor);
-        });
+            //if ($('#tblDocumentosEsposa tbody tr').length == 0) {
+            //    $("#frmShowErroFamiliar").show();
+            //    $("#frmShowErroFamiliar").html("Faltan Registrar Documentos");
+            //            $.notify("Ocurrio un error", "error");
+            //            return false;
+            //}
+            //if ($('#tblHijos tbody tr').length == 0) {
+            //    $("#frmShowErroFamiliar").show();
+            //    $("#frmShowErroFamiliar").html("Faltan Registrar Hijos");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
 
-
-      ArrayHijos= new Array();
-      $("#tblHijos tbody").find("tr").each(function () {
-          var IdRow = $(this).attr('id');
-          var Doc = IdRow.split("_");
-          var valor = {};
-          valor.HijoNroDocumentoIdentidad  = Doc[0];
-          valor.HijoDocumentoIdentidadTipoId = Doc[1];
-          valor.HijoNacionalidadId = Doc[2];
-          //valor.LstFotos.FotoFrente =
-          //valor.LstFotos.FotoPosterior =
-          //valor.LstFotos.FotoLateralIzquierdo =
-          //valor.LstFotos.FotoLateralDerecho =
-          valor.HijoPaterno = $('#HijoPaterno').val();
-          valor.HijoMaterno = $('#HijoMaterno').val();
-          valor.HijoNombre1 = $('#HijoNombre1').val();
-          valor.HijoNombre2 = $('#HijoNombre2').val();
-          valor.HijoNombre3 = $('#HijoNombre3').val();
-          valor.HijoFechaNacimiento = $('#HijoFechaNacimiento').val();
-
-          ArrayHijos.push(valor);
-      });
-
-      ArrayFamiliares = new Array();
-      $("#tblFamiliares tbody").find("tr").each(function () {
-          var IdRow = $(this).attr('id');
-          var Doc = IdRow.split("_");
-          var valor = {};
-          valor.HijoDocumentoIdentidadTipoId = Doc[1];
-          valor.FamiliarParentescoId = Doc[2];
-          valor.FamiliarPaterno = $('#FamiliarPaterno').val();
-          valor.FamiliarMaterno = $('#FamiliarMaterno').val();
-          valor.FamiliarNombre1 = $('#FamiliarNombre1').val();
-          valor.FamiliarNombre2 = $('#FamiliarNombre2').val();
-          valor.FamiliarNombre3 = $('#FamiliarNombre3').val();
-          valor.FamiliarFechaNacimiento = $('#FamiliarFechaNacimiento').val();
-
-          ArrayFamiliares.push(valor);
-      });
-
-      ArrayFamiliaresResidentes = new Array();
-      $("#tblFamiliaresResidentes tbody").find("tr").each(function () {
-          var IdRow = $(this).attr('id');
-          var Doc = IdRow.split("_");
-          var valor = {};
-          valor.ResidenteNacionalidadId = Doc[1];
-          valor.ResidenteParentescoId = Doc[2];
-          valor.ResidentePaterno = $('#ResidentePaterno').val();
-          valor.ResidenteMaterno = $('#ResidenteMaterno').val();
-          valor.ResidenteNombre1 = $('#ResidenteNombre1').val();
-          valor.ResidenteNombre2 = $('#ResidenteNombre2').val();
-          valor.ResidenteNombre3 = $('#ResidenteNombre3').val();
-          valor.ResidenteFechaNacimiento = $('#ResidenteFechaNacimiento').val();
-
-          ArrayFamiliaresResidentes.push(valor);
-      });
+            //if ($('#tblFamiliares tbody tr').length == 0) {
+            //    $("#frmShowErroFamiliar").show();
+            //    $("#frmShowErroFamiliar").html("Faltan Registrar Familiares");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
 
 
-      var fichaId = $('#FichaId').val();
-      var lstdoc = jQuery.param({ LstIdentificaciones: ArrayDocEsposa });
-      var lsthijos = jQuery.param({ LstHijos: ArrayHijos });
-      var lstfam = jQuery.param({ LstFamiliares: ArrayFamiliares });
-      var lstres = jQuery.param({ LstFamResidentes: ArrayFamiliaresResidentes });
-      var lstidiomas = jQuery.param({ LstIdiomas: $("#LstIdiomas").val()});
+            //if ($('#tblFamiliaresResidentes tbody tr').length == 0) {
+            //    $("#frmShowErroFamiliar").show();
+            //    $("#frmShowErroFamiliar").html("Faltan Registrar Familiares Residentes");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            ArrayDocEsposa = new Array();
+            $("#tblDocumentosEsposa tbody").find("tr").each(function () {
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                var valor = {};
+                valor.NroDocumentoIdentidad = Doc[0];
+                valor.DocumentoIdentidadTipoId = Doc[1];
+
+                ArrayDocEsposa.push(valor);
+            });
+
+
+            ArrayHijos = new Array();
+            $("#tblHijos tbody").find("tr").each(function () {
+                var valor = {};
+                var $tds = $(this).find('td');
+                valor.HijoPaterno = $tds.eq(0).text();
+                valor.HijoMaterno = $tds.eq(1).text();
+                valor.HijoNombre1 = $tds.eq(2).text();
+                valor.HijoNombre2 = $tds.eq(3).text();
+                valor.HijoNombre3 = $tds.eq(4).text();
+                valor.HijoFechaNacimiento = $tds.eq(5).text();
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                valor.HijoNroDocumentoIdentidad = Doc[0];
+                valor.HijoDocumentoIdentidadTipoId = Doc[1];
+                valor.HijoNacionalidadId = Doc[2];
+                var foto1 = $tds.eq(9).text();
+                var foto2 = $tds.eq(10).text();
+                var foto3 = $tds.eq(11).text();
+                var foto4 = $tds.eq(12).text();
+                var foto = {};
+                ArrayFotosHijos = new Array();
+                foto.FotoFrente = (foto1.search("Content")==-1 ? foto1 : '');
+                foto.FotoPosterior = (foto2.search("Content") == -1 ? foto2 : '');
+                foto.FotoLateralIzquierdo = (foto3.search("Content") == -1 ? foto3 : '');
+                foto.FotoLateralDerecho = (foto4.search("Content") == -1 ? foto4 : '');
+                ArrayFotosHijos.push(foto);
+                valor.LstFotos = ArrayFotosHijos;
+                ArrayHijos.push(valor);
+            });
+
+            ArrayFamiliares = new Array();
+            $("#tblFamiliares tbody").find("tr").each(function () {
+                var valor = {};
+                var $tds = $(this).find('td');
+                valor.FamiliarPaterno = $tds.eq(0).text();
+                valor.FamiliarMaterno = $tds.eq(1).text();
+                valor.FamiliarNombre1 = $tds.eq(2).text();
+                valor.FamiliarNombre2 = $tds.eq(3).text();
+                valor.FamiliarNombre3 = $tds.eq(4).text();
+                valor.FamiliarFechaNacimiento = $tds.eq(5).text();
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                valor.FamiliarDocumentoIdentidadTipoId = Doc[1];
+                valor.FamiliarParentescoId = Doc[3];
+                valor.FamiliarNroDocumentoIdentidad = Doc[0];
+                valor.FamiliarNacionalidadId = Doc[2];
+                var foto1 = $tds.eq(10).text();
+                var foto2 = $tds.eq(11).text();
+                var foto3 = $tds.eq(12).text();
+                var foto4 = $tds.eq(13).text();
+                var foto = {};
+                ArrayFotosFamiliares = new Array();
+                foto.FotoFrente = (foto1.search("Content") == -1 ? foto1 : '');
+                foto.FotoPosterior = (foto2.search("Content") == -1 ? foto2 : '');
+                foto.FotoLateralIzquierdo = (foto3.search("Content") == -1 ? foto3 : '');
+                foto.FotoLateralDerecho = (foto4.search("Content") == -1 ? foto4 : '');
+                ArrayFotosFamiliares.push(foto);
+                valor.LstFotos = ArrayFotosFamiliares;
+                ArrayFamiliares.push(valor);
+            });
+
+            ArrayFamiliaresResidentes = new Array();
+            $("#tblFamiliaresResidentes tbody").find("tr").each(function () {
+                var valor = {};
+                var $tds = $(this).find('td');
+                valor.ResidentePaterno = $tds.eq(0).text();
+                valor.ResidenteMaterno = $tds.eq(1).text();
+                valor.ResidenteNombre1 = $tds.eq(2).text();
+                valor.ResidenteNombre2 = $tds.eq(3).text();
+                valor.ResidenteNombre1 = $tds.eq(4).text();
+                valor.ResidenteFechaNacimiento = $tds.eq(5).text();
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                valor.ResidenteDocumentoIdentidadTipoId = Doc[1];
+                valor.ResidenteParentescoId = Doc[3];
+                valor.ResidenteNroDocumentoIdentidad = Doc[0];
+                valor.ResidenteNacionalidadId = Doc[2];
+                var foto1 = $tds.eq(10).text();
+                var foto2 = $tds.eq(11).text();
+                var foto3 = $tds.eq(12).text();
+                var foto4 = $tds.eq(13).text();
+                var foto = {};
+                ArrayFotosFamiliaresResidentes = new Array();
+                foto.FotoFrente = (foto1.search("Content") == -1 ? foto1 : '');
+                foto.FotoPosterior = (foto2.search("Content") == -1 ? foto2 : '');
+                foto.FotoLateralIzquierdo = (foto3.search("Content") == -1 ? foto3 : '');
+                foto.FotoLateralDerecho = (foto4.search("Content") == -1 ? foto4 : '');
+                ArrayFotosFamiliaresResidentes.push(foto);
+                valor.LstFotos = ArrayFotosFamiliaresResidentes;
+                ArrayFamiliaresResidentes.push(valor);
+            });
+
+
+            var fichaId = $('#FichaId').val();
+            var lstdoc = jQuery.param({ LstIdentificaciones: ArrayDocEsposa });
+            var lsthijos = jQuery.param({ LstHijos: ArrayHijos });
+            var lstfam = jQuery.param({ LstFamiliares: ArrayFamiliares });
+            var lstres = jQuery.param({ LstFamResidentes: ArrayFamiliaresResidentes });
+            var lstidiomas = jQuery.param({ LstIdiomas: $("#LstIdiomas").val()});
+            var lstfotos = jQuery.param({ LstFotos: ArrayFotos });
 
 
 
-
-      $.ajax({
-          url: "@Url.Action("GrabarDatosFamiliares", "XP1003")",
-          data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas,
-            type: "POST",
-            dataType: 'JSON',
-            success: function (data) {
+            $.ajax({
+                url: "@Url.Action("GrabarDatosFamiliares", "XP1003")",
+                data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas + "&" + lstfotos,
+                type: "POST",
+                dataType: 'JSON',
+                success: function (data) {
                     if (data.success == true) {
                         $.notify("Operación satisfactoria..", "success");
                         return false;
@@ -499,223 +564,222 @@
                 }
 
             });
-        return false;
-
+            return false;
         }
 
 
 
 
 
-    function EliminarDocumentoEsposa(FilaId) {
-        $('#' + FilaId).remove();
-    }
+        function EliminarDocumentoEsposa(FilaId) {
+            $('#' + FilaId).remove();
+        }
 
-    $(document).on('click', '#btnNuevoDocumentoEsposa', function () {
+        $(document).on('click', '#btnNuevoDocumentoEsposa', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarNuevoDocumentoEsposa", "xp1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verDocumentoEsposaContainer').html(data);
-                $('#verModalDocumentoEsposa').modal('show');
-             },
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarNuevoDocumentoEsposa", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verDocumentoEsposaContainer').html(data);
+                    $('#verModalDocumentoEsposa').modal('show');
+                },
                 error: function (data) {
                     console.log("sucedió un error")
                 }
             });
-        return false;
-    });
-
-    function EncontrarCoincidenciaDocEsposa(value) {
-        var found = 'false';
-        $('#tblDocumentosEsposa tbody tr').each(function (index) {
-            $row = $(this);
-            var col1_value = $row.find("td:eq(0)").text();
-            var col2_value = $row.find("td:eq(1)").text();
-            if (col1_value == value || col2_value == value) {
-                found = 'true';
-            }
+            return false;
         });
-        return found;
-    }
 
-
-    function RegistrarDocumentoEsposaInDataTable() {
-
-        var NroDoc = $('#NroDocumentoIdentidad').val();
-        if ($('#NroDocumentoIdentidad').val() == null || $("#NroDocumentoIdentidad").val() == "" || $("#NroDocumentoIdentidad").val().trim().length != 8) {
-            MsjError = ".-Numero de Documento de Identidad no Valido<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
-            return false;
+        function EncontrarCoincidenciaDocEsposa(value) {
+            var found = 'false';
+            $('#tblDocumentosEsposa tbody tr').each(function (index) {
+                $row = $(this);
+                var col1_value = $row.find("td:eq(0)").text();
+                var col2_value = $row.find("td:eq(1)").text();
+                if (col1_value == value || col2_value == value) {
+                    found = 'true';
+                }
+            });
+            return found;
         }
 
-        if (EncontrarCoincidenciaDocEsposa(NroDoc) == "true") {
-            MsjError = ".- El Nro de Documento ya fue registrado<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
 
-            return false;
-        }
+        function RegistrarDocumentoEsposaInDataTable() {
 
-        $("#frmShowErroUsuario").hide();
-
-        var textoTipoDoc = $("#DocumentoIdentidadTipoId option:selected").text();
-
-        if (EncontrarCoincidenciaDocEsposa(textoTipoDoc) == "true") {
-            MsjError = ".- El Tipo de Documento ya fue registrado<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
-            return false;
-        }
-
-        var idfilaDocEsposa = $('#NroDocumentoIdentidad').val() + '_' +  $('#DocumentoIdentidadTipoId').val();
-
-        BtnEliminarEsposa = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDocEsposa + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-
-        $('#tblDocumentosEsposa').find('tbody').append('<tr id=' + idfilaDocEsposa + '><td>' + textoTipoDoc + '</td><td>' + NroDoc + '</td><td>' + BtnEliminarEsposa+ '</td></tr>');
-        $('#verModalDocumentoEsposa').modal('hide');
-        return false;
-    }
-
-    function ValidarNroDocumentoEsposa(e) {
-        var evt = (e) ? e : window.event;
-        var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
-
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //Seccion Hijos
-
-    function EliminarRegistroHijo(FilaId) {
-        $('#' + FilaId).remove();
-    }
-
-    $(document).on('click', '#btnNuevoHijo', function () {
-
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarNuevoHijo", "xp1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarHijoContainer').html(data);
-                $('#verModalAgregarHijo').modal('show');
-                $('#HijoFechaNacimiento').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-            },
-            error: function (data) {
-                console.log("sucedió un error")
+            var NroDoc = $('#NroDocumentoIdentidad').val();
+            if ($('#NroDocumentoIdentidad').val() == null || $("#NroDocumentoIdentidad").val() == "" || $("#NroDocumentoIdentidad").val().trim().length != 8) {
+                MsjError = ".-Numero de Documento de Identidad no Valido<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+                return false;
             }
+
+            if (EncontrarCoincidenciaDocEsposa(NroDoc) == "true") {
+                MsjError = ".- El Nro de Documento ya fue registrado<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+
+                return false;
+            }
+
+            $("#frmShowErroUsuario").hide();
+
+            var textoTipoDoc = $("#DocumentoIdentidadTipoId option:selected").text();
+
+            if (EncontrarCoincidenciaDocEsposa(textoTipoDoc) == "true") {
+                MsjError = ".- El Tipo de Documento ya fue registrado<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+                return false;
+            }
+
+            var idfilaDocEsposa = $('#NroDocumentoIdentidad').val() + '_' +  $('#DocumentoIdentidadTipoId').val();
+
+            BtnEliminarEsposa = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDocEsposa + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+
+            $('#tblDocumentosEsposa').find('tbody').append('<tr id=' + idfilaDocEsposa + '><td>' + textoTipoDoc + '</td><td>' + NroDoc + '</td><td>' + BtnEliminarEsposa+ '</td></tr>');
+            $('#verModalDocumentoEsposa').modal('hide');
+            return false;
+        }
+
+        function ValidarNroDocumentoEsposa(e) {
+            var evt = (e) ? e : window.event;
+            var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
+
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //Seccion Hijos
+
+        function EliminarRegistroHijo(FilaId) {
+            $('#' + FilaId).remove();
+        }
+
+        $(document).on('click', '#btnNuevoHijo', function () {
+
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarNuevoHijo", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarHijoContainer').html(data);
+                    $('#verModalAgregarHijo').modal('show');
+                    $('#HijoFechaNacimiento').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-        return false;
-    });
 
 
 
-    function EncontrarCoincidenciaHijo() {
-        m_paterno = $('#HijoPaterno').val();
-        m_materno = $('#HijoMaterno').val();
-        m_nombre1 = $('#HijoNombre1').val();
-        m_nombre2 = $('#HijoNombre2').val();
-        m_nombre3 = $('#HijoNombre3').val();
-        m_tipodoc = $("#HijoDocumentoIdentidadTipoId option:selected").text()
-        m_nrodoc = $('#HijoNroDocumentoIdentidad').val();
+        function EncontrarCoincidenciaHijo() {
+            m_paterno = $('#HijoPaterno').val();
+            m_materno = $('#HijoMaterno').val();
+            m_nombre1 = $('#HijoNombre1').val();
+            m_nombre2 = $('#HijoNombre2').val();
+            m_nombre3 = $('#HijoNombre3').val();
+            m_tipodoc = $("#HijoDocumentoIdentidadTipoId option:selected").text()
+            m_nrodoc = $('#HijoNroDocumentoIdentidad').val();
 
-        var found = 'false';
-        $('#tblHijos tbody tr').each(function (index) {
-            $row = $(this);
-            var paterno = $row.find("td:eq(0)").text();
-            var materno = $row.find("td:eq(1)").text();
-            var nombre1 = $row.find("td:eq(2)").text();
-            var nombre2 = $row.find("td:eq(3)").text();
-            var nombre3 = $row.find("td:eq(4)").text();
-            var tipodoc = $row.find("td:eq(7)").text();
-            var nrodoc = $row.find("td:eq(8)").text();
-            if (paterno == m_paterno && materno == m_materno && nombre1 == m_nombre1 && nombre2 == m_nombre2 && nombre3 == m_nombre3) {
-                found = 'true';
+            var found = 'false';
+            $('#tblHijos tbody tr').each(function (index) {
+                $row = $(this);
+                var paterno = $row.find("td:eq(0)").text();
+                var materno = $row.find("td:eq(1)").text();
+                var nombre1 = $row.find("td:eq(2)").text();
+                var nombre2 = $row.find("td:eq(3)").text();
+                var nombre3 = $row.find("td:eq(4)").text();
+                var tipodoc = $row.find("td:eq(7)").text();
+                var nrodoc = $row.find("td:eq(8)").text();
+                if (paterno == m_paterno && materno == m_materno && nombre1 == m_nombre1 && nombre2 == m_nombre2 && nombre3 == m_nombre3) {
+                    found = 'true';
+                }
+                if (nrodoc == m_nrodoc && tipodoc == m_tipodoc) {
+                    found = 'true';
+                }
+
+
+
+            });
+            return found;
+        }
+
+        function RegistrarHijoInDataTable() {
+            MsjError = null;
+
+            if ($('#HijoPaterno').val() == null || $("#HijoPaterno").val() == "")
+                MsjError = MsjError + ".- Apellido Paterno no Valido <br>";
+            if ($('#HijoMaterno').val() == null || $("#HijoMaterno").val() == "")
+                MsjError = MsjError + ".- Apellido Materno no válido <br>";
+            if ($('#HijoNombre1').val() == null || $("#HijoNombre1").val() == "")
+                MsjError = MsjError + ".- Nombre 1 no válido <br>";
+            if ($('#HijoNombre2').val() == null || $("#HijoNombre2").val() == "")
+                MsjError = MsjError + ".- Nombre 2 no Válido <br>";
+            if ($('#HijoNombre3').val() == null || $("#HijoNombre3").val() == "")
+                MsjError = MsjError + ".- Nombre 3 no Valido <br>";
+            if ($('#HijoFechaNacimiento').val() == null || $("#HijoFechaNacimiento").val() == "")
+                MsjError = MsjError + ".- Fecha de Nacimiento no Valido <br>";
+            if ($('#HijoNroDocumentoIdentidad').val() == null || $("#HijoNroDocumentoIdentidad").val() == "" || $("#HijoNroDocumentoIdentidad").val().trim().length != 8)
+                MsjError = MsjError + ".- Documento de Identidad no Valido<br>";
+
+            if (MsjError != null) {
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+                return false;
             }
-            if (nrodoc == m_nrodoc && tipodoc == m_tipodoc) {
-                found = 'true';
+            $("#frmShowErroUsuario").hide();
+
+            if (EncontrarCoincidenciaHijo() == "true") {
+                MsjError = ".- El hijo ya ha sido registrado<br>";
+                $("#frmShowErrorPopup").show();
+                $("#frmShowErrorPopup").html(MsjError);
+
+                return false;
             }
 
+            $("#frmShowErroUsuario").hide();
+            var idfilahijo = $('#HijoNroDocumentoIdentidad').val() + '_' + $('#HijoDocumentoIdentidadTipoId').val() + '_' + $('#HijoNacionalidadId').val();
 
+            BtnEliminarHijo = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroHijo' onclick='EliminarRegistroHijo(\"" + idfilahijo + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
 
-        });
-        return found;
-    }
-
-    function RegistrarHijoInDataTable() {
-        MsjError = null;
-
-        if ($('#HijoPaterno').val() == null || $("#HijoPaterno").val() == "")
-            MsjError = MsjError + ".- Apellido Paterno no Valido <br>";
-        if ($('#HijoMaterno').val() == null || $("#HijoMaterno").val() == "")
-            MsjError = MsjError + ".- Apellido Materno no válido <br>";
-        if ($('#HijoNombre1').val() == null || $("#HijoNombre1").val() == "")
-            MsjError = MsjError + ".- Nombre 1 no válido <br>";
-        if ($('#HijoNombre2').val() == null || $("#HijoNombre2").val() == "")
-            MsjError = MsjError + ".- Nombre 2 no Válido <br>";
-        if ($('#HijoNombre3').val() == null || $("#HijoNombre3").val() == "")
-            MsjError = MsjError + ".- Nombre 3 no Valido <br>";
-        if ($('#HijoFechaNacimiento').val() == null || $("#HijoFechaNacimiento").val() == "")
-            MsjError = MsjError + ".- Fecha de Nacimiento no Valido <br>";
-        if ($('#HijoNroDocumentoIdentidad').val() == null || $("#HijoNroDocumentoIdentidad").val() == "" || $("#HijoNroDocumentoIdentidad").val().trim().length != 8)
-            MsjError = MsjError + ".- Documento de Identidad no Valido<br>";
-
-        if (MsjError != null) {
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
-            return false;
-        }
-        $("#frmShowErroUsuario").hide();
-
-        if (EncontrarCoincidenciaHijo() == "true") {
-            MsjError = ".- El hijo ya ha sido registrado<br>";
-            $("#frmShowErrorPopup").show();
-            $("#frmShowErrorPopup").html(MsjError);
-
+            $('#tblHijos').find('tbody').append('<tr id=' + idfilahijo + '><td>' + $('#HijoPaterno').val() + '</td><td>' + $('#HijoMaterno').val() + '</td><td>' + $('#HijoNombre1').val() + '</td><td>' + $('#HijoNombre2').val() + '</td><td>' + $('#HijoNombre3').val() + '</td><td>' + $('#HijoFechaNacimiento').val() + '</td><td>' + $("#HijoDocumentoIdentidadTipoId option:selected").text() + '</td><td>' + $('#HijoNroDocumentoIdentidad').val() + '</td><td>' + $("#HijoNacionalidadId option:selected").text() + '</td><td class="ocultar">' + $('#imgfilehijofoto1').attr('src') + '</td><td class="ocultar">' + $('#imgfilehijofoto2').attr('src') + '</td><td class="ocultar">' + $('#imgfilehijofoto3').attr('src') + '</td><td class="ocultar">' + $('#imgfilehijofoto4').attr('src') + '</td><td>' + BtnEliminarHijo + '</td></tr>');
+            $('#verModalAgregarHijo').modal('hide');
             return false;
         }
 
-        $("#frmShowErroUsuario").hide();
-        var idfilahijo = $('#HijoNroDocumentoIdentidad').val() + '_' + $('#HijoDocumentoIdentidadTipoId').val() + '_' + $('#HijoNacionalidadId').val();
+        function ValidarNroDocumentoHijo(e) {
+            var evt = (e) ? e : window.event;
+            var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
 
-        BtnEliminarHijo = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroHijo' onclick='EliminarRegistroHijo(\"" + idfilahijo + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-
-        $('#tblHijos').find('tbody').append('<tr id=' + idfilahijo + '><td>' + $('#HijoPaterno').val() + '</td><td>' + $('#HijoMaterno').val() + '</td><td>' + $('#HijoNombre1').val() + '</td><td>' + $('#HijoNombre2').val() + '</td><td>' + $('#HijoNombre3').val() + '</td><td>' + $('#HijoFechaNacimiento').val() + '</td><td>' + $("#HijoDocumentoIdentidadTipoId option:selected").text() + '</td><td>' + $('#HijoNroDocumentoIdentidad').val() + '</td><td>'  + $("#HijoNacionalidadId option:selected").text() + '</td><td>' + BtnEliminarHijo + '</td></tr>');
-        $('#verModalAgregarHijo').modal('hide');
-        return false;
-    }
-
-    function ValidarNroDocumentoHijo(e) {
-        var evt = (e) ? e : window.event;
-        var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
-
-        if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-            return false;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
         }
-    }
 
 
 
@@ -727,200 +791,200 @@
 
 
 
-    //Seccion Familiares que lo Acompañan
+        //Seccion Familiares que lo Acompañan
 
-    function EliminarRegistroFamiliar(FilaId) {
-        $('#' + FilaId).remove();
-    }
+        function EliminarRegistroFamiliar(FilaId) {
+            $('#' + FilaId).remove();
+        }
 
         $(document).on('click', '#btnNuevoFamiliar', function () {
 
-                $.ajax({
-                    url:  "@Url.Action("VerFrmAgregarNuevoFamiliar", "xp1003")",
-                    data: {},
-                    type: "post",
-                    datatype: 'html',
-                    success: function (data) {
-                        $('#verAgregarFamiliarContainer').html(data);
-                        $('#verModalAgregarFamiliar').modal('show');
-                        $('#FamiliarFechaNacimiento').datepicker({
-                            format: "dd/mm/yyyy"
-                        }).on('change', function () {
-                            $('.datepicker').hide();
-                        });
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarNuevoFamiliar", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarFamiliarContainer').html(data);
+                    $('#verModalAgregarFamiliar').modal('show');
+                    $('#FamiliarFechaNacimiento').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
 
-                    },
-                    error: function (data) {
-                        console.log("sucedió un error")
-                    }
-                });
-        return false;
-    });
-
-    function RegistrarFamiliarInDataTable() {
-        MsjError = null;
-
-        if ($('#FamiliarPaterno').val() == null || $("#FamiliarPaterno").val() == "")
-            MsjError = MsjError + ".- Apellido Paterno no Valido <br>";
-        if ($('#FamiliarMaterno').val() == null || $("#FamiliarMaterno").val() == "")
-            MsjError = MsjError + ".- Apellido Materno no válido <br>";
-        if ($('#FamiliarNombre1').val() == null || $("#FamiliarNombre1").val() == "")
-            MsjError = MsjError + ".- Nombre 1 no válido <br>";
-        if ($('#FamiliarNombre2').val() == null || $("#FamiliarNombre2").val() == "")
-            MsjError = MsjError + ".- Nombre 2 no Válido <br>";
-        if ($('#FamiliarNombre3').val() == null || $("#FamiliarNombre3").val() == "")
-            MsjError = MsjError + ".- Nombre 3 no Valido <br>";
-        if ($('#FamiliarFechaNacimiento').val() == null || $("#FamiliarFechaNacimiento").val() == "")
-            MsjError = MsjError + ".- Fecha de Nacimiento no Valido <br>";
-        if ($('#FamiliarNroDocumentoIdentidad').val() == null || $("#FamiliarNroDocumentoIdentidad").val() == "")
-            MsjError = MsjError + ".- Nro Documento no Valido <br>";
-
-
-        if (MsjError != null) {
-            $("#frmShowErrorPopupFamiliar").show();
-            $("#frmShowErrorPopupFamiliar").html(MsjError);
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
             return false;
-        }
-        $("#frmShowErroUsuario").hide();
-
-        if (EncontrarCoincidenciaFamiliar() == "true") {
-            MsjError = ".- El Familiar ya ha sido registrado<br>";
-            $("#frmShowErrorPopupFamiliar").show();
-            $("#frmShowErrorPopupFamiliar").html(MsjError);
-
-            return false;
-        }
-
-        $("#frmShowErrorPopupFamiliar").hide();
-
-        var idfilafamiliar = $("#FamiliarFechaNacimiento").datepicker('getDate').getTime() + '_' + $('#FamiliarNacionalidadId').val() + '_' + $('#FamiliarParentescoId').val();
-        BtnEliminarFamiliar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroHijo' onclick='EliminarRegistroHijo(\"" + idfilafamiliar + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-        $('#tblFamiliares').find('tbody').append('<tr id=' + idfilafamiliar + '><td>' + $('#FamiliarPaterno').val() + '</td><td>' + $('#FamiliarMaterno').val() + '</td><td>' + $('#FamiliarNombre1').val() + '</td><td>' + $('#FamiliarNombre2').val() + '</td><td>' + $('#FamiliarNombre3').val() + '</td><td>' + $('#FamiliarFechaNacimiento').val() + '</td><td>' + $("#FamiliarDocumentoIdentidadTipoId option:selected").text() + '</td><td>' + $('#FamiliarNroDocumentoIdentidad').val() + '</td><td>' + $("#FamiliarNacionalidadId option:selected").text() + '</td><td>' + $("#FamiliarParentescoId option:selected").text() + '</td><td>' + BtnEliminarFamiliar + '</td></tr>');
-        $('#verModalAgregarFamiliar').modal('hide');
-        return false;
-    }
-
-    function EncontrarCoincidenciaFamiliar() {
-        m_paterno = $('#FamiliarPaterno').val();
-        m_materno = $('#FamiliarMaterno').val();
-        m_nombre1 = $('#FamiliarNombre1').val();
-        m_nombre2 = $('#FamiliarNombre2').val();
-        m_nombre3 = $('#FamiliarNombre3').val();
-        m_tipodoc = $("#FamiliarDocumentoIdentidadTipoId option:selected").text();
-        m_nrodocumento = $('#FamiliarNroDocumentoIdentidad').val();
-
-
-        var found = 'false';
-        $('#tblFamiliares tbody tr').each(function (index) {
-            $row = $(this);
-            var paterno = $row.find("td:eq(0)").text();
-            var materno = $row.find("td:eq(1)").text();
-            var nombre1 = $row.find("td:eq(2)").text();
-            var nombre2 = $row.find("td:eq(3)").text();
-            var nombre3 = $row.find("td:eq(4)").text();
-            var tipodoc = $row.find("td:eq(6)").text();
-            var nrodocumento = $row.find("td:eq(7)").text();
-            if ((paterno == m_paterno && materno == m_materno && nombre1 == m_nombre1 && nombre2 == m_nombre2 && nombre3 == m_nombre3) || (tipodoc == m_tipodoc && nrodocumento==m_nrodocumento)) {
-                found = 'true';
-        }
-    });
-    return found;
-    }
-
-    //Seccion Familiares Residentes
-
-   function EliminarRegistroFamiliarResidente(FilaId) {
-        $('#' + FilaId).remove();
-   }
-
-    $(document).on('click', '#btnNuevoFamiliarResidente', function () {
-
-                $.ajax({
-                    url:  "@Url.Action("VerFrmAgregarNuevoResidente", "xp1003")",
-                    data: {},
-                    type: "post",
-                    datatype: 'html',
-                    success: function (data) {
-                        $('#verAgregarFamiliarResidenteContainer').html(data);
-                        $('#verModalAgregarFamiliarResidente').modal('show');
-                        $('#ResidenteFechaNacimiento').datepicker({
-                            format: "dd/mm/yyyy"
-                        }).on('change', function () {
-                            $('.datepicker').hide();
-                        });
-
-                    },
-                    error: function (data) {
-                        console.log("sucedió un error")
-                    }
-                });
-        return false;
-    });
-
-    function RegistrarFamiliarResidenteInDataTable() {
-        MsjError = null;
-
-        if ($('#ResidentePaterno').val() == null || $("#ResidentePaterno").val() == "")
-            MsjError = MsjError + ".- Apellido Paterno no Valido <br>";
-        if ($('#ResidenteMaterno').val() == null || $("#ResidenteMaterno").val() == "")
-            MsjError = MsjError + ".- Apellido Materno no válido <br>";
-        if ($('#ResidenteNombre1').val() == null || $("#ResidenteNombre1").val() == "")
-            MsjError = MsjError + ".- Nombre 1 no válido <br>";
-        if ($('#ResidenteNombre2').val() == null || $("#ResidenteNombre2").val() == "")
-            MsjError = MsjError + ".- Nombre 2 no Válido <br>";
-        if ($('#ResidenteNombre3').val() == null || $("#ResidenteNombre3").val() == "")
-            MsjError = MsjError + ".- Nombre 3 no Valido <br>";
-        if ($('#ResidenteFechaNacimiento').val() == null || $("#ResidenteFechaNacimiento").val() == "")
-            MsjError = MsjError + ".- Fecha de Nacimiento no Valido <br>";
-        if ($('#ResidenteNroDocumentoIdentidad').val() == null || $("#ResidenteNroDocumentoIdentidad").val() == "")
-            MsjError = MsjError + ".- Nro Documento no Valido <br>";
-
-        if (MsjError != null) {
-            $("#frmShowErrorPopupResidente").show();
-            $("#frmShowErrorPopupResidente").html(MsjError);
-            return false;
-        }
-        $("#frmShowErrorPopupResidente").hide();
-
-        if (EncontrarCoincidenciaFamiliarResidente() == "true") {
-            MsjError = ".- El Familiar Residente ya ha sido registrado<br>";
-            $("#frmShowErrorPopupResidente").show();
-            $("#frmShowErrorPopupResidente").html(MsjError);
-
-            return false;
-        }
-
-        $("#frmShowErrorPopupResidente").hide();
-
-        var idFilaFamiliarResidente = $("#ResidenteFechaNacimiento").datepicker('getDate').getTime() + '_' + $('#ResidenteNacionalidadId').val() + '_' + $('#ResidenteParentescoId').val();
-        BtnEliminarFamiliarResidente = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroResidente' onclick='EliminarRegistroFamiliarResidente(\"" + idFilaFamiliarResidente + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-        $('#tblFamiliaresResidentes').find('tbody').append('<tr id=' + idFilaFamiliarResidente + '><td>' + $('#ResidentePaterno').val() + '</td><td>' + $('#ResidenteMaterno').val() + '</td><td>' + $('#ResidenteNombre1').val() + '</td><td>' + $('#ResidenteNombre2').val() + '</td><td>' + $('#ResidenteNombre3').val() + '</td><td>' + $('#ResidenteFechaNacimiento').val() + '</td><td>' + $("#ResidenteDocumentoIdentidadTipoId option:selected").text() + '</td><td>' + $('#ResidenteNroDocumentoIdentidad').val()+ '</td><td>' + $("#ResidenteNacionalidadId option:selected").text() + '</td><td>' + $("#ResidenteParentescoId option:selected").text() + '</td><td>' + BtnEliminarFamiliarResidente + '</td></tr>');
-        $('#verModalAgregarFamiliarResidente').modal('hide');
-        return false;
-    }
-
-
-    function EncontrarCoincidenciaFamiliarResidente() {
-        m_paterno = $('#ResidentePaterno').val();
-        m_materno = $('#ResidenteMaterno').val();
-        m_nombre1 = $('#ResidenteNombre1').val();
-        m_nombre2 = $('#ResidenteNombre2').val();
-        m_nombre3 = $('#ResidenteNombre3').val();
-
-        var found = 'false';
-        $('#tblFamiliaresResidentes tbody tr').each(function (index) {
-            $row = $(this);
-            var paterno = $row.find("td:eq(0)").text();
-            var materno = $row.find("td:eq(1)").text();
-            var nombre1 = $row.find("td:eq(2)").text();
-            var nombre2 = $row.find("td:eq(3)").text();
-            var nombre3 = $row.find("td:eq(4)").text();
-            if (paterno == m_paterno && materno == m_materno && nombre1 == m_nombre1 && nombre2 == m_nombre2 && nombre3 == m_nombre3) {
-                found = 'true';
-            }
         });
-        return found;
-    }
+
+        function RegistrarFamiliarInDataTable() {
+            MsjError = null;
+
+            if ($('#FamiliarPaterno').val() == null || $("#FamiliarPaterno").val() == "")
+                MsjError = MsjError + ".- Apellido Paterno no Valido <br>";
+            if ($('#FamiliarMaterno').val() == null || $("#FamiliarMaterno").val() == "")
+                MsjError = MsjError + ".- Apellido Materno no válido <br>";
+            if ($('#FamiliarNombre1').val() == null || $("#FamiliarNombre1").val() == "")
+                MsjError = MsjError + ".- Nombre 1 no válido <br>";
+            if ($('#FamiliarNombre2').val() == null || $("#FamiliarNombre2").val() == "")
+                MsjError = MsjError + ".- Nombre 2 no Válido <br>";
+            if ($('#FamiliarNombre3').val() == null || $("#FamiliarNombre3").val() == "")
+                MsjError = MsjError + ".- Nombre 3 no Valido <br>";
+            if ($('#FamiliarFechaNacimiento').val() == null || $("#FamiliarFechaNacimiento").val() == "")
+                MsjError = MsjError + ".- Fecha de Nacimiento no Valido <br>";
+            if ($('#FamiliarNroDocumentoIdentidad').val() == null || $("#FamiliarNroDocumentoIdentidad").val() == "")
+                MsjError = MsjError + ".- Nro Documento no Valido <br>";
+
+
+            if (MsjError != null) {
+                $("#frmShowErrorPopupFamiliar").show();
+                $("#frmShowErrorPopupFamiliar").html(MsjError);
+                return false;
+            }
+            $("#frmShowErroUsuario").hide();
+
+            if (EncontrarCoincidenciaFamiliar() == "true") {
+                MsjError = ".- El Familiar ya ha sido registrado<br>";
+                $("#frmShowErrorPopupFamiliar").show();
+                $("#frmShowErrorPopupFamiliar").html(MsjError);
+
+                return false;
+            }
+
+            $("#frmShowErrorPopupFamiliar").hide();
+
+            var idfilafamiliar = $('#FamiliarNroDocumentoIdentidad').val() + '_' + $("#FamiliarDocumentoIdentidadTipoId option:selected").val() + '_' + $("#FamiliarNacionalidadId option:selected").val() + '_' + $("#FamiliarParentescoId option:selected").val();
+            BtnEliminarFamiliar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroHijo' onclick='EliminarRegistroHijo(\"" + idfilafamiliar + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+            $('#tblFamiliares').find('tbody').append('<tr id=' + idfilafamiliar + '><td>' + $('#FamiliarPaterno').val() + '</td><td>' + $('#FamiliarMaterno').val() + '</td><td>' + $('#FamiliarNombre1').val() + '</td><td>' + $('#FamiliarNombre2').val() + '</td><td>' + $('#FamiliarNombre3').val() + '</td><td>' + $('#FamiliarFechaNacimiento').val() + '</td><td>' + $("#FamiliarDocumentoIdentidadTipoId option:selected").text() + '</td><td>' + $('#FamiliarNroDocumentoIdentidad').val() + '</td><td>' + $("#FamiliarNacionalidadId option:selected").text() + '</td><td>' + $("#FamiliarParentescoId option:selected").text() + '</td><td class="ocultar">' + $('#imgfilefamiliarfoto1').attr('src') + '</td><td class="ocultar">' + $('#imgfilefamiliarfoto2').attr('src') + '</td><td class="ocultar">' + $('#imgfilefamiliarfoto3').attr('src') + '</td><td class="ocultar">' + $('#imgfilefamiliarfoto4').attr('src') + '</td><td>' + BtnEliminarFamiliar + '</td></tr>');
+            $('#verModalAgregarFamiliar').modal('hide');
+            return false;
+        }
+
+        function EncontrarCoincidenciaFamiliar() {
+            m_paterno = $('#FamiliarPaterno').val();
+            m_materno = $('#FamiliarMaterno').val();
+            m_nombre1 = $('#FamiliarNombre1').val();
+            m_nombre2 = $('#FamiliarNombre2').val();
+            m_nombre3 = $('#FamiliarNombre3').val();
+            m_tipodoc = $("#FamiliarDocumentoIdentidadTipoId option:selected").text();
+            m_nrodocumento = $('#FamiliarNroDocumentoIdentidad').val();
+
+
+            var found = 'false';
+            $('#tblFamiliares tbody tr').each(function (index) {
+                $row = $(this);
+                var paterno = $row.find("td:eq(0)").text();
+                var materno = $row.find("td:eq(1)").text();
+                var nombre1 = $row.find("td:eq(2)").text();
+                var nombre2 = $row.find("td:eq(3)").text();
+                var nombre3 = $row.find("td:eq(4)").text();
+                var tipodoc = $row.find("td:eq(6)").text();
+                var nrodocumento = $row.find("td:eq(7)").text();
+                if ((paterno == m_paterno && materno == m_materno && nombre1 == m_nombre1 && nombre2 == m_nombre2 && nombre3 == m_nombre3) || (tipodoc == m_tipodoc && nrodocumento==m_nrodocumento)) {
+                    found = 'true';
+                }
+            });
+            return found;
+        }
+
+        //Seccion Familiares Residentes
+
+        function EliminarRegistroFamiliarResidente(FilaId) {
+            $('#' + FilaId).remove();
+        }
+
+        $(document).on('click', '#btnNuevoFamiliarResidente', function () {
+
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarNuevoResidente", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarFamiliarResidenteContainer').html(data);
+                    $('#verModalAgregarFamiliarResidente').modal('show');
+                    $('#ResidenteFechaNacimiento').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
+        });
+
+        function RegistrarFamiliarResidenteInDataTable() {
+            MsjError = null;
+
+            if ($('#ResidentePaterno').val() == null || $("#ResidentePaterno").val() == "")
+                MsjError = MsjError + ".- Apellido Paterno no Valido <br>";
+            if ($('#ResidenteMaterno').val() == null || $("#ResidenteMaterno").val() == "")
+                MsjError = MsjError + ".- Apellido Materno no válido <br>";
+            if ($('#ResidenteNombre1').val() == null || $("#ResidenteNombre1").val() == "")
+                MsjError = MsjError + ".- Nombre 1 no válido <br>";
+            if ($('#ResidenteNombre2').val() == null || $("#ResidenteNombre2").val() == "")
+                MsjError = MsjError + ".- Nombre 2 no Válido <br>";
+            if ($('#ResidenteNombre3').val() == null || $("#ResidenteNombre3").val() == "")
+                MsjError = MsjError + ".- Nombre 3 no Valido <br>";
+            if ($('#ResidenteFechaNacimiento').val() == null || $("#ResidenteFechaNacimiento").val() == "")
+                MsjError = MsjError + ".- Fecha de Nacimiento no Valido <br>";
+            if ($('#ResidenteNroDocumentoIdentidad').val() == null || $("#ResidenteNroDocumentoIdentidad").val() == "")
+                MsjError = MsjError + ".- Nro Documento no Valido <br>";
+
+            if (MsjError != null) {
+                $("#frmShowErrorPopupResidente").show();
+                $("#frmShowErrorPopupResidente").html(MsjError);
+                return false;
+            }
+            $("#frmShowErrorPopupResidente").hide();
+
+            if (EncontrarCoincidenciaFamiliarResidente() == "true") {
+                MsjError = ".- El Familiar Residente ya ha sido registrado<br>";
+                $("#frmShowErrorPopupResidente").show();
+                $("#frmShowErrorPopupResidente").html(MsjError);
+
+                return false;
+            }
+
+            $("#frmShowErrorPopupResidente").hide();
+
+            var idFilaFamiliarResidente =  $('#ResidenteNroDocumentoIdentidad').val() + '_' + $("#ResidenteDocumentoIdentidadTipoId option:selected").val() + '_' + $("#ResidenteNacionalidadId option:selected").val() + '_' + $("#ResidenteParentescoId option:selected").val();
+            BtnEliminarFamiliarResidente = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroResidente' onclick='EliminarRegistroFamiliarResidente(\"" + idFilaFamiliarResidente + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+            $('#tblFamiliaresResidentes').find('tbody').append('<tr id=' + idFilaFamiliarResidente + '><td>' + $('#ResidentePaterno').val() + '</td><td>' + $('#ResidenteMaterno').val() + '</td><td>' + $('#ResidenteNombre1').val() + '</td><td>' + $('#ResidenteNombre2').val() + '</td><td>' + $('#ResidenteNombre3').val() + '</td><td>' + $('#ResidenteFechaNacimiento').val() + '</td><td>' + $("#ResidenteDocumentoIdentidadTipoId option:selected").text() + '</td><td>' + $('#ResidenteNroDocumentoIdentidad').val() + '</td><td>' + $("#ResidenteNacionalidadId option:selected").text() + '</td><td>' + $("#ResidenteParentescoId option:selected").text() + '</td><td class="ocultar">' + $('#imgfilefamresfoto1').attr('src') + '</td><td class="ocultar">' + $('#imgfilefamresfoto2').attr('src') + '</td><td class="ocultar">' + $('#imgfilefamresfoto3').attr('src') + '</td><td class="ocultar">' + $('#imgfilefamresfoto4').attr('src') + '</td><td>' + BtnEliminarFamiliarResidente + '</td></tr>');
+            $('#verModalAgregarFamiliarResidente').modal('hide');
+            return false;
+        }
+
+
+        function EncontrarCoincidenciaFamiliarResidente() {
+            m_paterno = $('#ResidentePaterno').val();
+            m_materno = $('#ResidenteMaterno').val();
+            m_nombre1 = $('#ResidenteNombre1').val();
+            m_nombre2 = $('#ResidenteNombre2').val();
+            m_nombre3 = $('#ResidenteNombre3').val();
+
+            var found = 'false';
+            $('#tblFamiliaresResidentes tbody tr').each(function (index) {
+                $row = $(this);
+                var paterno = $row.find("td:eq(0)").text();
+                var materno = $row.find("td:eq(1)").text();
+                var nombre1 = $row.find("td:eq(2)").text();
+                var nombre2 = $row.find("td:eq(3)").text();
+                var nombre3 = $row.find("td:eq(4)").text();
+                if (paterno == m_paterno && materno == m_materno && nombre1 == m_nombre1 && nombre2 == m_nombre2 && nombre3 == m_nombre3) {
+                    found = 'true';
+                }
+            });
+            return found;
+        }
 
 
 
@@ -1016,12 +1080,12 @@
             var lsingresosanteriores = jQuery.param({ LstIngresosAnteriores: ArrayIngresoAnteriorAlPais });
 
 
-      $.ajax({
-          url: "@Url.Action("GrabarDatosCargosFunciones", "XP1003")",
-          data: $('#FrmGrabarCargosFuncionales').serialize() + "&" + lstdomicilios + "&" + lstvehiculos + "&" + lsingresos + "&" + lsingresosanteriores,
-            type: "POST",
-            dataType: 'JSON',
-            success: function (data) {
+            $.ajax({
+                url: "@Url.Action("GrabarDatosCargosFunciones", "XP1003")",
+                data: $('#FrmGrabarCargosFuncionales').serialize() + "&" + lstdomicilios + "&" + lstvehiculos + "&" + lsingresos + "&" + lsingresosanteriores,
+                type: "POST",
+                dataType: 'JSON',
+                success: function (data) {
                     if (data.success == true) {
                         $.notify("Operación satisfactoria..", "success");
                         $('#btnGrabarCargosFuncionales').remove();
@@ -1039,9 +1103,212 @@
                 }
 
             });
-        return false;
+            return false;
         }
 
+        function GrabarFormInformacionCastrense() { // jguerrero
+
+            //if ($('#tblDomicilioExtranjeroXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Domicilio");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            //if ($('#tblVehiculosXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Vehiculos");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            //if ($('#tblIngresoToPaisXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Ingresos al Pais");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            //if ($('#tblIngresoAnteriorAlPaisXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Ingresos Anteriores al Pais");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            ArrayAscensos = new Array();
+            $('#tblAscensosXP1003 tbody tr').each(function (index) {
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                $row = $(this);
+                var valor = {};
+                valor.Asc_Obt_PaisId = Doc[0];
+                valor.Asc_Obt_InstitucionMilitarExtranjeraId = Doc[1];
+                valor.Asc_Obt_GradoId = Doc[2];
+                valor.Asc_Obt_Fecha = $row.find("td:eq(3)").text();
+                ArrayAscensos.push(valor);
+            })
+
+            ArrayCargosComisiones = new Array();
+            $('#tblCargosComisionesXP1003 tbody tr').each(function (index) {
+                var IdRow = $(this).attr('id');
+                var arrays  = IdRow.split("_");
+                $row = $(this);
+                var valor = {};
+                valor.CargosFuncionesId = arrays[0];
+                valor.Cargos_Funciones_FechaInicio = $row.find("td:eq(2)").text();
+                valor.Cargos_Funciones_FechaFin = $row.find("td:eq(3)").text();
+                ArrayCargosComisiones.push(valor);
+            })
+
+            ArrayCondecoraciones = new Array();
+            $('#tblCondecoracionesXP1003 tbody tr').each(function (index) {
+                var IdRow = $(this).attr('id');
+                var arrays = IdRow.split("_");
+                $row = $(this);
+                var valor = {};
+                valor.Condecoraciones_PaisId = arrays[0];
+                valor.Condecoraciones_InstitucionMilitarExtranjeraId = arrays[1];
+                valor.CondecoracionesExtranjerasId = arrays[2];
+                valor.CondecoracionesExtranjerasAno = $row.find("td:eq(3)").text();
+                ArrayCondecoraciones.push(valor);
+            })
+
+            ArrayEscuelasCursadas = new Array();
+            $('#tblEscuelasCursadasXP1003 tbody tr').each(function (index) {
+                var IdRow = $(this).attr('id');
+                var arrays = IdRow.split("_");
+                $row = $(this);
+                var valor = {};
+                valor.CR_PaisId = arrays[0];
+                valor.CR_InstitucionMilitaresExtranjerasId = arrays[1];
+                valor.CR_EscuelaExtranjeraId = arrays[2];
+                valor.CR_CursoEscuelaExtranjeraId = arrays[3];
+                valor.CR_Ano = $row.find("td:eq(4)").text();
+                ArrayEscuelasCursadas.push(valor);
+            })
+
+            ArrayIdiomasCursadas = new Array();
+            $('#tblIdiomasXP1003 tbody tr').each(function (index) {
+                var IdRow = $(this).attr('id');
+                var arrays = IdRow.split("_");
+                $row = $(this);
+                var valor = {};
+                valor.IdiomaDominadoId = arrays[0];
+                valor.IdiomaHabla = $row.find("td:eq(1)").text();
+                valor.IdiomaEscrito = $row.find("td:eq(2)").text();
+                valor.IdiomaLeido = $row.find("td:eq(3)").text();
+                ArrayIdiomasCursadas.push(valor);
+            })
+            var lstascensos = jQuery.param({ LstAscensos: ArrayAscensos });
+            var lstcargos = jQuery.param({ LstCargos: ArrayCargosComisiones });
+            var lstcondecoraciones = jQuery.param({ LstCondecoraciones: ArrayCondecoraciones });
+            var lstcursos = jQuery.param({ LstCursos: ArrayEscuelasCursadas });
+            var lstidiomas = jQuery.param({ LstIdiomas: ArrayIdiomasCursadas });
+
+
+            $.ajax({
+                url: "@Url.Action("GrabarDatosInformacionCastrense", "XP1003")",
+                data: $('#FrmGrabarInformacionCastrense').serialize() + "&" + lstascensos + "&" + lstcargos + "&" + lstcondecoraciones + "&" + lstcursos + "&" + lstidiomas,
+            type: "POST",
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.success == true) {
+                    $.notify("Operación satisfactoria..", "success");
+                    $('#btnGrabarInformacionCastrense').remove();
+                    $('#btnCerrarInformacionCastrense').remove();
+
+                    return false;
+                } else {
+                    $("#frmShowErrorInformacionCastrense").show();
+                    $("#frmShowErrorInformacionCastrense").html(data.mensajeError);
+                    $.notify("Ocurrio un error", "error");
+                }
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+
+        });
+        return false;
+        }
+        function GrabarFormOtros() {
+
+            //if ($('#tblDomicilioExtranjeroXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Domicilio");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            //if ($('#tblVehiculosXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Vehiculos");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            //if ($('#tblIngresoToPaisXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Ingresos al Pais");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            //if ($('#tblIngresoAnteriorAlPaisXP1003 tbody tr').length == 0) {
+            //    $("#frmShowErrorCargoFunciones").show();
+            //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Ingresos Anteriores al Pais");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
+
+            ArrayDeportes = new Array();
+            $('#tblDeportesXP1003 tbody tr').each(function (index) {
+                var IdRow = $(this).attr('id');
+                var Doc = IdRow.split("_");
+                $row = $(this);
+                var valor = {};
+                valor.OtrosDeporteId = Doc[0];
+                ArrayDeportes.push(valor);
+            })
+
+            ArrayObservaciones = new Array();
+            $('#tblObservacionesXP1003 tbody tr').each(function (index) {
+                $row = $(this);
+                var valor = {};
+                valor.Observacion = $row.find("td:eq(0)").text();
+                ArrayObservaciones.push(valor);
+            })
+
+            var lstdeporte = jQuery.param({ LstDeporte: ArrayDeportes });
+            var lstobservacion = jQuery.param({ LstObservacion: ArrayObservaciones });
+
+
+            $.ajax({
+                url: "@Url.Action("GrabarDatosOtros", "XP1003")",
+                data: $('#FrmGrabarOtros').serialize() + "&" + lstdeporte + "&" + lstobservacion,
+            type: "POST",
+            dataType: 'JSON',
+            success: function (data) {
+                if (data.success == true) {
+                    $.notify("Operación satisfactoria..", "success");
+                    $('#btnGrabarOtros').remove();
+                    $('#btnCerrarOtros').remove();
+
+                    return false;
+                } else {
+                    $("#frmShowErrorOtros").show();
+                    $("#frmShowErrorOtros").html(data.mensajeError);
+                    $.notify("Ocurrio un error", "error");
+                }
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+
+        });
+        return false;
+        }
         function ValidarNroTelefonoDeclarante(e) {
             var evt = (e) ? e : window.event;
             var charCode = (evt.keyCode) ? evt.keyCode : evt.which;
@@ -1056,164 +1323,164 @@
 
                 $.ajax({
                     url:  "@Url.Action("VerFrmAgregarDomicilioEnPeru", "xp1003")",
-                    data: {},
-                    type: "post",
-                    datatype: 'html',
-                    success: function (data) {
-                        $('#verAgregarDomicilioEnPeruContainer').html(data);
-                        $('#verModalAgregarDomicilioEnPeru').modal('show');
-                    },
-                    error: function (data) {
-                        console.log("sucedió un error")
-                    }
-                });
-        return false;
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarDomicilioEnPeruContainer').html(data);
+                    $('#verModalAgregarDomicilioEnPeru').modal('show');
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
 
 
-    function RegistrarDomicilioInDataTable() {
-        MsjError = null;
+        function RegistrarDomicilioInDataTable() {
+            MsjError = null;
 
-        if ($('#TelefonoDomicilioDeclarante').val() == null || $("#TelefonoDomicilioDeclarante").val() == "")
-            MsjError = MsjError + ".- Telefono no Valido <br>";
-        if ($('#LugarResidenciaDomicilioDeclarante').val() == null || $("#LugarResidenciaDomicilioDeclarante").val() == "")
-            MsjError = MsjError + ".- LugarResidencia no válido <br>";
-        if ($('#ReferenciaDomicilioDeclarante').val() == null || $("#ReferenciaDomicilioDeclarante").val() == "")
-            MsjError = MsjError + ".- Referencia no válido <br>";
-        if ($('#EmailParteDerecha').val() == null || $("#EmailParteDerecha").val() == "")
-            MsjError = MsjError + ".- Email no Válido <br>";
-        if ($('#EmailParteIzquierda').val() == null || $("#EmailParteIzquierda").val() == "")
-            MsjError = MsjError + ".- Email no Válido <br>";
+            if ($('#TelefonoDomicilioDeclarante').val() == null || $("#TelefonoDomicilioDeclarante").val() == "")
+                MsjError = MsjError + ".- Telefono no Valido <br>";
+            if ($('#LugarResidenciaDomicilioDeclarante').val() == null || $("#LugarResidenciaDomicilioDeclarante").val() == "")
+                MsjError = MsjError + ".- LugarResidencia no válido <br>";
+            if ($('#ReferenciaDomicilioDeclarante').val() == null || $("#ReferenciaDomicilioDeclarante").val() == "")
+                MsjError = MsjError + ".- Referencia no válido <br>";
+            if ($('#EmailParteDerecha').val() == null || $("#EmailParteDerecha").val() == "")
+                MsjError = MsjError + ".- Email no Válido <br>";
+            if ($('#EmailParteIzquierda').val() == null || $("#EmailParteIzquierda").val() == "")
+                MsjError = MsjError + ".- Email no Válido <br>";
 
-        if (MsjError != null) {
-            $("#frmShowErrorPopupDomicilioEnPeru").show();
-            $("#frmShowErrorPopupDomicilioEnPeru").html(MsjError);
-            return false;
-        }
-        $("#frmShowErrorPopupDomicilioEnPeru").hide();
-
-        if (EncontrarCoincidenciaDomicilioDeclarante() == "true") {
-            MsjError = ".- El Domicilio ya ha sido registrado<br>";
-            $("#frmShowErrorPopupDomicilioEnPeru").show();
-            $("#frmShowErrorPopupDomicilioEnPeru").html(MsjError);
-
-            return false;
-        }
-
-        $("#frmShowErrorPopupDomicilioEnPeru").hide();
-        var correo = $('#EmailParteIzquierda').val() + '@@' + $('#EmailParteDerecha').val();
-
-        var idFilaDomicilio = $('#DepartamentoDomicilioDeclaranteId ').val() + '_' + $('#ProvinciaDomicilioDeclaranteId').val() + '_' + $('#DistritoDomicilioDeclaranteId').val() + '_' + $('#TelefonoDomicilioDeclarante').val();
-        BtnEliminarDomicilioDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroDomicilio' onclick='EliminarDomicilioDeclarante(\"" + idFilaDomicilio + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-
-        $('#tblDomicilioExtranjeroXP1003').find('tbody').append('<tr id=' + idFilaDomicilio + '><td>' + $("#DepartamentoDomicilioDeclaranteId option:selected").text() + '</td><td>' + $("#ProvinciaDomicilioDeclaranteId option:selected").text() + '</td><td>' + $("#DistritoDomicilioDeclaranteId option:selected").text() + '</td><td>' + $('#LugarResidenciaDomicilioDeclarante').val() + '</td><td>' + $('#ReferenciaDomicilioDeclarante').val() + '</td><td>' + $('#TelefonoDomicilioDeclarante').val() + '</td><td>' + correo + '</td><td>' + BtnEliminarDomicilioDeclarante + '</td></tr>');
-        $('#verModalAgregarDomicilioEnPeru').modal('hide');
-        return false;
-    }
-
-    function EncontrarCoincidenciaDomicilioDeclarante() {
-        var m_Departamento      = $("#DepartamentoDomicilioDeclaranteId option:selected").text();
-        var m_Provincia         = $("#ProvinciaDomicilioDeclaranteId option:selected").text();
-        var m_Distrito          = $("#DistritoDomicilioDeclaranteId option:selected").text();
-        var m_lugarresidencia   = $('#LugarResidenciaDomicilioDeclarante').val();
-        var m_telefono          = $('#TelefonoDomicilioDeclarante').val();
-
-        var found = 'false';
-        $('#tblDomicilioExtranjeroXP1003 tbody tr').each(function (index) {
-            $row = $(this);
-            var Departamento = $row.find("td:eq(0)").text();
-            var Provincia = $row.find("td:eq(1)").text();
-            var Distrito = $row.find("td:eq(2)").text();
-            var lugarresidencia = $row.find("td:eq(3)").text();
-            var telefono = $row.find("td:eq(5)").text();
-
-            if (Departamento == m_Departamento && Provincia == m_Provincia && Distrito == m_Distrito && lugarresidencia == m_lugarresidencia && telefono == m_telefono) {
-                found = 'true';
+            if (MsjError != null) {
+                $("#frmShowErrorPopupDomicilioEnPeru").show();
+                $("#frmShowErrorPopupDomicilioEnPeru").html(MsjError);
+                return false;
             }
-        });
-        return found;
-    }
+            $("#frmShowErrorPopupDomicilioEnPeru").hide();
 
-    function EliminarDomicilioDeclarante(FilaId) {
-        $('#' + FilaId).remove();
-    }
+            if (EncontrarCoincidenciaDomicilioDeclarante() == "true") {
+                MsjError = ".- El Domicilio ya ha sido registrado<br>";
+                $("#frmShowErrorPopupDomicilioEnPeru").show();
+                $("#frmShowErrorPopupDomicilioEnPeru").html(MsjError);
 
-
-    //Seccion Vehiculos
-
-    $(document).on('click', '#btnNuevoVehiculoDeclaranteExtranjero', function () {
-
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarVehiculo", "xp1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarVehiculoExtranjeroContainer').html(data);
-                $('#verModalAgregarVehiculoExtranjero').modal('show');
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
-        });
-    return false;
-    });
-
-    function EliminarVehiculoDeclarante(FilaId) {
-        $('#' + FilaId).remove();
-    }
-
-
-    function EncontrarCoincidenciaVehiculo() {
-        var m_marca = $("#ExtranjeroVehiculoMarcaId option:selected").text();
-        var m_modelo= $("#ExtranjeroVehiculoModeloId option:selected").text();
-        var m_placa = $('#ExtranjeroVehiculoPlaca').val();
-
-        var found = 'false';
-        $('#tblVehiculosXP1003 tbody tr').each(function (index) {
-            $row = $(this);
-            var marca = $row.find("td:eq(0)").text();
-            var modelo = $row.find("td:eq(1)").text();
-            var placa = $row.find("td:eq(2)").text();
-
-            if (marca == m_marca && modelo == m_modelo && placa == m_placa) {
-                found = 'true';
+                return false;
             }
+
+            $("#frmShowErrorPopupDomicilioEnPeru").hide();
+            var correo = $('#EmailParteIzquierda').val() + '@@' + $('#EmailParteDerecha').val();
+
+            var idFilaDomicilio = $('#DepartamentoDomicilioDeclaranteId ').val() + '_' + $('#ProvinciaDomicilioDeclaranteId').val() + '_' + $('#DistritoDomicilioDeclaranteId').val() + '_' + $('#TelefonoDomicilioDeclarante').val();
+            BtnEliminarDomicilioDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroDomicilio' onclick='EliminarDomicilioDeclarante(\"" + idFilaDomicilio + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+
+            $('#tblDomicilioExtranjeroXP1003').find('tbody').append('<tr id=' + idFilaDomicilio + '><td>' + $("#DepartamentoDomicilioDeclaranteId option:selected").text() + '</td><td>' + $("#ProvinciaDomicilioDeclaranteId option:selected").text() + '</td><td>' + $("#DistritoDomicilioDeclaranteId option:selected").text() + '</td><td>' + $('#LugarResidenciaDomicilioDeclarante').val() + '</td><td>' + $('#ReferenciaDomicilioDeclarante').val() + '</td><td>' + $('#TelefonoDomicilioDeclarante').val() + '</td><td>' + correo + '</td><td>' + BtnEliminarDomicilioDeclarante + '</td></tr>');
+            $('#verModalAgregarDomicilioEnPeru').modal('hide');
+            return false;
+        }
+
+        function EncontrarCoincidenciaDomicilioDeclarante() {
+            var m_Departamento      = $("#DepartamentoDomicilioDeclaranteId option:selected").text();
+            var m_Provincia         = $("#ProvinciaDomicilioDeclaranteId option:selected").text();
+            var m_Distrito          = $("#DistritoDomicilioDeclaranteId option:selected").text();
+            var m_lugarresidencia   = $('#LugarResidenciaDomicilioDeclarante').val();
+            var m_telefono          = $('#TelefonoDomicilioDeclarante').val();
+
+            var found = 'false';
+            $('#tblDomicilioExtranjeroXP1003 tbody tr').each(function (index) {
+                $row = $(this);
+                var Departamento = $row.find("td:eq(0)").text();
+                var Provincia = $row.find("td:eq(1)").text();
+                var Distrito = $row.find("td:eq(2)").text();
+                var lugarresidencia = $row.find("td:eq(3)").text();
+                var telefono = $row.find("td:eq(5)").text();
+
+                if (Departamento == m_Departamento && Provincia == m_Provincia && Distrito == m_Distrito && lugarresidencia == m_lugarresidencia && telefono == m_telefono) {
+                    found = 'true';
+                }
+            });
+            return found;
+        }
+
+        function EliminarDomicilioDeclarante(FilaId) {
+            $('#' + FilaId).remove();
+        }
+
+
+        //Seccion Vehiculos
+
+        $(document).on('click', '#btnNuevoVehiculoDeclaranteExtranjero', function () {
+
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarVehiculo", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarVehiculoExtranjeroContainer').html(data);
+                    $('#verModalAgregarVehiculoExtranjero').modal('show');
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-        return found;
-    }
 
-
-    function RegistrarVehiculoInDataTable() {
-        MsjError = null;
-
-        if ($('#ExtranjeroVehiculoPlaca').val() == null || $("#ExtranjeroVehiculoPlaca").val() == "")
-            MsjError = MsjError + ".- VehiculoPlaca no Valido <br>";
-
-        if (MsjError != null) {
-            $("#frmShowErrorPopupVehiculoDeclarante").show();
-            $("#frmShowErrorPopupVehiculoDeclarante").html(MsjError);
-            return false;
-        }
-        $("#frmShowErrorPopupVehiculoDeclarante").hide();
-
-        if (EncontrarCoincidenciaVehiculo() == "true") {
-            MsjError = ".- El Domicilio ya ha sido registrado<br>";
-            $("#frmShowErrorPopupVehiculoDeclarante").show();
-            $("#frmShowErrorPopupVehiculoDeclarante").html(MsjError);
-
-            return false;
+        function EliminarVehiculoDeclarante(FilaId) {
+            $('#' + FilaId).remove();
         }
 
-        $("#frmShowErrorPopupVehiculoDeclarante").hide();
 
-        var idFilaVehiculo = $('#ExtranjeroTipoVehiculoId').val() + '_' + $('#ExtranjeroVehiculoModeloId').val() + '_' + $('#ExtranjeroVehiculoMarcaId').val() + '_' + $('#ExtranjeroVehiculoPlaca').val();
-        BtnEliminarDomicilioDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroVehiculo' onclick='EliminarVehiculoDeclarante(\"" + idFilaVehiculo + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+        function EncontrarCoincidenciaVehiculo() {
+            var m_marca = $("#ExtranjeroVehiculoMarcaId option:selected").text();
+            var m_modelo= $("#ExtranjeroVehiculoModeloId option:selected").text();
+            var m_placa = $('#ExtranjeroVehiculoPlaca').val();
 
-        $('#tblVehiculosXP1003').find('tbody').append('<tr id=' + idFilaVehiculo + '><td>' + $("#ExtranjeroTipoVehiculoId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoMarcaId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoModeloId option:selected").text() + '</td><td>' + $('#ExtranjeroVehiculoPlaca').val() + '</td><td>' + BtnEliminarDomicilioDeclarante + '</td></tr>');
-        $('#verModalAgregarVehiculoExtranjero').modal('hide');
-        return false;
-    }
+            var found = 'false';
+            $('#tblVehiculosXP1003 tbody tr').each(function (index) {
+                $row = $(this);
+                var marca = $row.find("td:eq(0)").text();
+                var modelo = $row.find("td:eq(1)").text();
+                var placa = $row.find("td:eq(2)").text();
+
+                if (marca == m_marca && modelo == m_modelo && placa == m_placa) {
+                    found = 'true';
+                }
+            });
+            return found;
+        }
+
+
+        function RegistrarVehiculoInDataTable() {
+            MsjError = null;
+
+            if ($('#ExtranjeroVehiculoPlaca').val() == null || $("#ExtranjeroVehiculoPlaca").val() == "")
+                MsjError = MsjError + ".- VehiculoPlaca no Valido <br>";
+
+            if (MsjError != null) {
+                $("#frmShowErrorPopupVehiculoDeclarante").show();
+                $("#frmShowErrorPopupVehiculoDeclarante").html(MsjError);
+                return false;
+            }
+            $("#frmShowErrorPopupVehiculoDeclarante").hide();
+
+            if (EncontrarCoincidenciaVehiculo() == "true") {
+                MsjError = ".- El Domicilio ya ha sido registrado<br>";
+                $("#frmShowErrorPopupVehiculoDeclarante").show();
+                $("#frmShowErrorPopupVehiculoDeclarante").html(MsjError);
+
+                return false;
+            }
+
+            $("#frmShowErrorPopupVehiculoDeclarante").hide();
+
+            var idFilaVehiculo = $('#ExtranjeroTipoVehiculoId').val() + '_' + $('#ExtranjeroVehiculoModeloId').val() + '_' + $('#ExtranjeroVehiculoMarcaId').val() + '_' + $('#ExtranjeroVehiculoPlaca').val();
+            BtnEliminarDomicilioDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroVehiculo' onclick='EliminarVehiculoDeclarante(\"" + idFilaVehiculo + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+
+            $('#tblVehiculosXP1003').find('tbody').append('<tr id=' + idFilaVehiculo + '><td>' + $("#ExtranjeroTipoVehiculoId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoMarcaId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoModeloId option:selected").text() + '</td><td>' + $('#ExtranjeroVehiculoPlaca').val() + '</td><td>' + BtnEliminarDomicilioDeclarante + '</td></tr>');
+            $('#verModalAgregarVehiculoExtranjero').modal('hide');
+            return false;
+        }
 
 
         //Seccion Ingreso al Pais
@@ -1222,36 +1489,36 @@
 
         $(document).on('click', '#btnNuevoIngresoAlPeruXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarIngresosAlPais", "xp1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarIngresoAlPaisContainer').html(data);
-                $('#verModalAgregarIngresoAlPais').modal('show');
-                $('#IngresoAlPaisFechaIngreso').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-                $('#IngresoAlPaisFechaInicioMision').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-                $('#IngresoAlPaisFechaTerminoMision').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarIngresosAlPais", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarIngresoAlPaisContainer').html(data);
+                    $('#verModalAgregarIngresoAlPais').modal('show');
+                    $('#IngresoAlPaisFechaIngreso').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                    $('#IngresoAlPaisFechaInicioMision').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                    $('#IngresoAlPaisFechaTerminoMision').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
 
         function EncontrarCoincidenciaIngresoAlPais() {
@@ -1315,41 +1582,41 @@
         }
 
 
-     //Seccion Ingreso Anteriores al Pais
+        //Seccion Ingreso Anteriores al Pais
         $(document).on('click', '#btnNuevoIngresoAnteriorToPeruXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarIngresosAnterioresAlPais", "xp1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarIngresosAnterioresAlPaisContainer').html(data);
-                $('#verModalAgregarIngresosAnterioresAlPais').modal('show');
-                $('#IngresoAnteriorFechaIngreso').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-                $('#IngresoAnteriorFechaSalida').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarIngresosAnterioresAlPais", "xp1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarIngresosAnterioresAlPaisContainer').html(data);
+                    $('#verModalAgregarIngresosAnterioresAlPais').modal('show');
+                    $('#IngresoAnteriorFechaIngreso').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                    $('#IngresoAnteriorFechaSalida').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
-    function EliminarIngresoAnteriorAlPais(FilaId) {
+        function EliminarIngresoAnteriorAlPais(FilaId) {
             $('#' + FilaId).remove();
-    }
+        }
 
 
-    function EncontrarCoincidenciaIngresoAnteriorAlPais() {
+        function EncontrarCoincidenciaIngresoAnteriorAlPais() {
             var m_fechaingreso = $('#IngresoAnteriorFechaIngreso').val();
             var m_fechasalida = $('#IngresoAnteriorFechaSalida').val();
             var m_destino= $('#IngresoAnteriorDestino').val();
@@ -1412,23 +1679,23 @@
             return false;
         }
 
-           //Seccion Idiomas
+        //Seccion Idiomas
         $(document).on('click', '#btnNuevoIdiomaXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarIdioma", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarIdiomaContainer').html(data);
-                $('#verModalAgregarIdioma').modal('show');
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
-        });
-    return false;
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarIdioma", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarIdiomaContainer').html(data);
+                    $('#verModalAgregarIdioma').modal('show');
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
 
 
@@ -1493,35 +1760,35 @@
         }
 
 
-    //Seccion Ascensos Obtenidos
+        //Seccion Ascensos Obtenidos
         $(document).on('click', '#btnNuevoAscensoObtenidoXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAscensoObtenido", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarAscensoObtenidoContainer').html(data);
-                $('#Asc_Obt_PaisId').val($('#PaisInstitucionId').val());
-                console.log($('#PaisInstitucionId').val());
-                console.log($('#Asc_Obt_PaisId').val());
-                $("#Asc_Obt_PaisId").trigger("change");
-                $('#verModalAgregarAscensoObtenido').modal('show');
-                $('#Asc_Obt_Fecha').datepicker({
-                    format: "yyyy",
-                    viewMode: "years",
-                    minViewMode: "year"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
+            $.ajax({
+                url:  "@Url.Action("VerFrmAscensoObtenido", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarAscensoObtenidoContainer').html(data);
+                    $('#Asc_Obt_PaisId').val($('#PaisInstitucionId').val());
+                    console.log($('#PaisInstitucionId').val());
+                    console.log($('#Asc_Obt_PaisId').val());
+                    $("#Asc_Obt_PaisId").trigger("change");
+                    $('#verModalAgregarAscensoObtenido').modal('show');
+                    $('#Asc_Obt_Fecha').datepicker({
+                        format: "yyyy",
+                        viewMode: "years",
+                        minViewMode: "year"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
 
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
-        });
-    return false;
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
 
         function EliminarRegistroAscenso(FilaId) {
@@ -1593,7 +1860,7 @@
 
 
 
-    //Seccion Cargos Comisiones
+        //Seccion Cargos Comisiones
 
         function EliminarRegistroCargo(FilaId) {
             $('#' + FilaId).remove();
@@ -1601,8 +1868,8 @@
 
 
         function EncontrarCoincidenciaFechas() {
-            var m_inicio = $('#Asc_Obt_FechaInicio').val()
-            var m_fin= $('#Asc_Obt_FechaFin').val()
+            var m_inicio = $('#Cargos_Funciones_FechaInicio').val()
+            var m_fin= $('#Cargos_Funciones_FechaFin').val()
             var m_funcionId = $("#CargosFuncionesId option:selected").text();
 
             var found = 'false';
@@ -1621,9 +1888,9 @@
         function RegistrarCargoComisionInDataTable() {
             MsjError = null;
 
-            if ($('#Asc_Obt_FechaInicio').val() == null || $("#Asc_Obt_FechaInicio").val() == "")
+            if ($('#Cargos_Funciones_FechaInicio').val() == null || $("#Cargos_Funciones_FechaInicio").val() == "")
                 MsjError = MsjError + ".- Fecha Inicio no Valido <br>";
-            if ($('#Asc_Obt_FechaFin').val() == null || $("#Asc_Obt_FechaFin").val() == "")
+            if ($('#Cargos_Funciones_FechaFin').val() == null || $("#Cargos_Funciones_FechaFin").val() == "")
                 MsjError = MsjError + ".- Fecha Fin no Valido <br>";
 
             if (MsjError != null) {
@@ -1644,10 +1911,10 @@
             $("#frmShowErrorPopupIComision").hide();
 
 
-            var idFila = $('#CargosFuncionesId').val() + '_' + $("#Asc_Obt_FechaInicio").datepicker('getDate').getTime()
+            var idFila = $('#CargosFuncionesId').val() + '_' + $("#Cargos_Funciones_FechaInicio").datepicker('getDate').getTime()
             var BtnEliminarCargo= "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' onclick='EliminarRegistroCargo(\"" + idFila + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
 
-            $('#tblCargosComisionesXP1003').find('tbody').append('<tr id=' + idFila + '><td>' + $("#CargosFuncionesId option:selected").text() + '</td><td>-</td><td>' + $('#Asc_Obt_FechaInicio').val() + '</td><td>' + $('#Asc_Obt_FechaFin').val() + '</td><td>' + BtnEliminarCargo + '</td></tr>');
+            $('#tblCargosComisionesXP1003').find('tbody').append('<tr id=' + idFila + '><td>' + $("#CargosFuncionesId option:selected").text() + '</td><td>-</td><td>' + $('#Cargos_Funciones_FechaInicio').val() + '</td><td>' + $('#Cargos_Funciones_FechaFin').val() + '</td><td>' + BtnEliminarCargo + '</td></tr>');
             $('#verModalAgregarCargoComision').modal('hide');
             return false;
         }
@@ -1657,33 +1924,33 @@
 
         $(document).on('click', '#btnNuevoCargoComisionXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmCargoComision", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarCargoComisionContainer').html(data);
-                $('#verModalAgregarCargoComision').modal('show');
-                $('#Asc_Obt_FechaInicio').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-                $('#Asc_Obt_FechaFin').datepicker({
-                    format: "dd/mm/yyyy"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmCargoComision", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarCargoComisionContainer').html(data);
+                    $('#verModalAgregarCargoComision').modal('show');
+                    $('#Cargos_Funciones_FechaInicio').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                    $('#Cargos_Funciones_FechaFin').datepicker({
+                        format: "dd/mm/yyyy"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
-    //Seccion Condecoraciones
+        //Seccion Condecoraciones
 
         function EliminarRegistroCondecoracion(FilaId) {
             $('#' + FilaId).remove();
@@ -1756,30 +2023,30 @@
 
         $(document).on('click', '#btnNuevaCondecoracionXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmCondecoraciones", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarCondecoracionContainer').html(data);
-                $('#verModalAgregarCondecoracion').modal('show');
-                $('#CondecoracionesExtranjerasAno').datepicker({
-                    format: "yyyy",
-                    viewMode: "years",
-                    minViewMode: "year"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmCondecoraciones", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarCondecoracionContainer').html(data);
+                    $('#verModalAgregarCondecoracion').modal('show');
+                    $('#CondecoracionesExtranjerasAno').datepicker({
+                        format: "yyyy",
+                        viewMode: "years",
+                        minViewMode: "year"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
-    //Seccion Escuelas Cursadas
+        //Seccion Escuelas Cursadas
         function EliminarRegistroCurso(FilaId) {
             $('#' + FilaId).remove();
         }
@@ -1846,7 +2113,7 @@
             $("#frmShowErrorPopupCurso").hide();
 
 
-            var idFila = $('#CR_PaisId').val() + '_' + $('#CR_InstitucionMilitaresExtranjerasId').val() + '_' + $('#CR_EscuelaExtranjeraId').val() + + '_' + $('#CR_CursoEscuelaExtranjeraId').val();
+            var idFila = $('#CR_PaisId').val() + '_' + $('#CR_InstitucionMilitaresExtranjerasId').val() + '_' + $('#CR_EscuelaExtranjeraId').val() +  '_' + $('#CR_CursoEscuelaExtranjeraId').val();
             var BtnEliminarCurso= "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' onclick='EliminarRegistroCurso(\"" + idFila + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
 
             $('#tblEscuelasCursadasXP1003').find('tbody').append('<tr id=' + idFila + '><td>' + $("#CR_PaisId option:selected").text() + '</td><td>' + $("#CR_InstitucionMilitaresExtranjerasId option:selected").text() + '</td><td>' + $("#CR_EscuelaExtranjeraId option:selected").text() + '</td><td>' + $("#CR_CursoEscuelaExtranjeraId option:selected").text() + '</td><td>' + $('#CR_Ano').val() + '</td><td>' + BtnEliminarCurso + '</td></tr>');
@@ -1858,28 +2125,28 @@
 
         $(document).on('click', '#btnNuevaEscuelaCursadaXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarEscuelaCursada", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarEscuelaCursadaContainer').html(data);
-                $('#verModalAgregarEscuelaCursada').modal('show');
-                $('#CR_Ano').datepicker({
-                    format: "yyyy",
-                    viewMode: "years",
-                    minViewMode: "year"
-                }).on('change', function () {
-                    $('.datepicker').hide();
-                });
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarEscuelaCursada", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarEscuelaCursadaContainer').html(data);
+                    $('#verModalAgregarEscuelaCursada').modal('show');
+                    $('#CR_Ano').datepicker({
+                        format: "yyyy",
+                        viewMode: "years",
+                        minViewMode: "year"
+                    }).on('change', function () {
+                        $('.datepicker').hide();
+                    });
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
 
 
@@ -1917,7 +2184,7 @@
                         $("#Base64FotoFrente").val(fr.result);
                         //Model.fotoBase64 = "data:image/jpeg;base64," + Model.fotoBase64;
                         @*@Model.x1003datospersonalesVM.LstFotos.Base64FotoFrente=objfoto;*@
-                        console.log($("#Base64FotoFrente").val());
+                        //console.log($("#Base64FotoFrente").val());
                     }
 
 
@@ -1927,24 +2194,24 @@
 
         }
 
-    //Seccion Deportes
-    $(document).on('click', '#btnNuevoDeporteXP1003', function () {
+        //Seccion Deportes
+        $(document).on('click', '#btnNuevoDeporteXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarDeporte", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarDeporteContainer').html(data);
-                $('#verModalAgregarDeporte').modal('show');
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarDeporte", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarDeporteContainer').html(data);
+                    $('#verModalAgregarDeporte').modal('show');
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
         function EliminarRegistroDeporte(FilaId) {
             $('#' + FilaId).remove();
@@ -2004,7 +2271,7 @@
 
 
 
-      //Seccion Observaciones
+        //Seccion Observaciones
 
         function EliminarRegistroObservacion(FilaId) {
             $('#' + FilaId).remove();
@@ -2014,21 +2281,21 @@
 
         $(document).on('click', '#btnNuevaObservacionXP1003', function () {
 
-        $.ajax({
-            url:  "@Url.Action("VerFrmAgregarObservacion", "XP1003")",
-            data: {},
-            type: "post",
-            datatype: 'html',
-            success: function (data) {
-                $('#verAgregarObservacionContainer').html(data);
-                $('#verModalAgregarObservacion').modal('show');
-             },
-             error: function (data) {
-                console.log("sucedió un error")
-             }
+            $.ajax({
+                url:  "@Url.Action("VerFrmAgregarObservacion", "XP1003")",
+                data: {},
+                type: "post",
+                datatype: 'html',
+                success: function (data) {
+                    $('#verAgregarObservacionContainer').html(data);
+                    $('#verModalAgregarObservacion').modal('show');
+                },
+                error: function (data) {
+                    console.log("sucedió un error")
+                }
+            });
+            return false;
         });
-    return false;
-    });
 
 
 

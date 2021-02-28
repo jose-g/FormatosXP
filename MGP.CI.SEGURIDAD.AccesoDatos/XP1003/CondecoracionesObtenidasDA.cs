@@ -14,7 +14,36 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
 
         public CondecoracionesObtenidasDA(String BaseDatos) { m_BaseDatos = BaseDatos; }
         public CondecoracionesObtenidasDA() { }
+        public int GetMaxId()
+        {
+            int maxId = -1;
 
+            using (SqlConnection connection = Conectar())
+            {
+                try
+                {
+                    ComandoSP("usp_CondecoracionesObtenidasGetMaxId", connection);
+
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!DBNull.Value.Equals(reader["CodigoMaxId"])) { maxId = Convert.ToInt32(reader["CodigoMaxId"]); }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+            return maxId;
+        }
         public int Insertar(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
         {
             using (SqlConnection connection = Conectar(m_BaseDatos))
@@ -23,7 +52,10 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 {
                     ComandoSP("usp_CondecoracionesObtenidasInsertar", connection);
                     ParametroSP("@CondecoracionesObtenidasId", e_CondecoracionesObtenidas.CondecoracionesObtenidasId);
+                    ParametroSP("@CondecoracionesPaisId", e_CondecoracionesObtenidas.Condecoraciones_PaisId);
+                    ParametroSP("@CondecoracionesInstitucionMilitarExtranjeraId", e_CondecoracionesObtenidas.Condecoraciones_InstitucionMilitarExtranjeraId);
                     ParametroSP("@CondecoracionesExtranjerasId", e_CondecoracionesObtenidas.CondecoracionesExtranjerasId);
+                    ParametroSP("@CondecoracionesExtranjerasAno", e_CondecoracionesObtenidas.CondecoracionesExtranjerasAno);
                     ParametroSP("@InformacionCastrenseId", e_CondecoracionesObtenidas.InformacionCastrenseId);
                     ParametroSP("@EstadoId", e_CondecoracionesObtenidas.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_CondecoracionesObtenidas.UsuarioRegistro);
@@ -49,7 +81,10 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 {
                     ComandoSP("usp_CondecoracionesObtenidasActualizar", connection);
                     ParametroSP("@CondecoracionesObtenidasId", e_CondecoracionesObtenidas.CondecoracionesObtenidasId);
+                    ParametroSP("@Condecoraciones_PaisId", e_CondecoracionesObtenidas.Condecoraciones_PaisId);
+                    ParametroSP("@Condecoraciones_InstitucionMilitarExtranjeraId", e_CondecoracionesObtenidas.Condecoraciones_InstitucionMilitarExtranjeraId);
                     ParametroSP("@CondecoracionesExtranjerasId", e_CondecoracionesObtenidas.CondecoracionesExtranjerasId);
+                    ParametroSP("@CondecoracionesExtranjerasAno", e_CondecoracionesObtenidas.CondecoracionesExtranjerasAno);
                     ParametroSP("@InformacionCastrenseId", e_CondecoracionesObtenidas.InformacionCastrenseId);
                     ParametroSP("@EstadoId", e_CondecoracionesObtenidas.EstadoId);
                     ParametroSP("@UsuarioModificacionRegistro", e_CondecoracionesObtenidas.UsuarioModificacionRegistro);

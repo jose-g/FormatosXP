@@ -14,8 +14,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
 
         public ObservacionesBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public ObservacionesBL() { }
-
-        protected internal bool Insertar(ObservacionesBE e_Observaciones)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new ObservacionesDA()).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+        public bool Insertar(ObservacionesBE e_Observaciones)
         {
             try
             {
@@ -29,7 +41,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(ObservacionesBE e_Observaciones)
+        public bool Actualizar(ObservacionesBE e_Observaciones)
         {
             try
             {
@@ -43,7 +55,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(ObservacionesBE e_Observaciones)
+        public bool Anular(ObservacionesBE e_Observaciones)
         {
             try
             {

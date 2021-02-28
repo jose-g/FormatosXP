@@ -14,8 +14,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
 
         public CondecoracionesObtenidasBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public CondecoracionesObtenidasBL() { }
-
-        protected internal bool Insertar(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new CondecoracionesObtenidasDA(m_BaseDatos)).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+        public bool Insertar(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
         {
             try
             {
@@ -29,7 +41,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
+        public bool Actualizar(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
         {
             try
             {
@@ -43,7 +55,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
+        public bool Anular(CondecoracionesObtenidasBE e_CondecoracionesObtenidas)
         {
             try
             {

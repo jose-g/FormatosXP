@@ -147,7 +147,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         //**************************************
 
         [HttpPost]
-        public JsonResult GrabarDatosFamiliares(x1003DatosFamiliaresVM vm, int FichaId, List<AgregarDocumentoViewModel> LstIdentificaciones, List<AgregarHijoViewModel> LstHijos, List<AgregarFamiliarViewModel> LstFamiliares, List<AgregarFamiliarResidentesEnPeru> LstFamResidentes, List<string> LstIdiomas)
+        public JsonResult GrabarDatosFamiliares(x1003DatosFamiliaresVM vm, int FichaId, List<AgregarDocumentoViewModel> LstIdentificaciones, List<AgregarHijoViewModel> LstHijos, List<AgregarFamiliarViewModel> LstFamiliares, List<AgregarFamiliarResidentesEnPeru> LstFamResidentes, List<string> LstIdiomas, List<FotosFamiliaresViewModel> LstFotos)
         {
             //if (!ModelState.IsValid)
             //{
@@ -155,12 +155,12 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             //}
 
             //Hacer una distinticion entre una nueva grabacion y una actualizacion
-
-            vm.LstIdentificaciones = LstIdentificaciones;
-            vm.LstHijos = LstHijos;
-            vm.LstFamiliares = LstFamiliares;
-            vm.LstFamResidentes = LstFamResidentes;
-            vm.LstStrIdiomas = LstIdiomas;
+            vm.LstFotos = LstFotos;
+            vm.LstIdentificaciones = LstIdentificaciones != null  ? LstIdentificaciones : vm.LstIdentificaciones ;
+            vm.LstHijos = LstHijos != null ? LstHijos : vm.LstHijos;
+            vm.LstFamiliares = LstFamiliares != null ? LstFamiliares : vm.LstFamiliares;
+            vm.LstFamResidentes = LstFamResidentes != null ? LstFamResidentes : vm.LstFamResidentes;
+            vm.LstStrIdiomas = LstIdiomas.Count==1 && LstIdiomas[0] == ""? vm.LstStrIdiomas : LstIdiomas;
             vm.FichaId = FichaId;
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
 
@@ -210,10 +210,11 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             //}
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
             bool ret = true;
-            vm.LstDomicilios = LstDomicilios;
-            vm.LstVehiculos = LstVehiculos;
-            vm.LstIngresos = LstIngresos;
-            vm.LstIngresosAnteriores = LstIngresosAnteriores;
+
+            vm.LstDomicilios = LstDomicilios != null ? LstDomicilios : vm.LstDomicilios; ;
+            vm.LstVehiculos = LstVehiculos != null ? LstVehiculos : vm.LstVehiculos; ;
+            vm.LstIngresos = LstIngresos != null ? LstIngresos : vm.LstIngresos; 
+            vm.LstIngresosAnteriores = LstIngresosAnteriores != null ? LstIngresosAnteriores : vm.LstIngresosAnteriores; 
 
             if (vm.CargosFuncionesX1003Id == 0)
             {
@@ -330,7 +331,34 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             return Json(new X1003InformacionCastrenseViewModel().GetCursosPorEscuelas(EscuelaExtranjeraId).Select(x => new { x.CursoEscuelaExtranjeraId, x.Nombre, }).ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
+        public JsonResult GrabarDatosInformacionCastrense(X1003InformacionCastrenseViewModel vm,
+         List<AgregarAscensosObtenidosViewModel> LstAscensos,
+         List<AgregarCargosFuncionesRealizadasViewModel> LstCargos,
+         List<AgregarCondecoracionesViewModel> LstCondecoraciones,
+         List<AgregarCursoRealizadoViewModel> LstCursos,
+         List<AgregarIdiomaDominadoViewModel> LstIdiomas)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return Json(new { success = false, mensajeError = "Modelo Invalido" }, JsonRequestBehavior.AllowGet);
+            //}
+            SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
+            bool ret = true;
 
+            vm.LstAscensos = LstAscensos != null ? LstAscensos : vm.LstAscensos; ;
+            vm.LstCargos = LstCargos != null ? LstCargos : vm.LstCargos; 
+            vm.LstCondecoraciones = LstCondecoraciones != null ? LstCondecoraciones : vm.LstCondecoraciones;
+            vm.LstCursos = LstCursos != null ? LstCursos : vm.LstCursos;
+            vm.LstIdiomas = LstIdiomas != null ? LstIdiomas : vm.LstIdiomas;
+
+            if (vm.X1003InformacionCastrenseId == 0)
+            {
+                ret = vm.Insertar(sesionVM.Login);
+            }
+
+            return Json(new { success = ret, mensajeError = vm.ErrorSMS }, JsonRequestBehavior.AllowGet);
+        }
 
         //**************************************
         //SECCION FRM OTROS
@@ -347,5 +375,27 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             return PartialView("../X1003/FrmAgregarDeporte", vm);
         }
 
+        [HttpPost]
+        public JsonResult GrabarDatosOtros(X1003OtrosViewModel vm,
+          List<AgregarDeporteViewModel> LstDeporte,
+          List<AgregarObservacionViewModel> LstObservacion)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return Json(new { success = false, mensajeError = "Modelo Invalido" }, JsonRequestBehavior.AllowGet);
+            //}
+            SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
+            bool ret = true;
+
+            vm.LstDeporte = LstDeporte != null ? LstDeporte : vm.LstDeporte; ;
+            vm.LstObservacion = LstObservacion != null ? LstObservacion : vm.LstObservacion;
+
+            if (vm.X1003OtrosId == 0)
+            {
+                ret = vm.Insertar(sesionVM.Login);
+            }
+
+            return Json(new { success = ret, mensajeError = vm.ErrorSMS }, JsonRequestBehavior.AllowGet);
+        }
     }
 }

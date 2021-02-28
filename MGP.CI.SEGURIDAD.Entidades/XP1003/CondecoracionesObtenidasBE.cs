@@ -17,6 +17,12 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public int? InformacionCastrenseId { get; set; }
         [DataMember]
+        public int Condecoraciones_PaisId { get; set; }
+        [DataMember]
+        public int Condecoraciones_InstitucionMilitarExtranjeraId { get; set; }
+        [DataMember]
+        public int? CondecoracionesExtranjerasAno { get; set; }
+        [DataMember]
         public int? EstadoId { get; set; }
         [DataMember]
         public string UsuarioRegistro { get; set; }
@@ -37,6 +43,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int m_CondecoracionesObtenidasId,
             int m_CondecoracionesExtranjerasId,
             int? m_InformacionCastrenseId,
+            int m_Condecoraciones_PaisId,
+            int m_Condecoraciones_InstitucionMilitarExtranjeraId,
+            int? m_CondecoracionesExtranjerasAno,
             int? m_EstadoId,
             string m_UsuarioRegistro,
             DateTime? m_FechaRegistro,
@@ -48,6 +57,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             CondecoracionesObtenidasId = m_CondecoracionesObtenidasId;
             CondecoracionesExtranjerasId = m_CondecoracionesExtranjerasId;
             InformacionCastrenseId = m_InformacionCastrenseId;
+            Condecoraciones_PaisId = m_Condecoraciones_PaisId;
+            Condecoraciones_InstitucionMilitarExtranjeraId = m_Condecoraciones_InstitucionMilitarExtranjeraId;
+            CondecoracionesExtranjerasAno = m_CondecoracionesExtranjerasAno;
             EstadoId = m_EstadoId;
             UsuarioRegistro = m_UsuarioRegistro;
             FechaRegistro = m_FechaRegistro;
@@ -61,6 +73,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             CondecoracionesObtenidasId = ValidarInt(Registro["CondecoracionesObtenidasId"]);
             CondecoracionesExtranjerasId = ValidarInt(Registro["CondecoracionesExtranjerasId"]);
             InformacionCastrenseId = ValidarIntNulos(Registro["InformacionCastrenseId"]);
+            Condecoraciones_PaisId = ValidarInt(Registro["CondecoracionesPaisId"]);
+            Condecoraciones_InstitucionMilitarExtranjeraId = ValidarInt(Registro["CondecoracionesInstitucionMilitarExtranjeraId"]);
+            CondecoracionesExtranjerasAno = ValidarIntNulos(Registro["CondecoracionesExtranjerasAno"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);
             FechaRegistro = ValidarDatetime(Registro["FechaRegistro"]);

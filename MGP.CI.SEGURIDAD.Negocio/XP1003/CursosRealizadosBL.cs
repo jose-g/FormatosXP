@@ -14,8 +14,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
 
         public CursosRealizadosBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public CursosRealizadosBL() { }
-
-        protected internal bool Insertar(CursosRealizadosBE e_CursosRealizados)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new CursosRealizadosDA(m_BaseDatos)).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+        public bool Insertar(CursosRealizadosBE e_CursosRealizados)
         {
             try
             {
@@ -29,7 +41,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(CursosRealizadosBE e_CursosRealizados)
+        public bool Actualizar(CursosRealizadosBE e_CursosRealizados)
         {
             try
             {
@@ -43,7 +55,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(CursosRealizadosBE e_CursosRealizados)
+        public bool Anular(CursosRealizadosBE e_CursosRealizados)
         {
             try
             {

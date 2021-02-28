@@ -11,7 +11,36 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
     {
         const string Nombre_Clase = "IdiomasDominadosDA";
         private string m_BaseDatos = string.Empty;
+        public int GetMaxId()
+        {
+            int maxId = -1;
 
+            using (SqlConnection connection = Conectar())
+            {
+                try
+                {
+                    ComandoSP("usp_IdiomasDominadosGetMaxId", connection);
+
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!DBNull.Value.Equals(reader["CodigoMaxId"])) { maxId = Convert.ToInt32(reader["CodigoMaxId"]); }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+            return maxId;
+        }
         public IdiomasDominadosDA(String BaseDatos) { m_BaseDatos = BaseDatos; }
         public IdiomasDominadosDA() { }
         public int Insertar(IdiomasDominadosBE e_IdiomasDominados)

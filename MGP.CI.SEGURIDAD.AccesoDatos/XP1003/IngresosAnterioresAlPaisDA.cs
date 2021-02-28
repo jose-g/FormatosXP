@@ -58,6 +58,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@UbigeoId", e_IngresosAnterioresAlPais.UbigeoId);
                     ParametroSP("@Motivo", e_IngresosAnterioresAlPais.Motivo);
                     ParametroSP("@DondeResidio", e_IngresosAnterioresAlPais.DondeResidio);
+                    ParametroSP("@Destino", e_IngresosAnterioresAlPais.Destino);
                     ParametroSP("@EstadoId", e_IngresosAnterioresAlPais.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_IngresosAnterioresAlPais.UsuarioRegistro);
                     ParametroSP("@NroIpRegistro", e_IngresosAnterioresAlPais.NroIpRegistro);
@@ -88,6 +89,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@UbigeoId", e_IngresosAnterioresAlPais.UbigeoId);
                     ParametroSP("@Motivo", e_IngresosAnterioresAlPais.Motivo);
                     ParametroSP("@DondeResidio", e_IngresosAnterioresAlPais.DondeResidio);
+                    ParametroSP("@Destino", e_IngresosAnterioresAlPais.Destino);
                     ParametroSP("@EstadoId", e_IngresosAnterioresAlPais.EstadoId);
                     ParametroSP("@UsuarioModificacionRegistro", e_IngresosAnterioresAlPais.UsuarioModificacionRegistro);
                     ParametroSP("@NroIpRegistro", e_IngresosAnterioresAlPais.NroIpRegistro);

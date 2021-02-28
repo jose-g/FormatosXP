@@ -14,7 +14,36 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
 
         public CursosRealizadosDA(String BaseDatos) { m_BaseDatos = BaseDatos; }
         public CursosRealizadosDA() { }
+        public int GetMaxId()
+        {
+            int maxId = -1;
 
+            using (SqlConnection connection = Conectar())
+            {
+                try
+                {
+                    ComandoSP("usp_CursosRealizadosGetMaxId", connection);
+
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!DBNull.Value.Equals(reader["CodigoMaxId"])) { maxId = Convert.ToInt32(reader["CodigoMaxId"]); }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+            return maxId;
+        }
         public int Insertar(CursosRealizadosBE e_CursosRealizados)
         {
             using (SqlConnection connection = Conectar(m_BaseDatos))
@@ -25,6 +54,12 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@CursosRealizadosId", e_CursosRealizados.CursosRealizadosId);
                     ParametroSP("@CursoEscuelaExtranjeraId", e_CursosRealizados.CursoEscuelaExtranjeraId);
                     ParametroSP("@InformacionCastrenseId", e_CursosRealizados.InformacionCastrenseId);
+
+                    ParametroSP("@PaisId", e_CursosRealizados.PaisId);
+                    ParametroSP("@InstitucionMilitaresExtranjerasId", e_CursosRealizados.InstitucionMilitaresExtranjerasId);
+                    ParametroSP("@EscuelaExtranjeraId", e_CursosRealizados.EscuelaExtranjeraId);
+                    ParametroSP("@Ano", e_CursosRealizados.Ano);
+
                     ParametroSP("@EstadoId", e_CursosRealizados.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_CursosRealizados.UsuarioRegistro);
                     ParametroSP("@NroIpRegistro", e_CursosRealizados.NroIpRegistro);
@@ -51,6 +86,10 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@CursosRealizadosId", e_CursosRealizados.CursosRealizadosId);
                     ParametroSP("@CursoEscuelaExtranjeraId", e_CursosRealizados.CursoEscuelaExtranjeraId);
                     ParametroSP("@InformacionCastrenseId", e_CursosRealizados.InformacionCastrenseId);
+                    ParametroSP("@PaisId", e_CursosRealizados.PaisId);
+                    ParametroSP("@InstitucionMilitaresExtranjerasId", e_CursosRealizados.InstitucionMilitaresExtranjerasId);
+                    ParametroSP("@EscuelaExtranjeraId", e_CursosRealizados.EscuelaExtranjeraId);
+                    ParametroSP("@Ano", e_CursosRealizados.Ano);
                     ParametroSP("@EstadoId", e_CursosRealizados.EstadoId);
                     ParametroSP("@UsuarioModificacionRegistro", e_CursosRealizados.UsuarioModificacionRegistro);
                     ParametroSP("@NroIpRegistro", e_CursosRealizados.NroIpRegistro);

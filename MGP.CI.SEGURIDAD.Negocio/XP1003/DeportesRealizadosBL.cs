@@ -15,7 +15,21 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
         public DeportesRealizadosBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public DeportesRealizadosBL() { }
 
-        protected internal bool Insertar(DeportesRealizadosBE e_DeportesRealizados)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new DeportesRealizadosDA()).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+
+        public bool Insertar(DeportesRealizadosBE e_DeportesRealizados)
         {
             try
             {
@@ -29,7 +43,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(DeportesRealizadosBE e_DeportesRealizados)
+        public bool Actualizar(DeportesRealizadosBE e_DeportesRealizados)
         {
             try
             {
@@ -43,7 +57,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(DeportesRealizadosBE e_DeportesRealizados)
+        public bool Anular(DeportesRealizadosBE e_DeportesRealizados)
         {
             try
             {

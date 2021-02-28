@@ -27,21 +27,21 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public string Nombres3 { get; set; }
         [DataMember]
-        public int? NacionalidadId { get; set; }
+        public int? NacionalidadId { get; set; } = -1;
         [DataMember]
         public DateTime? FechaNamiento { get; set; }
         [DataMember]
-        public int? PaisId { get; set; }
+        public int? PaisId { get; set; } = -1;
         [DataMember]
         public string LugarNacimiento { get; set; }
         [DataMember]
-        public int? GrupoSanguineoId { get; set; }
+        public int? GrupoSanguineoId { get; set; } = -1;
         [DataMember]
-        public string Enfermedades { get; set; }
+        public int EnfermedadTipoId { get; set; } = -1;
         [DataMember]
-        public string Alergias { get; set; }
+        public int EnfermedadId { get; set; } = -1;
         [DataMember]
-        public int? ProfesionId { get; set; }
+        public int? ProfesionId { get; set; } = -1;
         [DataMember]
         public string Actividades { get; set; }
         [DataMember]
@@ -56,6 +56,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         public DateTime? FechaModificacionRegistro { get; set; }
         [DataMember]
         public string NroIpRegistro { get; set; }
+        [DataMember]
+        public int? EsResidente { get; set; }
         #endregion
 
         #region Constructores
@@ -75,8 +77,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int? m_PaisId,
             string m_LugarNacimiento,
             int? m_GrupoSanguineoId,
-            string m_Enfermedades,
-            string m_Alergias,
+            int m_EnfermedadId,
+            int m_EnfermedadTipoId,
             int? m_ProfesionId,
             string m_Actividades,
             int? m_EstadoId,
@@ -84,7 +86,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             DateTime? m_FechaRegistro,
             string m_UsuarioModificacionRegistro,
             DateTime? m_FechaModificacionRegistro,
-            string m_NroIpRegistro
+            string m_NroIpRegistro,
+            int m_EsResidente
         )
         {
             FamiliarId = m_FamiliarId;
@@ -100,8 +103,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             PaisId = m_PaisId;
             LugarNacimiento = m_LugarNacimiento;
             GrupoSanguineoId = m_GrupoSanguineoId;
-            Enfermedades = m_Enfermedades;
-            Alergias = m_Alergias;
+            EnfermedadId = m_EnfermedadId;
+            EnfermedadTipoId = m_EnfermedadTipoId;
             ProfesionId = m_ProfesionId;
             Actividades = m_Actividades;
             EstadoId = m_EstadoId;
@@ -110,6 +113,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             UsuarioModificacionRegistro = m_UsuarioModificacionRegistro;
             FechaModificacionRegistro = m_FechaModificacionRegistro;
             NroIpRegistro = m_NroIpRegistro;
+            EsResidente = m_EsResidente;
         }
 
         public DatosFamiliares1003BE(IDataReader Registro)
@@ -127,8 +131,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             PaisId = ValidarIntNulos(Registro["PaisId"]);
             LugarNacimiento = ValidarString(Registro["LugarNacimiento"]);
             GrupoSanguineoId = ValidarIntNulos(Registro["GrupoSanguineoId"]);
-            Enfermedades = ValidarString(Registro["Enfermedades"]);
-            Alergias = ValidarString(Registro["Alergias"]);
+            EnfermedadTipoId = ValidarInt(Registro["EnfermedadTipoId"]);
+            EnfermedadId = ValidarInt(Registro["EnfermedadId"]);
             ProfesionId = ValidarIntNulos(Registro["ProfesionId"]);
             Actividades = ValidarString(Registro["Actividades"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
@@ -137,6 +141,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             UsuarioModificacionRegistro = ValidarString(Registro["UsuarioModificacionRegistro"]);
             FechaModificacionRegistro = ValidarDatetime(Registro["FechaModificacionRegistro"]);
             NroIpRegistro = ValidarString(Registro["NroIpRegistro"]);
+            EsResidente = ValidarIntNulos(Registro["EsResidente"]);
         }
         #endregion
 

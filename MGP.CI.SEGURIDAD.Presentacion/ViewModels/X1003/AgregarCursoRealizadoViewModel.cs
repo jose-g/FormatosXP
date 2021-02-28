@@ -15,7 +15,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public int CursosRealizadosId { get; set; }
 
         [Display(Name = "Año")]
-        public DateTime? CR_Ano{ get; set; }
+        public int? CR_Ano{ get; set; }
 
 
         [Display(Name = "Curso")]

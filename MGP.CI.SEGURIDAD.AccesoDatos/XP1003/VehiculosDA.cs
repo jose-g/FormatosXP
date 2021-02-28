@@ -53,6 +53,8 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@VehiculoId", e_Vehiculos.VehiculoId);
                     ParametroSP("@VehiculoTipoId", e_Vehiculos.VehiculoTipoId);
                     ParametroSP("@AutoModeloId", e_Vehiculos.AutoModeloId);
+                    ParametroSP("@Placa", e_Vehiculos.Placa);
+                    ParametroSP("@AutoMarcaId", e_Vehiculos.AutoMarcaId);
                     ParametroSP("@CargosFuncionesX1003Id", e_Vehiculos.CargosFuncionesX1003Id);
                     ParametroSP("@EstadoId", e_Vehiculos.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_Vehiculos.UsuarioRegistro);
@@ -80,6 +82,8 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@VehiculoId", e_Vehiculos.VehiculoId);
                     ParametroSP("@VehiculoTipoId", e_Vehiculos.VehiculoTipoId);
                     ParametroSP("@AutoModeloId", e_Vehiculos.AutoModeloId);
+                    ParametroSP("@Placa", e_Vehiculos.Placa);
+                    ParametroSP("@AutoMarcaId", e_Vehiculos.AutoMarcaId);
                     ParametroSP("@CargosFuncionesX1003Id", e_Vehiculos.CargosFuncionesX1003Id);
                     ParametroSP("@EstadoId", e_Vehiculos.EstadoId);
                     ParametroSP("@UsuarioModificacionRegistro", e_Vehiculos.UsuarioModificacionRegistro);

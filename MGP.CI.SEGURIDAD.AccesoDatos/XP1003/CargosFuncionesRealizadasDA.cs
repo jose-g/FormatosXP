@@ -14,7 +14,36 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
 
         public CargosFuncionesRealizadasDA(String BaseDatos) { m_BaseDatos = BaseDatos; }
         public CargosFuncionesRealizadasDA() { }
+        public int GetMaxId()
+        {
+            int maxId = -1;
 
+            using (SqlConnection connection = Conectar())
+            {
+                try
+                {
+                    ComandoSP("usp_CargosFuncionesRealizadasGetMaxId", connection);
+
+
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            if (!DBNull.Value.Equals(reader["CodigoMaxId"])) { maxId = Convert.ToInt32(reader["CodigoMaxId"]); }
+                        }
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+            return maxId;
+        }
         public int Insertar(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
         {
             using (SqlConnection connection = Conectar(m_BaseDatos))
@@ -22,9 +51,11 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 try
                 {
                     ComandoSP("usp_CargosFuncionesRealizadasInsertar", connection);
-                    ParametroSP("@CargosFuncionesRealizadas", e_CargosFuncionesRealizadas.CargosFuncionesRealizadas);
+                    ParametroSP("@CargosFuncionesRealizadasId", e_CargosFuncionesRealizadas.CargosFuncionesRealizadasId);
                     ParametroSP("@CargosFuncionesId", e_CargosFuncionesRealizadas.CargosFuncionesId);
                     ParametroSP("@InformacionCastrenseId", e_CargosFuncionesRealizadas.InformacionCastrenseId);
+                    ParametroSP("@FechaInicio", e_CargosFuncionesRealizadas.Cargos_Funciones_FechaInicio);
+                    ParametroSP("@FechaFin", e_CargosFuncionesRealizadas.Cargos_Funciones_FechaFin);
                     ParametroSP("@EstadoId", e_CargosFuncionesRealizadas.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_CargosFuncionesRealizadas.UsuarioRegistro);
                     ParametroSP("@NroIpRegistro", e_CargosFuncionesRealizadas.NroIpRegistro);
@@ -48,9 +79,11 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 try
                 {
                     ComandoSP("usp_CargosFuncionesRealizadasActualizar", connection);
-                    ParametroSP("@CargosFuncionesRealizadas", e_CargosFuncionesRealizadas.CargosFuncionesRealizadas);
+                    ParametroSP("@CargosFuncionesRealizadasId", e_CargosFuncionesRealizadas.CargosFuncionesRealizadasId);
                     ParametroSP("@CargosFuncionesId", e_CargosFuncionesRealizadas.CargosFuncionesId);
                     ParametroSP("@InformacionCastrenseId", e_CargosFuncionesRealizadas.InformacionCastrenseId);
+                    ParametroSP("@FechaInicio", e_CargosFuncionesRealizadas.Cargos_Funciones_FechaInicio);
+                    ParametroSP("@FechaFin", e_CargosFuncionesRealizadas.Cargos_Funciones_FechaFin);
                     ParametroSP("@EstadoId", e_CargosFuncionesRealizadas.EstadoId);
                     ParametroSP("@UsuarioModificacionRegistro", e_CargosFuncionesRealizadas.UsuarioModificacionRegistro);
                     ParametroSP("@NroIpRegistro", e_CargosFuncionesRealizadas.NroIpRegistro);
@@ -74,7 +107,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 try
                 {
                     ComandoSP("usp_CargosFuncionesRealizadasAnular", connection);
-                    ParametroSP("@CargosFuncionesRealizadas", e_CargosFuncionesRealizadas.CargosFuncionesRealizadas);
+                    ParametroSP("@CargosFuncionesRealizadasId", e_CargosFuncionesRealizadas.CargosFuncionesRealizadasId);
                     ParametroSP("@UsuarioModificacionRegistro", e_CargosFuncionesRealizadas.UsuarioModificacionRegistro);
                     ParametroSP("@NroIpRegistro", e_CargosFuncionesRealizadas.NroIpRegistro);
                     return comando.ExecuteNonQuery();
@@ -127,7 +160,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 try
                 {
                     ComandoSP("usp_CargosFuncionesRealizadasConsultar_PK", connection);
-                    ParametroSP("@CargosFuncionesRealizadas", m_CargosFuncionesRealizadas);
+                    ParametroSP("@CargosFuncionesRealizadasId", m_CargosFuncionesRealizadas);
                     using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         while (reader.Read())

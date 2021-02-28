@@ -6,24 +6,20 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
 {
     [DataContract]
     [Serializable]
-    public partial class VehiculosBE : BaseBE
+    public partial class FotosFamiliaresBE : BaseBE
     {
         #region Propiedades
-        public readonly string Table_Name = "Vehiculos";
+        public readonly string Table_Name = "FotosFamiliares";
         [DataMember]
-        public int VehiculoId { get; set; }
+        public int FotoFamiliaresId { get; set; }
         [DataMember]
-        public int VehiculoTipoId { get; set; }
+        public int? FamiliarId { get; set; }
         [DataMember]
-        public int AutoModeloId { get; set; }
-        [DataMember]
-        public int AutoMarcaId { get; set; }
-        [DataMember]
-        public string Placa { get; set; }
-        [DataMember]
-        public int CargosFuncionesX1003Id { get; set; }
+        public int FotoTipoId { get; set; }
         [DataMember]
         public int? EstadoId { get; set; }
+        [DataMember]
+        public byte[] Foto { get; set; }
         [DataMember]
         public string UsuarioRegistro { get; set; }
         [DataMember]
@@ -37,14 +33,14 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         #endregion
 
         #region Constructores
-        public VehiculosBE() { }
+        public FotosFamiliaresBE() { }
 
-        public VehiculosBE(
-            int m_VehiculoId,
-            int m_VehiculoTipoId,
-            int m_AutoModeloId,
-            int m_CargosFuncionesX1003Id,
+        public FotosFamiliaresBE(
+            int m_FotoFamiliaresId,
+            int? m_FamiliarId,
+            int m_FotoTipoId,
             int? m_EstadoId,
+            byte[] m_Foto,
             string m_UsuarioRegistro,
             DateTime? m_FechaRegistro,
             string m_UsuarioModificacionRegistro,
@@ -52,11 +48,11 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             string m_NroIpRegistro
         )
         {
-            VehiculoId = m_VehiculoId;
-            VehiculoTipoId = m_VehiculoTipoId;
-            AutoModeloId = m_AutoModeloId;
-            CargosFuncionesX1003Id = m_CargosFuncionesX1003Id;
+            FotoFamiliaresId = m_FotoFamiliaresId;
+            FamiliarId = m_FamiliarId;
+            FotoTipoId = m_FotoTipoId;
             EstadoId = m_EstadoId;
+            Foto = m_Foto;
             UsuarioRegistro = m_UsuarioRegistro;
             FechaRegistro = m_FechaRegistro;
             UsuarioModificacionRegistro = m_UsuarioModificacionRegistro;
@@ -64,13 +60,13 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             NroIpRegistro = m_NroIpRegistro;
         }
 
-        public VehiculosBE(IDataReader Registro)
+        public FotosFamiliaresBE(IDataReader Registro)
         {
-            VehiculoId = ValidarInt(Registro["VehiculoId"]);
-            VehiculoTipoId = ValidarInt(Registro["VehiculoTipoId"]);
-            AutoModeloId = ValidarInt(Registro["AutoModeloId"]);
-            CargosFuncionesX1003Id = ValidarInt(Registro["CargosFuncionesX1003Id"]);
+            FotoFamiliaresId = ValidarInt(Registro["FotoFamiliaresId"]);
+            FamiliarId = ValidarIntNulos(Registro["FamiliarId"]);
+            FotoTipoId = ValidarInt(Registro["FotoTipoId"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
+            Foto = ValidarByte(Registro["Foto"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);
             FechaRegistro = ValidarDatetime(Registro["FechaRegistro"]);
             UsuarioModificacionRegistro = ValidarString(Registro["UsuarioModificacionRegistro"]);

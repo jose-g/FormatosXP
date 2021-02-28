@@ -14,8 +14,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
 
         public CargosFuncionesRealizadasBL(string BaseDatos) { m_BaseDatos = BaseDatos; }
         public CargosFuncionesRealizadasBL() { }
-
-        protected internal bool Insertar(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
+        public int GetMaxId()
+        {
+            int l = -1;
+            try
+            {
+                l = (new CargosFuncionesRealizadasDA(m_BaseDatos)).GetMaxId();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+            return l;
+        }
+        public bool Insertar(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
         {
             try
             {
@@ -29,7 +41,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Actualizar(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
+        public bool Actualizar(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
         {
             try
             {
@@ -43,7 +55,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        protected internal bool Anular(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
+        public bool Anular(CargosFuncionesRealizadasBE e_CargosFuncionesRealizadas)
         {
             try
             {

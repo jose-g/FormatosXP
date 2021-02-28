@@ -72,7 +72,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                 foreach (AgregarDomiciliosEnPeruVewModel dom in LstDomicilios)
                 {
                     DomiciliosBE d_BE = new DomiciliosBE();
-                    d_BE.DomicilioId = DomicilioId + 1;
+                    d_BE.DomicilioId = ++DomicilioId;
                     d_BE.CargosFuncionesX1003Id = c_BE.CargosFuncionesX1003Id;
                     d_BE.LugardeResidencia = dom.LugarResidenciaDomicilioDeclarante;
                     d_BE.Referencia = dom.ReferenciaDomicilioDeclarante;
@@ -109,10 +109,12 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                 foreach (AgregarVehiculoViewModel dom in LstVehiculos)
                 {
                     VehiculosBE v_BE = new VehiculosBE();
-                    v_BE.VehiculoId = VehiculoId + 1;
+                    v_BE.VehiculoId = ++VehiculoId;
                     v_BE.CargosFuncionesX1003Id = c_BE.CargosFuncionesX1003Id;
                     v_BE.VehiculoTipoId = Int32.Parse(dom.ExtranjeroTipoVehiculoId);
                     v_BE.AutoModeloId = dom.ExtranjeroVehiculoModeloId;
+                    v_BE.AutoMarcaId = dom.ExtranjeroVehiculoMarcaId;
+                    v_BE.Placa = dom.ExtranjeroVehiculoPlaca;
                     v_BE.EstadoId = 1;
                     v_BE.UsuarioRegistro = login;
                     v_BE.NroIpRegistro = HttpContext.Current.Request.UserHostAddress;
@@ -146,7 +148,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                 foreach (AgregarIngresosAlPaisViewModel dom in LstIngresos)
                 {
                     IngresosAlPaisBE i_BE = new IngresosAlPaisBE();
-                    i_BE.IngresoPaisId = IngresoPasiId + 1;
+                    i_BE.IngresoPaisId = ++IngresoPasiId;
                     i_BE.CargosFuncionesX1003Id = c_BE.CargosFuncionesX1003Id;
                     i_BE.FechaIngreso = dom.IngresoAlPaisFechaIngreso;
                     i_BE.FechaInicioMision = dom.IngresoAlPaisFechaInicioMision;
@@ -182,12 +184,13 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                 foreach (AgregarIngresosAnterioresAlPaisViewModel dom in LstIngresosAnteriores)
                 {
                     IngresosAnterioresAlPaisBE i_BE = new IngresosAnterioresAlPaisBE();
-                    i_BE.IngresosAnterioresAlPaisID = IngresosAnterioresId + 1;
+                    i_BE.IngresosAnterioresAlPaisID = ++IngresosAnterioresId;
                     i_BE.CargosFuncionesX1003Id = c_BE.CargosFuncionesX1003Id;
                     i_BE.FechaIngreso = dom.IngresoAnteriorFechaIngreso;
                     i_BE.FechaSalid = dom.IngresoAnteriorFechaSalida;
                     i_BE.Motivo = dom.IngresoAnteriorMotivo;
                     i_BE.DondeResidio = dom.IngresoAnteriorDondeResidio;
+                    i_BE.Destino = dom.IngresoAnteriorDestino;
                     i_BE.UbigeoId = 1;
                     i_BE.EstadoId = 1;
                     i_BE.UsuarioRegistro = login;

@@ -25,7 +25,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public int CondecoracionesExtranjerasId { get; set; }
 
         [Display(Name = "Año")]
-        public DateTime? CondecoracionesExtranjerasAno { get; set; }
+        public int? CondecoracionesExtranjerasAno { get; set; }
 
         public List<PaisesBE> LstPaises;
         public List<InstitucionesMilitaresExtranjerasBE> LstInstitucionMilitaresExtranjeras;
