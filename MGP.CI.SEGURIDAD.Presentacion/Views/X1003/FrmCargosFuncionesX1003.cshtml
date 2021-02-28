@@ -14,8 +14,8 @@
     <br>
     @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarCargosFuncionales", id = "FrmGrabarCargosFuncionales", onsubmit = "return GrabarFormCargosFunciones(this)" }))
     {
-        @Html.HiddenFor(x => x.DeclaranteId)
-        @Html.HiddenFor(x => x.FichaId)
+        @*@Html.HiddenFor(x => x.DeclaranteId)
+        @Html.HiddenFor(x => x.FichaId)*@
         <div class="row">
             <div class="row">
                 <div class="col-sm-2 col-md-2 col-lg-2">
@@ -193,7 +193,7 @@
 
         <div class="text-center" style="display: flex;justify-content: center;">
             <ul class="nav nav-pills">
-                <li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button id="btnCerrarFrmCargosFuncionales" type="button" onclick="clearFormCargosFuncionales();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>
+                @*<li class="pull-right btn-danger" style="margin-right: 25px;margin-left: 25px;"><button id="btnCerrarFrmCargosFuncionales" type="button" onclick="clearFormCargosFuncionales();" data-dismiss="modal" class="btn"><i class="fa fa-times"></i>&nbsp;Cerrar</button></li>*@
                 <li class="pull-right btn-warning" style="margin-right:2 5px;margin-left: 5px;">
                     <button id="btnGrabarCargosFuncionales" type="submit" class="btn"><i class="fa fa-save"></i>&nbsp;Grabar</button>
                 </li>

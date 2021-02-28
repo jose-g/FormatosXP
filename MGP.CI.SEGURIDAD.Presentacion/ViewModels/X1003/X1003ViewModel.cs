@@ -34,17 +34,17 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             bool v = false;
 
             DeclaranteBE declaranteBE = new DeclaranteBE();
-            declaranteBE.DeclaranteId = new DeclaranteBL().GetMaxId() + 1;
+            declaranteBE.DeclaranteId = DeclaranteId;
             declaranteBE.isUsuario = false;
             declaranteBE.UsuarioRegistro = login;
             declaranteBE.NroIpRegistro = HttpContext.Current.Request.UserHostAddress;
 
 
-            if (new DeclaranteBL().Insertar(declaranteBE) == false)
-            {
-                this.ErrorSMS = "Error en el ingreso Declarante";
-                return false;
-            }
+            //if (new DeclaranteBL().Insertar(declaranteBE) == false)
+            //{
+            //    this.ErrorSMS = "Error en el ingreso Declarante";
+            //    return false;
+            //}
             this.DeclaranteId = declaranteBE.DeclaranteId;
 
 
@@ -109,7 +109,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         {
             X1003ViewModel m_vmM = new X1003ViewModel();
 
-
+            m_vmM.FichaId = m_BE.FichaId;
+            m_vmM.DeclaranteId = m_BE.DeclaranteId.Value;
             return m_vmM;
         }
 

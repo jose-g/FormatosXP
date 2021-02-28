@@ -12,6 +12,7 @@
 
 
 <div>
+    <input type="hidden" id="DeclaranteId" value="0">
     <div class="panel panel-info">
         <div class="modal-body">
             @*@using (Html.BeginForm("X1003BuscarDeclarantes", "Declarantes", FormMethod.Post, new { id = "frmBuscarDeclaranteXP1003", onsubmit = "return BuscarFichasFromDeclarantes(this)" }))
@@ -98,7 +99,7 @@
         <div class="col-sm-12" style="margin-top: 5px; padding-bottom:5px; text-align:right; float:right;">
             @*@if (ViewBag.PERMISOS.NUEVO == true)
                 {*@
-            <button class="btn btn-active-info btn-icon-split" id="btnNuevaFichaXP1003">
+            <button class="btn btn-active-info btn-icon-split" id="btnNuevoDeclaranteXP1003">
                 <span class="icon text-white-50">
                     <i class="glyphicon glyphicon-plus"></i>
                 </span>
@@ -205,29 +206,38 @@
 
 
         $(document).on('click', '#btnNuevaFichaXP1003', function () {
+            var declaranteid = $('#DeclaranteId').val();
+            if (declaranteid > 0) {
+                DeclaranteVerDetalles($('#DeclaranteId').val());
+            } else {
+                alert('Seleccionar un declarante.');
+            }
+        })
+
+        $(document).on('click', '#btnNuevoDeclaranteXP1003', function () {
             $.ajax({
                 url: "@Url.Action("VerFrmConfirmacion", "XP1003")",
                 data: {},
-                type: "POST",
-                dataType: 'HTML',
-                success: function (data) {
-                    $('#verConfirmarCrearFichaContainer').html(data);
-                    $('#verModalConfirmarCrearFicha').modal('show');
-                },
-                error: function (data) {
-                    console.log("Sucedió un error")
-                }
+            type: "POST",
+            dataType: 'HTML',
+            success: function (data) {
+                $('#verConfirmarCrearFichaContainer').html(data);
+                $('#verModalConfirmarCrearFicha').modal('show');
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
 
-            });
+        });
         })
-
-
 
 
 
     function FichaVerDetalles(m_Ficha1003Id) {
         $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")" + "?m_FichaId=" + m_Ficha1003Id);
-        }
+    }
+
+
         function DeclaranteVerDetalles(m_Declarante1003Id) {
             $(location).attr('href', "@Url.Action("DeclaranteVerDetalles", "XP1003")" + "?m_DeclaranteId=" + m_Declarante1003Id);
         }
@@ -253,6 +263,7 @@
     }
 
         function BuscarFichasFromDeclarantes(m_DatosPersonalesId) {
+            $('#DeclaranteId').val(m_DatosPersonalesId);
             ActualizarListaFichasXP1003("@Url.Action("Consultar_listaFichasToDatatableXP1003", "XP1003")", m_DatosPersonalesId);
     }
 
@@ -311,9 +322,10 @@
                     "render": function (data, type, full, meta) {
                         //var BtnImprimirFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Imprimir datos de la Ficha' id='btnImprimirFichaXP1003Modal' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-camera fa-stack-3x'></i> </span></button>";
                         var BtnEditarDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='DeclaranteVerDetalles(" + full.DatosPersonalesId + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-edit fa-stack-3x'></i> </span></button>";
-                        var BtnListarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='BuscarFichasFromDeclarantes(" + full.DatosPersonalesId + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-list fa-stack-3x'></i> </span></button>";
+                        var BtnListarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Listar Fichas' id='btnModificarFichaXP1003Modal' onclick='BuscarFichasFromDeclarantes(" + full.DatosPersonalesId + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-list fa-stack-3x'></i> </span></button>";
                         var BtnEliminarDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Ficha' id='btnEliminarFichaXP1003Modal' class='btn btn-sm btn-active-danger'><span class='fa-stack fa-2x'> <i class='fa fa-trash fa-stack-3x'></i> </span></button>";
-                        return BtnListarFicha + BtnEditarDeclarante + BtnEliminarDeclarante;
+                        //return BtnListarFicha + BtnEditarDeclarante + BtnEliminarDeclarante;
+                        return BtnListarFicha ;
                 },
                     "className": "text-center"
                 }

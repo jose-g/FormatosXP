@@ -165,6 +165,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             LstFotos = new List<FotosViewModel>();
             LstIdentificaciones = new List<DeclaranteIdentificacionesBE>();
             LstEnfermedad = new List<EnfermedadesBE>();
+            LstAgregarDocumentoVM = new List<AgregarDocumentoViewModel>();
         }
         public bool Insertar(string login)
         {

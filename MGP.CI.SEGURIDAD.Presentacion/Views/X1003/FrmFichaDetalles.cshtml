@@ -132,9 +132,9 @@
                 <li class="nav-item" id="navtb4">
                     <a class="nav-link " data-toggle="tab" href="#tb4"><i class="fas fa-anchor"></i>&nbsp;&nbsp;Informacion Castrense</a>
                 </li>
-                <li class="nav-item" id="navtb5">
+                @*<li class="nav-item" id="navtb5" >
                     <a class="nav-link  " data-toggle="tab" href="#tb5"><i class="fa fa-camera"></i>&nbsp;&nbsp;Fotografias</a>
-                </li>
+                </li>*@
                 <li class="nav-item" id="navtb6">
                     <a class="nav-link " data-toggle="tab" href="#tb6"><i class="far fa-map"></i>&nbsp;&nbsp;Otros</a>
                 </li>
@@ -157,9 +157,9 @@
                     @*<div class="tab-pane fade" id="tb5" role="tabpanel">
                             @Html.Partial("~/Views/X1003/FrmDeportesX1003.cshtml", Model.x1003deportesVM)
                         </div>*@
-                    <div class="tab-pane fade" id="tb5" role="tabpanel">
+                    @*<div class="tab-pane fade" id="tb5" role="tabpanel">
                         @Html.Partial("~/Views/X1003/FrmFotografiasX1003.cshtml")
-                    </div>
+                    </div>*@
                     <div class="tab-pane fade" id="tb6" role="tabpanel">
                         @Html.Partial("~/Views/X1003/FrmOtrosX1003.cshtml", Model.x1003otrosVM)
                     </div>
@@ -270,25 +270,25 @@
 
 
             var foto1 = $('#imgfiledeclarantefoto1').attr('src');
-            if ((foto1 == null) || foto1.includes("fotopreliminar")){
-                MsjError = ".- Falta la Foto de Frente<br>";
-                return false;
-            }
+            //if ((foto1 == null) || foto1.includes("fotopreliminar")){
+            //    MsjError = ".- Falta la Foto de Frente<br>";
+            //    return false;
+            //}
             var foto2 = $('#imgfiledeclarantefoto2').attr('src');
-            if ((foto2 == null) || foto2.includes("fotopreliminar")) {
-                MsjError = ".- Falta la Foto posterior<br>";
-                return false;
-            }
+            //if ((foto2 == null) || foto2.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto posterior<br>";
+            //    return false;
+            //}
             var foto3 = $('#imgfiledeclarantefoto3').attr('src');
-            if ((foto3 == null) || foto3.includes("fotopreliminar")) {
-                MsjError = ".- Falta la Foto Perfil izquierdo<br>";
-                return false;
-            }
+            //if ((foto3 == null) || foto3.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto Perfil izquierdo<br>";
+            //    return false;
+            //}
             var foto4 = $('#imgfiledeclarantefoto4').attr('src');
-            if ((foto4 == null) || foto4.includes("fotopreliminar")) {
-                MsjError = ".- Falta la Foto perfil derecho<br>";
-                return false;
-            }
+            //if ((foto4 == null) || foto4.includes("fotopreliminar")) {
+            //    MsjError = ".- Falta la Foto perfil derecho<br>";
+            //    return false;
+            //}
 
             ArrayFotos = new Array();
             var valor = {};
@@ -298,12 +298,12 @@
             valor.FotoLateralDerecho = foto4;
             ArrayFotos.push(valor);
 
-            if ($('#tblDocumentosDeclarante tbody tr').length == 0) {
-                $("#frmShowErroUsuario").show();
-                $("#frmShowErroUsuario").html("Faltan Registrar Documentos");
-                $.notify("Ocurrio un error", "error");
-                return false;
-            }
+            //if ($('#tblDocumentosDeclarante tbody tr').length == 0) {
+            //    $("#frmShowErroUsuario").show();
+            //    $("#frmShowErroUsuario").html("Faltan Registrar Documentos");
+            //    $.notify("Ocurrio un error", "error");
+            //    return false;
+            //}
 
 
             ArrayDataTable = new Array();
@@ -329,7 +329,7 @@
                 success: function (data) {
                     if (data.success == true) {
                         $.notify("Operación satisfactoria..", "success");
-
+                        $('#DeclaranteId').val(data.DatosPersonalesId);
                         $('#btnGrabarDatosPersonales').remove();
                         $('#btnCerrarFrmDatosPersonales').remove();
                         return false;
@@ -371,7 +371,12 @@
         });
 
         function GrabarFormDatosFamExt() {
-
+            var fichaId = $('#FichaId').val();
+            var declaranteid = $('#DeclaranteId').val();
+            if (declaranteid == 0) {
+                alert("Primero debe registrar los Datos Personales del Extranjero.");
+                return false;
+            }
             var foto1 = $('#imgfileesposafoto1').attr('src');
             //if ((foto1 == null) || foto1.includes("fotopreliminar")) {
             //    MsjError = ".- Falta la Foto de Frente<br>";
@@ -534,7 +539,7 @@
             });
 
 
-            var fichaId = $('#FichaId').val();
+            
             var lstdoc = jQuery.param({ LstIdentificaciones: ArrayDocEsposa });
             var lsthijos = jQuery.param({ LstHijos: ArrayHijos });
             var lstfam = jQuery.param({ LstFamiliares: ArrayFamiliares });
@@ -545,13 +550,16 @@
 
 
             $.ajax({
-                url: "@Url.Action("GrabarDatosFamiliares", "XP1003")",
-                data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas + "&" + lstfotos,
+                url: "@Url.Action("GrabarDatosFamiliares", "XP1003")", 
+                data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas + "&" + lstfotos,
                 type: "POST",
                 dataType: 'JSON',
                 success: function (data) {
                     if (data.success == true) {
                         $.notify("Operación satisfactoria..", "success");
+                        $('#btnGrabarDatosFamiliares').remove();
+                        $('#btnCerrarFrmFamiliares').remove();
+                        $('#FichaId').val(data.FichaId);
                         return false;
                     } else {
                         $("#frmShowErroFamiliar").show();
@@ -993,7 +1001,12 @@
 
 
         function GrabarFormCargosFunciones() {
-
+            var fichaId = $('#FichaId').val();
+            var declaranteid = $('#DeclaranteId').val();
+            if (declaranteid == 0) {
+                alert("Primero debe registrar los Datos Personales del Extranjero.");
+                return false;
+            }
             //if ($('#tblDomicilioExtranjeroXP1003 tbody tr').length == 0) {
             //    $("#frmShowErrorCargoFunciones").show();
             //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Domicilio");
@@ -1073,7 +1086,7 @@
                 ArrayIngresoAnteriorAlPais.push(valor);
             })
 
-
+            
             var lstdomicilios= jQuery.param({ LstDomicilios: ArrayDomiciliosExtranjeros });
             var lstvehiculos = jQuery.param({ LstVehiculos: ArrayVehiculos });
             var lsingresos = jQuery.param({ LstIngresos: ArrayIngresoToPais });
@@ -1082,7 +1095,7 @@
 
             $.ajax({
                 url: "@Url.Action("GrabarDatosCargosFunciones", "XP1003")",
-                data: $('#FrmGrabarCargosFuncionales').serialize() + "&" + lstdomicilios + "&" + lstvehiculos + "&" + lsingresos + "&" + lsingresosanteriores,
+                data: $('#FrmGrabarCargosFuncionales').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdomicilios + "&" + lstvehiculos + "&" + lsingresos + "&" + lsingresosanteriores,
                 type: "POST",
                 dataType: 'JSON',
                 success: function (data) {
@@ -1090,7 +1103,7 @@
                         $.notify("Operación satisfactoria..", "success");
                         $('#btnGrabarCargosFuncionales').remove();
                         $('#btnCerrarFrmCargosFuncionales').remove();
-
+                        $('#FichaId').val(data.FichaId);
                         return false;
                     } else {
                         $("#frmShowErrorCargoFunciones").show();
@@ -1107,7 +1120,11 @@
         }
 
         function GrabarFormInformacionCastrense() { // jguerrero
-
+            var declaranteid = $('#DeclaranteId').val();
+            if (declaranteid == 0) {
+                alert("Primero debe registrar los Datos Personales del Extranjero.");
+                return false;
+            }
             //if ($('#tblDomicilioExtranjeroXP1003 tbody tr').length == 0) {
             //    $("#frmShowErrorCargoFunciones").show();
             //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Domicilio");
@@ -1200,6 +1217,8 @@
                 valor.IdiomaLeido = $row.find("td:eq(3)").text();
                 ArrayIdiomasCursadas.push(valor);
             })
+
+            var fichaId = $('#FichaId').val();
             var lstascensos = jQuery.param({ LstAscensos: ArrayAscensos });
             var lstcargos = jQuery.param({ LstCargos: ArrayCargosComisiones });
             var lstcondecoraciones = jQuery.param({ LstCondecoraciones: ArrayCondecoraciones });
@@ -1209,7 +1228,7 @@
 
             $.ajax({
                 url: "@Url.Action("GrabarDatosInformacionCastrense", "XP1003")",
-                data: $('#FrmGrabarInformacionCastrense').serialize() + "&" + lstascensos + "&" + lstcargos + "&" + lstcondecoraciones + "&" + lstcursos + "&" + lstidiomas,
+                data: $('#FrmGrabarInformacionCastrense').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstascensos + "&" + lstcargos + "&" + lstcondecoraciones + "&" + lstcursos + "&" + lstidiomas,
             type: "POST",
             dataType: 'JSON',
             success: function (data) {
@@ -1217,7 +1236,7 @@
                     $.notify("Operación satisfactoria..", "success");
                     $('#btnGrabarInformacionCastrense').remove();
                     $('#btnCerrarInformacionCastrense').remove();
-
+                    $('#FichaId').val(data.FichaId);
                     return false;
                 } else {
                     $("#frmShowErrorInformacionCastrense").show();
@@ -1233,7 +1252,11 @@
         return false;
         }
         function GrabarFormOtros() {
-
+            var declaranteid = $('#DeclaranteId').val();
+            if (declaranteid == 0) {
+                alert("Primero debe registrar los Datos Personales del Extranjero.");
+                return false;
+            }
             //if ($('#tblDomicilioExtranjeroXP1003 tbody tr').length == 0) {
             //    $("#frmShowErrorCargoFunciones").show();
             //    $("#frmShowErrorCargoFunciones").html("Faltan Registrar Domicilio");
@@ -1279,14 +1302,15 @@
                 valor.Observacion = $row.find("td:eq(0)").text();
                 ArrayObservaciones.push(valor);
             })
-
+            var fichaId = $('#FichaId').val();
+            
             var lstdeporte = jQuery.param({ LstDeporte: ArrayDeportes });
             var lstobservacion = jQuery.param({ LstObservacion: ArrayObservaciones });
 
 
             $.ajax({
                 url: "@Url.Action("GrabarDatosOtros", "XP1003")",
-                data: $('#FrmGrabarOtros').serialize() + "&" + lstdeporte + "&" + lstobservacion,
+                data: $('#FrmGrabarOtros').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdeporte + "&" + lstobservacion,
             type: "POST",
             dataType: 'JSON',
             success: function (data) {
@@ -1294,7 +1318,7 @@
                     $.notify("Operación satisfactoria..", "success");
                     $('#btnGrabarOtros').remove();
                     $('#btnCerrarOtros').remove();
-
+                    $('#FichaId').val(data.FichaId);
                     return false;
                 } else {
                     $("#frmShowErrorOtros").show();
@@ -2346,7 +2370,13 @@
 
         $(document).ready(function () {
 
+            var declaranteid = $('#DeclaranteId').val();
+            if (declaranteid > 0) {
+                $('#btnGrabarDatosPersonales').remove();
+                $('#btnCerrarFrmDatosPersonales').remove();
+            }
 
+            
             activaTab('tb1');
 
             function activaTab(tab) {
