@@ -15,6 +15,15 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public Int32 DeclaranteId { get; set; }
         public Int32 CargosFuncionesX1003Id { get; set; }
 
+
+        public int UbigeoId { get; set; }
+        public int? EstadoId { get; set; }
+        public string UsuarioRegistro { get; set; }
+        public string NroIpRegistro { get; set; }
+
+
+
+
         public List<AgregarDomiciliosEnPeruVewModel> LstDomicilios;
         public List<AgregarVehiculoViewModel> LstVehiculos;
         public List<AgregarIngresosAlPaisViewModel> LstIngresos;
@@ -214,16 +223,6 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                             return false;
                         }
                     }
-
-
-
-
-
-
-
-
-
-
                 }
             }
             return true;
@@ -247,56 +246,101 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             foreach (IngresosAnterioresAlPaisBE dom in new IngresosAnterioresAlPaisBL().Consultar_Lista().Where(x => x.CargosFuncionesX1003Id == CargosFuncionesX1003Id))
                 new IngresosAnterioresAlPaisBL().Anular(dom);
         }
+        private X1003CargosFuncionesViewModel BEToViewModel(CargosFuncionesX1003BE m_BE)
+        {
+            X1003CargosFuncionesViewModel m_vm = new X1003CargosFuncionesViewModel();
+
+            m_vm.CargosFuncionesX1003Id = m_BE.CargosFuncionesX1003Id;
+            m_vm.EstadoId = m_BE.EstadoId;
+            m_vm.FichaId = m_BE.FichaId;
+            m_vm.UbigeoId = m_BE.UbigeoId;
+            m_vm.NroIpRegistro = m_BE.NroIpRegistro;
+            m_vm.UsuarioRegistro = m_BE.UsuarioRegistro;
+
+            m_vm.LstDomicilios=this.LstDomicilios;
+            m_vm.LstVehiculos=this.LstVehiculos;
+            m_vm.LstIngresos=this.LstIngresos;
+            m_vm.LstIngresosAnteriores=this.LstIngresosAnteriores;
+
+
+            return m_vm;
+        }
         public X1003CargosFuncionesViewModel BuscarxId(int m_CargosFuncionesId)
         {
             CargosFuncionesX1003BE m_BE = new CargosFuncionesX1003BL().Consultar_PK(m_CargosFuncionesId).FirstOrDefault();
 
-            LstDomicilios
+            
+            List<DomiciliosBE> lstBE_Domicilio = new List<DomiciliosBE>();
+            lstBE_Domicilio = new DomiciliosBL().Consultar_FK(m_CargosFuncionesId);
 
-            //FotosDeclarantesBL objFotosBL = new FotosDeclarantesBL();
-            //List<FotosDeclarantesBE> lstFotos = new List<FotosDeclarantesBE>();
-            //lstFotos = objFotosBL.Consultar_FK(m_CargosFuncionesId);
+            foreach (DomiciliosBE be in lstBE_Domicilio)
+            {
+                AgregarDomiciliosEnPeruVewModel VM = new AgregarDomiciliosEnPeruVewModel();
+                VM.LugarResidenciaDomicilioDeclarante = be.LugardeResidencia;
+                VM.DistritoDomicilioDeclaranteId = new UbigeoBL().Consultar_PK(be.UbigeoId).Find(x => x.UbigeoId == be.UbigeoId).UbigeoCodigo;
+                VM.ProvinciaDomicilioDeclaranteId = VM.DistritoDomicilioDeclaranteId.Remove(VM.DistritoDomicilioDeclaranteId.Length - 2) + "01";
+                VM.DepartamentoDomicilioDeclaranteId = VM.DistritoDomicilioDeclaranteId.Remove(VM.DistritoDomicilioDeclaranteId.Length - 4) + "0101";
+                VM.ReferenciaDomicilioDeclarante = be.Referencia;
+                VM.TelefonoDomicilioDeclarante = Int32.Parse(be.Telefono);
+                VM.lblEmailDomicilioDeclarante = be.Email;
+                LstDomicilios.Add(VM);
+            }
+                List<IngresosAlPaisBE> lstBE_IngresoAlPais = new List<IngresosAlPaisBE>();
+            lstBE_IngresoAlPais = new IngresosAlPaisBL().Consultar_FK(m_CargosFuncionesId);
 
-            //FotosDeclarantesBE m_fotos_BE = new FotosDeclarantesBE();
-            //FotosViewModel f_vm = new FotosViewModel();
+            foreach (IngresosAlPaisBE be in lstBE_IngresoAlPais)
+            {
+                AgregarIngresosAlPaisViewModel VM = new AgregarIngresosAlPaisViewModel();
+                VM.IngresoAlPaisFechaIngreso = be.FechaIngreso;
+                VM.IngresoAlPaisFechaInicioMision = be.FechaInicioMision;
+                VM.IngresoAlPaisFechaTerminoMision = be.FechaTerminoMision;
+                LstIngresos.Add(VM);
+            }
 
-            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 1).FirstOrDefault();
-            //f_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+            List<IngresosAnterioresAlPaisBE> lstBE_IngresosAnterioresAlPais = new List<IngresosAnterioresAlPaisBE>();
+            lstBE_IngresosAnterioresAlPais = new IngresosAnterioresAlPaisBL().Consultar_FK(m_CargosFuncionesId);
 
-            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 2).FirstOrDefault();
-            //f_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+            foreach (IngresosAnterioresAlPaisBE be in lstBE_IngresosAnterioresAlPais)
+            {
+                AgregarIngresosAnterioresAlPaisViewModel VM = new AgregarIngresosAnterioresAlPaisViewModel();
+                VM.IngresoAnteriorFechaIngreso = be.FechaIngreso;
+                VM.IngresoAnteriorFechaSalida = be.FechaSalid;
+                VM.IngresoAnteriorMotivo = be.Motivo;
+                VM.IngresoAnteriorDondeResidio = be.DondeResidio;
+                VM.IngresoAnteriorDestino = be.Destino;
+                LstIngresosAnteriores.Add(VM);
+            }
 
-            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 3).FirstOrDefault();
-            //f_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+            List<VehiculosBE> lstBE_Vehiculos = new List<VehiculosBE>();
+            lstBE_Vehiculos = new VehiculosBL().Consultar_FK(m_CargosFuncionesId);
 
-            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 4).FirstOrDefault();
-            //f_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+            foreach (VehiculosBE be in lstBE_Vehiculos)
+            {
+                AgregarVehiculoViewModel VM = new AgregarVehiculoViewModel();
+                VM.ExtranjeroTipoVehiculoId = be.VehiculoTipoId.ToString();
+                VM.ExtranjeroVehiculoModeloId = be.AutoModeloId;
+                VM.ExtranjeroVehiculoMarcaId = be.AutoMarcaId;
+                VM.ExtranjeroVehiculoPlaca = be.Placa;
+                LstVehiculos.Add(VM);
+            }
 
-            //LstFotos.Add(f_vm);
+            
 
-            //DeclaranteIdentificacionesBL objIdentBL = new DeclaranteIdentificacionesBL();
-            //LstIdentificaciones = objIdentBL.Consultar_FK(m_DatosPersonalesId);
-            //if (m_BE != null)
-            //    return BEToViewModel(m_BE);
-
+            if (m_BE != null) return BEToViewModel(m_BE);
             return null;
         }
         public X1003CargosFuncionesViewModel BuscarxFicha(int m_FichaId)
         {
-
             int m_Id;
             try
             {
-                m_Id = new CargosFuncionesX1003BL().Consultar_FK(m_FichaId).FirstOrDefault().;
+                m_Id = new CargosFuncionesX1003BL().Consultar_FK(m_FichaId).FirstOrDefault().CargosFuncionesX1003Id;
                 return BuscarxId(m_Id);
             }
             catch (Exception e)
             {
-
+                return new X1003CargosFuncionesViewModel();
             }
-
-
-            return new X1003DatosPersonalesViewModel();
         }
 
     }

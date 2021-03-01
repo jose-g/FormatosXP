@@ -186,7 +186,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
             {
                 try
                 {
-                    ComandoSP("usp_CargosFunciones1003Consultar_FK", connection);
+                    ComandoSP("usp_CargosFuncionesX1003Consultar_FK", connection);
                     ParametroSP("@FichaId", m_FichaId);
                     using (SqlDataReader reader = comando.ExecuteReader())
                     {

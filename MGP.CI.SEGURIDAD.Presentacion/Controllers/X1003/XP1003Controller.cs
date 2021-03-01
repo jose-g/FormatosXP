@@ -60,10 +60,10 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             {
                 vm = new X1003ViewModel().BuscarxId(Convert.ToInt32(m_FichaId));
                 vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                vm.x1003datosfamiliaresVM = new x1003DatosFamiliaresVM().BuscarxFicha(Int32.Parse(m_FichaId));
+                //vm.x1003datosfamiliaresVM = new x1003DatosFamiliaresVM().BuscarxFicha(Int32.Parse(m_FichaId));
                 vm.x1003cargosfuncionesVM = new X1003CargosFuncionesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                //vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                //vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
             }
             else
             {
