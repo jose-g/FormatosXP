@@ -178,6 +178,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<CargosFuncionesX1003BE> Consultar_FK(
+        int m_FichaId)
+        {
+            List<CargosFuncionesX1003BE> lista = new List<CargosFuncionesX1003BE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_CargosFunciones1003Consultar_FK", connection);
+                    ParametroSP("@FichaId", m_FichaId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new CargosFuncionesX1003BE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

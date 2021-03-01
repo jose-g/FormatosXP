@@ -242,6 +242,14 @@
     <Compile Include="ViewModels\X1003\X1003OtrosViewModel.cs" />
     <Compile Include="ViewModels\X1003\X1003ViewModel.cs" />
     <Compile Include="ViewModels\X1005\BusquedaDeclaranteXP1005ViewModel.cs" />
+    <Compile Include="ViewModels\X1005\BusquedaFichasXP1005ViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005ActividadesEnElPaisViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005CaracterTratoViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005DatosGeneralesViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005ObservacionesViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005PerfilPsicologicoViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005ViewModel.cs" />
+    <Compile Include="ViewModels\X1005\X1005VinculacionesViewModel.cs" />
     <Compile Include="Views\X1003\FotosFamiliaresViewModel.cs" />
     <Compile Include="Views\X1003\FotosViewModel.cs" />
   </ItemGroup>

@@ -100,6 +100,20 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
                 throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
             }
         }
-
+        public List<CargosFuncionesX1003BE> Consultar_FK(
+              int m_FichaId
+              )
+        {
+            List<CargosFuncionesX1003BE> lista = new List<CargosFuncionesX1003BE>();
+            try
+            {
+                CargosFuncionesX1003DA o_DatosPersonales1003 = new CargosFuncionesX1003DA(m_BaseDatos);
+                return o_DatosPersonales1003.Consultar_FK(m_FichaId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

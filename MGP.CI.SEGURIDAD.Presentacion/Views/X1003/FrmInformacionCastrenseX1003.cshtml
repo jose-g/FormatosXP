@@ -16,8 +16,8 @@
     @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarInformacionCastrense", id = "FrmGrabarInformacionCastrense", onsubmit = "return GrabarFormInformacionCastrense(this)" }))
     {
 
-        @*@Html.HiddenFor(x => x.DeclaranteId)
-        @Html.HiddenFor(x => x.FichaId)*@
+        @Html.HiddenFor(x => x.DeclaranteId)
+        @Html.HiddenFor(x => x.FichaId)
 
         <div class="row">
             <div class="col-sm-2 col-md-2 col-lg-2">

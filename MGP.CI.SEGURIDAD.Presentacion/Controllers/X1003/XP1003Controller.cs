@@ -30,7 +30,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         {
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
             BusquedaDeclaranteViewModel vm = new BusquedaDeclaranteViewModel();
-            var query = vm.ListarUsuariosFiltrados(obj).Select(x => new { x.DatosPersonalesId, x.ApePaterno, x.ApeMaterno, x.Nombres, x.FechaRegistroStr }).DistinctBy(x => x.DatosPersonalesId).ToList();
+            var query = vm.ListarUsuariosFiltrados(obj).Select(x => new { x.DatosPersonalesId,x.DeclaranteId, x.ApePaterno, x.ApeMaterno, x.Nombres, x.FechaRegistroStr }).DistinctBy(x => x.DatosPersonalesId).ToList();
             return Json(new { data = query }, JsonRequestBehavior.AllowGet);
         }
 
@@ -59,17 +59,19 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             if (m_FichaId != null)
             {
                 vm = new X1003ViewModel().BuscarxId(Convert.ToInt32(m_FichaId));
-                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxId(vm.DeclaranteId);
+                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.x1003datosfamiliaresVM = new x1003DatosFamiliaresVM().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.x1003cargosfuncionesVM = new X1003CargosFuncionesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+            }
+            else
+            {
+                vm.CrearNuevaFichaXP1003(sesionVM.Login);
             }
                 
-            //else
-            //    vm.CrearNuevaFichaXP1003(sesionVM.Login);
 
-            //if (m_FichaId != null && m_DeclaranteId!=null)
-            //{
-            //    vm.FichaId =Int32.Parse(m_FichaId);
-            //    vm.DeclaranteId = Int32.Parse(m_DeclaranteId);
-            //}
+
 
 
                 vm.CargarTablasMaestras();
@@ -78,19 +80,20 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
 
         }
         [HttpGet]
-        public ActionResult DeclaranteVerDetalles(string m_DeclaranteId)
+        public ActionResult DeclaranteVerDetalles(string m_DatosPersonalesId, string m_DeclaranteId)
         {
             X1003ViewModel vm = new X1003ViewModel();
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
             if (m_DeclaranteId != null)
             {
-                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxId(Convert.ToInt32(m_DeclaranteId));
+                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxId(Convert.ToInt32(m_DatosPersonalesId));
                 vm.DeclaranteId = Int32.Parse(m_DeclaranteId);
+                vm.CrearNuevaFicha_MismoDeclaranteXP1003(sesionVM.Login,Int32.Parse(m_DeclaranteId));
             }
-            else
-            {
-                vm.CrearNuevaFichaXP1003(sesionVM.Login);
-            }
+            //else
+            //{
+            //    vm.CrearNuevaFichaXP1003(sesionVM.Login);
+            //}
             vm.CargarTablasMaestras();
             return PartialView("../X1003/FrmFichaDetalles", vm);
         }

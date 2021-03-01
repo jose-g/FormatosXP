@@ -157,8 +157,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
             }
         }
 
-        public List<IngresosAnterioresAlPaisBE> Consultar_PK(
-                int m_IngresosAnterioresAlPaisID)
+        public List<IngresosAnterioresAlPaisBE> Consultar_PK(int m_IngresosAnterioresAlPaisID)
         {
             List<IngresosAnterioresAlPaisBE> lista = new List<IngresosAnterioresAlPaisBE>();
             using (SqlConnection connection = Conectar(m_BaseDatos))
@@ -167,6 +166,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 {
                     ComandoSP("usp_IngresosAnterioresAlPaisConsultar_PK", connection);
                     ParametroSP("@IngresosAnterioresAlPaisID", m_IngresosAnterioresAlPaisID);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new IngresosAnterioresAlPaisBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
+        public List<IngresosAnterioresAlPaisBE> Consultar_FK(int m_Fk_ID)
+        {
+            List<IngresosAnterioresAlPaisBE> lista = new List<IngresosAnterioresAlPaisBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_IngresosAnterioresAlPaisConsultar_FK", connection);
+                    ParametroSP("@CargosFuncionesX1003Id", m_Fk_ID);
                     using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         while (reader.Read())

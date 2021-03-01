@@ -14,8 +14,8 @@
     <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
         @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarDatosPersonales", id = "FrmGrabarDatosExtranjero", onsubmit = "return GrabarFormDatosExt(this)" }))
         {
-            @*@Html.HiddenFor(x => x.DeclaranteId)
-            @Html.HiddenFor(x => x.FichaId)*@
+            @Html.HiddenFor(x => x.DeclaranteId)
+            @Html.HiddenFor(x => x.FichaId)
             @Html.HiddenFor(x => x.DatosPersonalesId)
 
             <div class="row">
@@ -358,7 +358,7 @@
 
         @foreach (var element in Model.LstIdentificaciones)
         {
-            @:idfilaDocDeclarante = '@element.DocumentoIdentidadTipoId' + '_' + '@element.DeclaranteNumeroDocumento';
+            @:idfilaDocDeclarante = '@element.DeclaranteNumeroDocumento' + '_' + '@element.DocumentoIdentidadTipoId';
             @:BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoDeclarante(\"" + idfilaDocDeclarante + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
             @:$('#tblDocumentosDeclarante').find('tbody').append('<tr id=' + idfilaDocDeclarante + '><td>' + '@element.DocumentoIdentidadTipoId' + '</td><td>' + '@element.DeclaranteNumeroDocumento' + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
         }

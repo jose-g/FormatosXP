@@ -177,6 +177,33 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<InformacionCastrenseX1003BE> Consultar_FK(int m_FichaId)
+        {
+            List<InformacionCastrenseX1003BE> lista = new List<InformacionCastrenseX1003BE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_InformacionCastrense1003Consultar_FK", connection);
+                    ParametroSP("@FichaId", m_FichaId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new InformacionCastrenseX1003BE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

@@ -184,6 +184,33 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<DomiciliosBE> Consultar_FK(int m_Fk_Id)
+        {
+            List<DomiciliosBE> lista = new List<DomiciliosBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_DomiciliosConsultar_FK", connection);
+                    ParametroSP("@CargosFuncionesX1003Id", m_Fk_Id);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new DomiciliosBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

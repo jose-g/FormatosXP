@@ -318,28 +318,28 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             LstFotos.Add(f_vm);
 
             DeclaranteIdentificacionesBL objIdentBL = new DeclaranteIdentificacionesBL();
-            //List<DeclaranteIdentificacionesBE> lstIdent = new List<DeclaranteIdentificacionesBE>();
             LstIdentificaciones = objIdentBL.Consultar_FK(m_DatosPersonalesId);
-
-            //foreach (DeclaranteIdentificacionesBE obj in lstIdent)
-            //{
-            //    LstIdentificaciones.Add(obj);
-            //}
-
-            //    DeclaranteIdentificacionesBE decla1 = new DeclaranteIdentificacionesBE();
-            //decla1.DocumentoIdentidadTipoId = 7;
-            //decla1.DeclaranteNumeroDocumento = "07495722";
-            //LstIdentificaciones.Add(decla1);
-            //DeclaranteIdentificacionesBE decla2 = new DeclaranteIdentificacionesBE();
-            //decla2.DocumentoIdentidadTipoId = 10;
-            //decla2.DeclaranteNumeroDocumento = "07495721";
-            //LstIdentificaciones.Add(decla2);
-
-
             if (m_BE != null)
                 return BEToViewModel(m_BE);
 
             return null;
+        }
+        public X1003DatosPersonalesViewModel BuscarxFicha(int m_FichaId)
+        {
+
+            int m_DatosPersonalesId;
+            try
+            {
+                m_DatosPersonalesId = new DatosPersonales1003BL().Consultar_FK(m_FichaId).FirstOrDefault().DatosPersonalesId;
+                return BuscarxId(m_DatosPersonalesId);
+            }
+            catch(Exception e)
+            {
+
+            }
+
+
+            return new X1003DatosPersonalesViewModel();
         }
         private X1003DatosPersonalesViewModel BEToViewModel(DatosPersonales1003BE m_BE)
         {

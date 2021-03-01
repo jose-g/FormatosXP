@@ -247,8 +247,57 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             foreach (IngresosAnterioresAlPaisBE dom in new IngresosAnterioresAlPaisBL().Consultar_Lista().Where(x => x.CargosFuncionesX1003Id == CargosFuncionesX1003Id))
                 new IngresosAnterioresAlPaisBL().Anular(dom);
         }
+        public X1003CargosFuncionesViewModel BuscarxId(int m_CargosFuncionesId)
+        {
+            CargosFuncionesX1003BE m_BE = new CargosFuncionesX1003BL().Consultar_PK(m_CargosFuncionesId).FirstOrDefault();
+
+            LstDomicilios
+
+            //FotosDeclarantesBL objFotosBL = new FotosDeclarantesBL();
+            //List<FotosDeclarantesBE> lstFotos = new List<FotosDeclarantesBE>();
+            //lstFotos = objFotosBL.Consultar_FK(m_CargosFuncionesId);
+
+            //FotosDeclarantesBE m_fotos_BE = new FotosDeclarantesBE();
+            //FotosViewModel f_vm = new FotosViewModel();
+
+            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 1).FirstOrDefault();
+            //f_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 2).FirstOrDefault();
+            //f_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 3).FirstOrDefault();
+            //f_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            //m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 4).FirstOrDefault();
+            //f_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+            //LstFotos.Add(f_vm);
+
+            //DeclaranteIdentificacionesBL objIdentBL = new DeclaranteIdentificacionesBL();
+            //LstIdentificaciones = objIdentBL.Consultar_FK(m_DatosPersonalesId);
+            //if (m_BE != null)
+            //    return BEToViewModel(m_BE);
+
+            return null;
+        }
+        public X1003CargosFuncionesViewModel BuscarxFicha(int m_FichaId)
+        {
+
+            int m_Id;
+            try
+            {
+                m_Id = new CargosFuncionesX1003BL().Consultar_FK(m_FichaId).FirstOrDefault().;
+                return BuscarxId(m_Id);
+            }
+            catch (Exception e)
+            {
+
+            }
 
 
+            return new X1003DatosPersonalesViewModel();
+        }
 
     }
 }

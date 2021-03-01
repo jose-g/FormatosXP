@@ -152,8 +152,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
             }
         }
 
-        public List<VehiculosBE> Consultar_PK(
-                int m_VehiculoId)
+        public List<VehiculosBE> Consultar_PK(int m_VehiculoId)
         {
             List<VehiculosBE> lista = new List<VehiculosBE>();
             using (SqlConnection connection = Conectar(m_BaseDatos))
@@ -162,6 +161,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 {
                     ComandoSP("usp_VehiculosConsultar_PK", connection);
                     ParametroSP("@VehiculoId", m_VehiculoId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new VehiculosBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
+        public List<VehiculosBE> Consultar_FK(int m_Fk_Id)
+        {
+            List<VehiculosBE> lista = new List<VehiculosBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_VehiculosConsultar_FK", connection);
+                    ParametroSP("@CargosFuncionesX1003Id", m_Fk_Id);
                     using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         while (reader.Read())

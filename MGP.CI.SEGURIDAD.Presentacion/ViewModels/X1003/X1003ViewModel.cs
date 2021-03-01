@@ -34,17 +34,17 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             bool v = false;
 
             DeclaranteBE declaranteBE = new DeclaranteBE();
-            declaranteBE.DeclaranteId = DeclaranteId;
+            declaranteBE.DeclaranteId = new DeclaranteBL().GetMaxId() + 1; ;
             declaranteBE.isUsuario = false;
             declaranteBE.UsuarioRegistro = login;
             declaranteBE.NroIpRegistro = HttpContext.Current.Request.UserHostAddress;
 
 
-            //if (new DeclaranteBL().Insertar(declaranteBE) == false)
-            //{
-            //    this.ErrorSMS = "Error en el ingreso Declarante";
-            //    return false;
-            //}
+            if (new DeclaranteBL().Insertar(declaranteBE) == false)
+            {
+                this.ErrorSMS = "Error en el ingreso Declarante";
+                return false;
+            }
             this.DeclaranteId = declaranteBE.DeclaranteId;
 
 
@@ -82,7 +82,59 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
             return true; ;
         }
+        public bool CrearNuevaFicha_MismoDeclaranteXP1003(string login,int DeclaranteId)
+        {
+            bool v = false;
 
+            //DeclaranteBE declaranteBE = new DeclaranteBE();
+            //declaranteBE.DeclaranteId = new DeclaranteBL().GetMaxId() + 1; ;
+            //declaranteBE.isUsuario = false;
+            //declaranteBE.UsuarioRegistro = login;
+            //declaranteBE.NroIpRegistro = HttpContext.Current.Request.UserHostAddress;
+
+
+            //if (new DeclaranteBL().Insertar(declaranteBE) == false)
+            //{
+            //    this.ErrorSMS = "Error en el ingreso Declarante";
+            //    return false;
+            //}
+            this.DeclaranteId = DeclaranteId;
+
+
+            FichasBE fichaBE = new FichasBE();
+            fichaBE.FichaId = new FichasBL().GetMaxId() + 1;
+            fichaBE.FichaTipoId = 1;
+            fichaBE.DeclaranteId = DeclaranteId;
+            fichaBE.EstadoFichaId = 2;
+            fichaBE.UsuarioRegistro = login;
+            fichaBE.NroIpRegistro = HttpContext.Current.Request.UserHostAddress;
+
+            if (new FichasBL().Insertar(fichaBE) == false)
+            {
+                this.ErrorSMS = "Error crear Ficha";
+                return false;
+            }
+            this.FichaId = fichaBE.FichaId;
+
+            x1003datospersonalesVM.DatosPersonalesId = new DatosPersonales1003BL().GetMaxId() + 1;
+            x1003datospersonalesVM.FichaId = FichaId;
+            x1003datospersonalesVM.DeclaranteId = DeclaranteId;
+
+            x1003cargosfuncionesVM.CargosFuncionesX1003Id = new CargosFuncionesBL().GetMaxId() + 1;
+            x1003cargosfuncionesVM.FichaId = FichaId;
+            x1003cargosfuncionesVM.DeclaranteId = DeclaranteId;
+
+            x1003informacioncastrenseVM.X1003InformacionCastrenseId = new InformacionCastrenseX1003BL().GetMaxId() + 1;
+            x1003informacioncastrenseVM.FichaId = FichaId;
+            x1003informacioncastrenseVM.DeclaranteId = DeclaranteId;
+
+            x1003otrosVM.X1003OtrosId = new OtrosXP1003BL().GetMaxId() + 1;
+            x1003otrosVM.FichaId = FichaId;
+            x1003otrosVM.DeclaranteId = DeclaranteId;
+
+
+            return true; ;
+        }
         public X1003ViewModel()
         {
             x1003datospersonalesVM = new X1003DatosPersonalesViewModel();
