@@ -99,6 +99,22 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
                 throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
             }
         }
-
+        public List<IngresosAlPaisBE> Consultar_FK(
+                      int m_Fk_Id
+                      )
+        {
+            List<IngresosAlPaisBE> lista = new List<IngresosAlPaisBE>();
+            try
+            {
+                IngresosAlPaisDA o_IngresosAlPais = new IngresosAlPaisDA(m_BaseDatos);
+                return o_IngresosAlPais.Consultar_FK(
+                                                            m_Fk_Id
+                                                            );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

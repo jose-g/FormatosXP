@@ -83,9 +83,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        public List<VehiculosBE> Consultar_PK(
-                              int m_VehiculoId
-                              )
+        public List<VehiculosBE> Consultar_PK(int m_VehiculoId)
         {
             List<VehiculosBE> lista = new List<VehiculosBE>();
             try
@@ -94,6 +92,19 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
                 return o_Vehiculos.Consultar_PK(
                                                             m_VehiculoId
                                                             );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
+        public List<VehiculosBE> Consultar_FK(int m_Fk_Id)
+        {
+            List<VehiculosBE> lista = new List<VehiculosBE>();
+            try
+            {
+                VehiculosDA o_Vehiculos = new VehiculosDA(m_BaseDatos);
+                return o_Vehiculos.Consultar_FK(m_Fk_Id);
             }
             catch (Exception ex)
             {
