@@ -14,15 +14,18 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Display(Name = "Modelo del Vehiculo")]
         public int ExtranjeroVehiculoModeloId { get; set; }
+        public string ExtranjeroVehiculoModeloNombre { get { return new AutoModelosBL().Consultar_PK(ExtranjeroVehiculoModeloId).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Marca del Vehiculo")]
         public int ExtranjeroVehiculoMarcaId { get; set; }
+        public string ExtranjeroVehiculoMarcaNombre { get { return new AutoMarcasBL().Consultar_PK(ExtranjeroVehiculoMarcaId).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Placa del Vehiculo")]
         public string ExtranjeroVehiculoPlaca { get; set; }
 
         [Display(Name = "Tipo de Vehiculo")]
         public string ExtranjeroTipoVehiculoId { get; set; }
+        public string ExtranjeroTipoVehiculoNombre { get { return new VehiculoTiposBL().Consultar_PK(int.Parse(ExtranjeroTipoVehiculoId)).FirstOrDefault().Nombre; } }
 
         public List<AutoMarcasBE> LstMarcas;
         public List<AutoModelosBE> LstModelos;

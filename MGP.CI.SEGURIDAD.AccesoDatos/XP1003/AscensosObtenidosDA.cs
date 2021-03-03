@@ -53,7 +53,10 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ComandoSP("usp_AscensosObtenidosInsertar", connection);
                     ParametroSP("@AscensosObtenidosId", e_AscensosObtenidos.AscensosObtenidosId);
                     ParametroSP("@GradoExtranjeroId", e_AscensosObtenidos.GradoExtranjeroId);
+                    ParametroSP("@InstitucionMilitarExtranjeroId ", e_AscensosObtenidos.@InstitucionMilitarExtranjeroId);
+                    ParametroSP("@PaisId", e_AscensosObtenidos.PaisId);
                     ParametroSP("@InformacionCastrenseId", e_AscensosObtenidos.InformacionCastrenseId);
+                    ParametroSP("@GradoExtranjeroAno", e_AscensosObtenidos.GradoExtranjeroAno);
                     ParametroSP("@EstadoId", e_AscensosObtenidos.EstadoId);
                     ParametroSP("@UsuarioRegistro", e_AscensosObtenidos.UsuarioRegistro);
                     ParametroSP("@NroIpRegistro", e_AscensosObtenidos.NroIpRegistro);
@@ -80,6 +83,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                     ParametroSP("@AscensosObtenidosId", e_AscensosObtenidos.AscensosObtenidosId);
                     ParametroSP("@GradoExtranjeroId", e_AscensosObtenidos.GradoExtranjeroId);
                     ParametroSP("@InformacionCastrenseId", e_AscensosObtenidos.InformacionCastrenseId);
+                    ParametroSP("GradoExtranjeroAno", e_AscensosObtenidos.GradoExtranjeroAno);
                     ParametroSP("@EstadoId", e_AscensosObtenidos.EstadoId);
                     ParametroSP("@UsuarioModificacionRegistro", e_AscensosObtenidos.UsuarioModificacionRegistro);
                     ParametroSP("@NroIpRegistro", e_AscensosObtenidos.NroIpRegistro);
@@ -157,6 +161,35 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 {
                     ComandoSP("usp_AscensosObtenidosConsultar_PK", connection);
                     ParametroSP("@AscensosObtenidosId", m_AscensosObtenidosId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new AscensosObtenidosBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
+        public List<AscensosObtenidosBE> Consultar_FK(
+                int m_Fk_Id)
+        {
+            List<AscensosObtenidosBE> lista = new List<AscensosObtenidosBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_AscensosObtenidosConsultar_FK", connection);
+                    ParametroSP("@InformacionCastrenseId", m_Fk_Id);
                     using (SqlDataReader reader = comando.ExecuteReader())
                     {
                         while (reader.Read())

@@ -28,13 +28,16 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public DateTime? FamiliarFechaNacimiento { get; set; }
         [Display(Name = "Nacionalidad")]
         public string FamiliarNacionalidadId { get; set; }
+        public string FamiliarNacionalidadNombre { get { return LstNacionalidades.Find(x => x.NacionalidadId == int.Parse(FamiliarNacionalidadId)).Nombre; } }
 
-        [Display(Name = "Parentesco")]
+    [Display(Name = "Parentesco")]
         public string FamiliarParentescoId { get; set; }
-        [Display(Name = "Tipo de Documento")]
+    public string FamiliarParentescoNombre { get { return LstParentesco.Find(x => x.ParentescoId == int.Parse(FamiliarParentescoId)).Nombre; } }
+    [Display(Name = "Tipo de Documento")]
         public string FamiliarDocumentoIdentidadTipoId { get; set; }
+    public string FamiliarDocumentoIdentidadTipoNombre { get { return LstTipoDocumentos.Find(x => x.DocumentoIdentidadTipoId == int.Parse(FamiliarDocumentoIdentidadTipoId)).Descripcion; } }
 
-        [Display(Name = "Numero de Documento")]
+    [Display(Name = "Numero de Documento")]
         public string FamiliarNroDocumentoIdentidad { get; set; }
         public List<FotosFamiliaresViewModel> LstFotos { get; set; }
         public List<NacionalidadBE> LstNacionalidades { get; set; }

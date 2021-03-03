@@ -176,6 +176,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<DeportesRealizadosBE> Consultar_FK(
+                int m_OtrosId)
+        {
+            List<DeportesRealizadosBE> lista = new List<DeportesRealizadosBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_DeportesRealizadosConsultar_FK", connection);
+                    ParametroSP("@OtrosId", m_OtrosId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new DeportesRealizadosBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

@@ -13,7 +13,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public int FamiliarId { get; set; }
         [DataMember]
-        public int? DatosPersonalesId { get; set; }
+        public int DatosPersonalesId { get; set; }
         [DataMember]
         public int? ParentescoId { get; set; }
         [DataMember]
@@ -65,7 +65,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
 
         public DatosFamiliares1003BE(
             int m_FamiliarId,
-            int? m_DatosPersonalesId,
+            int m_DatosPersonalesId,
             int? m_ParentescoId,
             string m_Paterno,
             string m_Materno,
@@ -119,7 +119,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         public DatosFamiliares1003BE(IDataReader Registro)
         {
             FamiliarId = ValidarInt(Registro["FamiliarId"]);
-            DatosPersonalesId = ValidarIntNulos(Registro["DatosPersonalesId"]);
+            DatosPersonalesId = ValidarInt(Registro["DatosPersonalesId"]);
             ParentescoId = ValidarIntNulos(Registro["ParentescoId"]);
             Paterno = ValidarString(Registro["Paterno"]);
             Materno = ValidarString(Registro["Materno"]);

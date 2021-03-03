@@ -50,6 +50,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             DateTime? m_FechaSalid,
             int? m_UbigeoId,
             string m_Motivo,
+            string m_Destino,
             string m_DondeResidio,
             int? m_EstadoId,
             string m_UsuarioRegistro,
@@ -65,6 +66,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             FechaSalid = m_FechaSalid;
             UbigeoId = m_UbigeoId;
             Motivo = m_Motivo;
+            Destino = m_Destino;
             DondeResidio = m_DondeResidio;
             EstadoId = m_EstadoId;
             UsuarioRegistro = m_UsuarioRegistro;
@@ -82,6 +84,7 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             FechaSalid = ValidarDatetime(Registro["FechaSalid"]);
             UbigeoId = ValidarIntNulos(Registro["UbigeoId"]);
             Motivo = ValidarString(Registro["Motivo"]);
+            Destino = ValidarString(Registro["Destino"]);
             DondeResidio = ValidarString(Registro["DondeResidio"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);

@@ -17,6 +17,11 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public int? InformacionCastrenseId { get; set; }
         [DataMember]
+        public int? PaisId { get; set; }
+        [DataMember]
+        public int? InstitucionMilitarExtranjeroId { get; set; }
+        public int? GradoExtranjeroAno { get; set; }
+        [DataMember]
         public int? EstadoId { get; set; }
         [DataMember]
         public string UsuarioRegistro { get; set; }
@@ -37,6 +42,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int m_AscensosObtenidosId,
             int m_GradoExtranjeroId,
             int? m_InformacionCastrenseId,
+            int? m_PaisId,
+            int? m_InstitucionMilitarExtranjeroId,
+            int? m_GradoExtranjeroAno,
             int? m_EstadoId,
             string m_UsuarioRegistro,
             DateTime? m_FechaRegistro,
@@ -48,6 +56,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             AscensosObtenidosId = m_AscensosObtenidosId;
             GradoExtranjeroId = m_GradoExtranjeroId;
             InformacionCastrenseId = m_InformacionCastrenseId;
+            PaisId = m_PaisId;
+            InstitucionMilitarExtranjeroId = m_InstitucionMilitarExtranjeroId;
+            GradoExtranjeroAno = m_GradoExtranjeroAno;
             EstadoId = m_EstadoId;
             UsuarioRegistro = m_UsuarioRegistro;
             FechaRegistro = m_FechaRegistro;
@@ -61,6 +72,9 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             AscensosObtenidosId = ValidarInt(Registro["AscensosObtenidosId"]);
             GradoExtranjeroId = ValidarInt(Registro["GradoExtranjeroId"]);
             InformacionCastrenseId = ValidarIntNulos(Registro["InformacionCastrenseId"]);
+            PaisId = ValidarIntNulos(Registro["PaisId"]);
+            InstitucionMilitarExtranjeroId = ValidarIntNulos(Registro["InstitucionMilitarExtranjeroId"]);
+            GradoExtranjeroAno = ValidarIntNulos(Registro["GradoExtranjeroAno"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);
             FechaRegistro = ValidarDatetime(Registro["FechaRegistro"]);

@@ -15,7 +15,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public Int32 FichaId { get; set; }
         public int OtrosId { get; set; }
 
-
+        [DataType(DataType.Upload)]
         [Display(Name = "Subir CV : ")]
         public string PathCV { get; set; }
         public Int32 X1003OtrosId { get; set; }
@@ -148,6 +148,62 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
             foreach (ObservacionesBE dom in new ObservacionesBL().Consultar_Lista().Where(x => x.OtrosId == OtrosXP1003Id))
                 new ObservacionesBL().Anular(dom);
+        }
+        public X1003OtrosViewModel BuscarxFicha(int m_FichaId)
+        {
+            int m_Id;
+            try
+            {
+                m_Id = new OtrosXP1003BL().Consultar_FK(m_FichaId).FirstOrDefault().OtrosId;
+                return BuscarxId(m_Id);
+            }
+            catch (Exception e)
+            {
+                return new X1003OtrosViewModel();
+            }
+        }
+        public X1003OtrosViewModel BuscarxId(int m_OtrosId)
+        {
+            OtrosXP1003BE m_BE = new OtrosXP1003BL().Consultar_PK(m_OtrosId).FirstOrDefault();
+
+
+            List<DeportesRealizadosBE> lstBE_Deporte = new List<DeportesRealizadosBE>();
+            lstBE_Deporte = new DeportesRealizadosBL().Consultar_FK(m_OtrosId);
+
+            foreach (DeportesRealizadosBE be in lstBE_Deporte)
+            {
+                AgregarDeporteViewModel VM = new AgregarDeporteViewModel();
+                VM.OtrosDeporteId = be.DeportesId;
+
+                LstDeporte.Add(VM);
+            }
+
+            List<ObservacionesBE> lstBE_Observacion = new List<ObservacionesBE>();
+            lstBE_Observacion = new ObservacionesBL().Consultar_FK(m_OtrosId);
+
+            foreach (ObservacionesBE be in lstBE_Observacion)
+            {
+                AgregarObservacionViewModel VM = new AgregarObservacionViewModel();
+                VM.Observacion = be.Descripcion;
+
+                LstObservacion.Add(VM);
+            }
+
+
+            if (m_BE != null) return BEToViewModel(m_BE);
+            return null;
+        }
+        private X1003OtrosViewModel BEToViewModel(OtrosXP1003BE m_BE)
+        {
+            X1003OtrosViewModel m_vm = new X1003OtrosViewModel();
+
+            m_vm.X1003OtrosId = m_BE.OtrosId;
+            m_vm.FichaId = m_BE.FichaId;
+
+            m_vm.LstDeporte = this.LstDeporte;
+            m_vm.LstObservacion = this.LstObservacion;
+
+            return m_vm;
         }
     }
 }

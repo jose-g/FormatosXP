@@ -182,6 +182,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<CondecoracionesObtenidasBE> Consultar_FK(
+        int m_Fk_Id)
+        {
+            List<CondecoracionesObtenidasBE> lista = new List<CondecoracionesObtenidasBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_CondecoracionesObtenidasConsultar_FK", connection);
+                    ParametroSP("@InformacionCastrenseId", m_Fk_Id);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new CondecoracionesObtenidasBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

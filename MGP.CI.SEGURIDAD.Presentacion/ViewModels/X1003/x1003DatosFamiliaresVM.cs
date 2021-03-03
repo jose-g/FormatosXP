@@ -8,7 +8,6 @@ using System.Linq;
 using System.Web;
 using MGP.CI.SEGURIDAD.Presentacion.Views.X1003;
 using System.Text;
-
 namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 {
     public class x1003DatosFamiliaresVM
@@ -18,12 +17,15 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public Int32 FichaId { get; set; }
         public Int32 DatosFamiliaresId { get; set; }
         
-        public int? DatosPersonalesId { get; set; }
+        public int DatosPersonalesId { get; set; }
         public int? EstadoId { get; set; } = 1;
         public string UsuarioRegistro { get; set; }
         public int? ParentescoId { get; set; } = 3;
         public string NroIpRegistro { get; set; } = HttpContext.Current.Request.UserHostAddress;
         public int? EsResidente { get; set; }
+        public int? EnfermedadTipoId { get; set; }
+        public int? EnfermedadId { get; set; }
+
         #region Esposa
         [Display(Name = "Apellido Paterno")]
         public string EsposaPaterno { get; set; }
@@ -80,7 +82,6 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public List<string> LstStrIdiomas { get; set; }
         public List<EnfermedadesBE> LstTipoEnfermedad { get; set; }
         public List<EnfermedadesBE> LstEnfermedad { get; set; }
-
         public x1003DatosFamiliaresVM()
         {
             LstNacionalidades = new List<NacionalidadBE>();
@@ -90,7 +91,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             LstPaises = new List<PaisesBE>();
             LstGrupoSanguineo = new List<GrupoSanguineoBE>();
             LstTipoEnfermedad = new List<EnfermedadesBE>();
-
+            LstFotos = new List<FotosFamiliaresViewModel>();
 
             //Para Grabar
             LstIdentificaciones = new List<AgregarDocumentoViewModel>();
@@ -99,7 +100,6 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             LstFamResidentes = new List<AgregarFamiliarResidentesEnPeru>();
             LstStrIdiomas = new List<string>();
         }
-
         public void CargarTablasMaestras()
         {
             LstNacionalidades = new NacionalidadBL().Consultar_Lista();
@@ -109,10 +109,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             LstPaises = new PaisesBL().Consultar_Lista();
             LstGrupoSanguineo = new GrupoSanguineoBL().Consultar_Lista();
             LstTipoEnfermedad = new EnfermedadesBL().Consultar_Lista().DistinctBy(x => x.EnfermedadTipo).ToList();
-
+            LstEnfermedad = new EnfermedadesBL().Consultar_Lista().Where(x => x.EnfermedadesId.ToString().StartsWith(EsposaEnfermedadId.ToString().Substring(0, 2))).ToList();
         }
-
-
         public bool Insertar(string login)
         {
             DatosFamiliares1003BE BE = new DatosFamiliares1003BE();
@@ -400,6 +398,210 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
             BE.NroIpRegistro = m_vm.NroIpRegistro;
             BE.EsResidente = m_vm.EsResidente;
             return BE;
+        }
+        private x1003DatosFamiliaresVM BEToViewModel(DatosFamiliares1003BE BE)
+        {
+            x1003DatosFamiliaresVM m_vm = new x1003DatosFamiliaresVM();
+            m_vm.DatosFamiliaresId= BE.FamiliarId;
+            m_vm.DatosPersonalesId= BE.DatosPersonalesId;
+            m_vm.ParentescoId= BE.ParentescoId;
+            m_vm.EsposaPaterno= BE.Paterno;
+            m_vm.EsposaMaterno= BE.Materno;
+            m_vm.EsposaNombre1= BE.Nombres1;
+            m_vm.EsposaNombre2= BE.Nombres2;
+            m_vm.EsposaNombre3= BE.Nombres3;
+            m_vm.EsposaNacionalidadId= BE.NacionalidadId.Value;
+            m_vm.EsposaFechaNacimiento= BE.FechaNamiento;
+            m_vm.EsposaPaisNacimientoId= BE.PaisId.Value;
+            m_vm.EsposaLugarNacimiento= BE.LugarNacimiento;
+            m_vm.EsposaGrupoSanguineoId= BE.GrupoSanguineoId.Value;
+            m_vm.EsposaEnfermedadTipoId= BE.EnfermedadTipoId;
+            m_vm.EsposaEnfermedadId= BE.EnfermedadId;
+            m_vm.EsposaAProfesionId= BE.ProfesionId.Value;
+            m_vm.EsposaActividades= BE.Actividades;
+            m_vm.EstadoId= BE.EstadoId;
+            m_vm.UsuarioRegistro= BE.UsuarioRegistro;
+            m_vm.NroIpRegistro= BE.NroIpRegistro;
+            m_vm.EsResidente= BE.EsResidente;
+            return m_vm;
+        }
+        public x1003DatosFamiliaresVM BuscarxDatosPersonales(int m_DatosPersonalesId)
+        {
+            List<DatosFamiliares1003BE> lstDatosFamiliares = new List<DatosFamiliares1003BE>();
+            try
+            {
+                lstDatosFamiliares = new DatosFamiliares1003BL().Consultar_FK(m_DatosPersonalesId);
+                DatosFamiliares1003BE objDatosFamiliares = new DatosFamiliares1003BE();
+                objDatosFamiliares = lstDatosFamiliares.Find(x => x.ParentescoId == 3);
+
+                x1003DatosFamiliaresVM vm = new x1003DatosFamiliaresVM();
+
+                if(objDatosFamiliares != null)
+                {
+                    vm = objDatosFamiliares != null ? BEToViewModel(objDatosFamiliares) : vm;
+
+                    // carga fotos de esposa
+
+                    FotosFamiliaresBL objFotosBL = new FotosFamiliaresBL();
+                    List<FotosFamiliaresBE> lstFotos = new List<FotosFamiliaresBE>();
+                    lstFotos = objFotosBL.Consultar_FK(objDatosFamiliares.FamiliarId);
+
+                    FotosFamiliaresBE m_fotos_BE = new FotosFamiliaresBE();
+                    FotosFamiliaresViewModel f_vm = new FotosFamiliaresViewModel();
+
+                    m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 1).FirstOrDefault();
+                    f_vm.FotoFrente = m_fotos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+                    m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 2).FirstOrDefault();
+                    f_vm.FotoPosterior = m_fotos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+                    m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 3).FirstOrDefault();
+                    f_vm.FotoLateralIzquierdo = m_fotos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+                    m_fotos_BE = lstFotos.Where(x => x.FotoTipoId == 4).FirstOrDefault();
+                    f_vm.FotoLateralDerecho = m_fotos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_BE.Foto);
+
+                    vm.LstFotos.Add(f_vm);
+
+                    List<FamiliarIdentificacionBE> lstIdent = new FamiliarIdentificacionBL().Consultar_FK(objDatosFamiliares.FamiliarId);
+
+                    lstIdent.ForEach(be => vm.LstIdentificaciones.Add(new AgregarDocumentoViewModel { NroDocumentoIdentidad = be.FamiliarNumeroDocumento, DocumentoIdentidadTipoId = be.DocumentoIdentidadTipoId.Value.ToString() }));
+
+                    vm.LstStrIdiomas = new FamiliarIdiomasBL().Consultar_FK(objDatosFamiliares.FamiliarId).Select(x => x.IdiomaId).ToList().ConvertAll<string>(delegate (int? i) { return i.ToString(); }); ;
+                }
+                // Cargar informacion de hijos
+
+                List<DatosFamiliares1003BE> lstHijos = lstDatosFamiliares.Where(x => x.ParentescoId == 4).ToList();
+
+                lstHijos.ForEach(be => {
+                    FamiliarIdentificacionBE FamiliarIdentificacionHijoBE = new FamiliarIdentificacionBL().Consultar_FK(be.FamiliarId).FirstOrDefault();
+                    // fotos
+                    FotosFamiliaresBL objFotosHijosBL = new FotosFamiliaresBL();
+                    List<FotosFamiliaresBE> lstFotosHijos = new List<FotosFamiliaresBE>();
+                    lstFotosHijos = objFotosHijosBL.Consultar_FK(be.FamiliarId);
+
+                    FotosFamiliaresBE m_fotos_hijos_BE = new FotosFamiliaresBE();
+                    FotosFamiliaresViewModel f_hijos_vm = new FotosFamiliaresViewModel();
+
+                    m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 1).FirstOrDefault();
+                    f_hijos_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+
+                    m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 2).FirstOrDefault();
+                    f_hijos_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+
+                    m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 3).FirstOrDefault();
+                    f_hijos_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+
+                    m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 4).FirstOrDefault();
+                    f_hijos_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+
+                    vm.LstHijos.Add(new AgregarHijoViewModel
+                    {
+                        HijoPaterno = be.Paterno,
+                        HijoMaterno = be.Materno,
+                        HijoNombre1 = be.Nombres1,
+                        HijoNombre2 = be.Nombres2,
+                        HijoNombre3 = be.Nombres3,
+                        HijoFechaNacimiento = be.FechaNamiento,
+                        HijoNacionalidadId = be.NacionalidadId.ToString(),
+                        
+                        HijoDocumentoIdentidadTipoId = FamiliarIdentificacionHijoBE.DocumentoIdentidadTipoId.ToString(),
+                        HijoNroDocumentoIdentidad = FamiliarIdentificacionHijoBE.FamiliarNumeroDocumento,
+                        LstFotos = new List<FotosFamiliaresViewModel> { f_hijos_vm }
+                    });
+                });
+
+                // Cargar informacion de familiares que acompañan
+
+                List<DatosFamiliares1003BE> lstFamiliares = lstDatosFamiliares.Where(x => x.EsResidente == 0).ToList();
+
+                lstFamiliares.ForEach(be => {
+                    FamiliarIdentificacionBE FamiliarIdentificacionBE = new FamiliarIdentificacionBL().Consultar_FK(be.FamiliarId).FirstOrDefault();
+
+                    // fotos familiares acompañan
+                    FotosFamiliaresBL objFotosFamBL = new FotosFamiliaresBL();
+                    List<FotosFamiliaresBE> lstFotosFam = new List<FotosFamiliaresBE>();
+                    lstFotosFam = objFotosFamBL.Consultar_FK(be.FamiliarId);
+
+                    FotosFamiliaresBE m_fotos_fam_BE = new FotosFamiliaresBE();
+                    FotosFamiliaresViewModel f_fam_vm = new FotosFamiliaresViewModel();
+
+                    m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 1).FirstOrDefault();
+                    f_fam_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+
+                    m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 2).FirstOrDefault();
+                    f_fam_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+
+                    m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 3).FirstOrDefault();
+                    f_fam_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+
+                    m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 4).FirstOrDefault();
+                    f_fam_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+
+                    vm.LstFamiliares.Add(new AgregarFamiliarViewModel
+                    {
+                    FamiliarPaterno = be.Paterno,
+                        FamiliarMaterno = be.Materno,
+                        FamiliarNombre1 = be.Nombres1,
+                        FamiliarNombre2 = be.Nombres2,
+                        FamiliarNombre3 = be.Nombres3,
+                        FamiliarFechaNacimiento = be.FechaNamiento,
+                        FamiliarNacionalidadId = be.NacionalidadId.ToString(),
+                        FamiliarParentescoId = be.ParentescoId.ToString(),
+                        FamiliarDocumentoIdentidadTipoId = FamiliarIdentificacionBE.DocumentoIdentidadTipoId.ToString(),
+                        FamiliarNroDocumentoIdentidad = FamiliarIdentificacionBE.FamiliarNumeroDocumento,
+                        LstFotos = new List<FotosFamiliaresViewModel> { f_fam_vm }
+                    });
+                });
+
+                // Cargar informacion de familiares que residen en Peru
+
+                List<DatosFamiliares1003BE> lstFamResidentes = lstDatosFamiliares.Where(x => x.EsResidente == 1).ToList();
+
+                lstFamResidentes.ForEach(be => {
+                    FamiliarIdentificacionBE FamiliarIdentificacionResidentesBE = new FamiliarIdentificacionBL().Consultar_FK(be.FamiliarId).FirstOrDefault();
+
+                    // fotos
+                    FotosFamiliaresBL objFotosresBL = new FotosFamiliaresBL();
+                    List<FotosFamiliaresBE> lstFotosres = new List<FotosFamiliaresBE>();
+                    lstFotosres = objFotosresBL.Consultar_FK(be.FamiliarId);
+
+                    FotosFamiliaresBE m_fotos_res_BE = new FotosFamiliaresBE();
+                    FotosFamiliaresViewModel f_res_vm = new FotosFamiliaresViewModel();
+
+                    m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 1).FirstOrDefault();
+                    f_res_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+
+                    m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 2).FirstOrDefault();
+                    f_res_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+
+                    m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 3).FirstOrDefault();
+                    f_res_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+
+                    m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 4).FirstOrDefault();
+                    f_res_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+                    vm.LstFamResidentes.Add(new AgregarFamiliarResidentesEnPeru
+                    {
+                        ResidentePaterno = be.Paterno,
+                        ResidenteMaterno = be.Materno,
+                        ResidenteNombre1 = be.Nombres1,
+                        ResidenteNombre2 = be.Nombres2,
+                        ResidenteNombre3 = be.Nombres3,
+                        ResidenteFechaNacimiento = be.FechaNamiento,
+                        ResidenteNacionalidadId = be.NacionalidadId.ToString(),
+                        ResidenteParentescoId = be.ParentescoId.ToString(),
+                        ResidenteDocumentoIdentidadTipoId = FamiliarIdentificacionResidentesBE.DocumentoIdentidadTipoId.ToString(),
+                        ResidenteNroDocumentoIdentidad = FamiliarIdentificacionResidentesBE.FamiliarNumeroDocumento,
+                        LstFotos = new List<FotosFamiliaresViewModel> { f_res_vm }
+                    });
+                });
+                return vm;
+            }
+            catch (Exception e)
+            {
+                var error = e.Message;
+            }
+            return new x1003DatosFamiliaresVM();
         }
         
     }

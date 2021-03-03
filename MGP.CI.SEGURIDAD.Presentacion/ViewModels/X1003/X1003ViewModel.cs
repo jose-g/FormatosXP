@@ -19,7 +19,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public Int32 FichaId { get; set; }
         public Int32 DeclaranteId { get; set; }
 
-
+        public Int32 DatosPersonalesId { get; set; }
         #endregion
 
         public X1003DatosPersonalesViewModel x1003datospersonalesVM;

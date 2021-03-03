@@ -12,6 +12,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
     {
         [Display(Name = "Nombre ")]
         public int OtrosDeporteId { get; set; }
+        public string OtrosDeporteNombre { get { return new DeportesBL().Consultar_PK(OtrosDeporteId).FirstOrDefault().Nombre; } }
 
         public List<DeportesBE> LstDeportes;
 

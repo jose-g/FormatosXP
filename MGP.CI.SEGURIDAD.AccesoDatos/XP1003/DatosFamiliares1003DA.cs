@@ -177,8 +177,7 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
             }
         }
 
-        public List<DatosFamiliares1003BE> Consultar_PK(
-                int m_FamiliarId)
+        public List<DatosFamiliares1003BE> Consultar_PK(int m_FamiliarId)
         {
             List<DatosFamiliares1003BE> lista = new List<DatosFamiliares1003BE>();
             using (SqlConnection connection = Conectar(m_BaseDatos))
@@ -206,6 +205,33 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<DatosFamiliares1003BE> Consultar_FK(int m_DatosPersonalesId)
+        {
+            List<DatosFamiliares1003BE> lista = new List<DatosFamiliares1003BE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_DatosFamiliares1003Consultar_FK", connection);
+                    ParametroSP("@DatosPersonalesId", m_DatosPersonalesId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new DatosFamiliares1003BE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

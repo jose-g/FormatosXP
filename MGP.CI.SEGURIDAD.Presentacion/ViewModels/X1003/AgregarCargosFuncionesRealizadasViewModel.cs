@@ -15,8 +15,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Display(Name = "Cargo")]
         public int CargosFuncionesId { get; set; }
-
-        [Display(Name = "Fecha de Inicio")]
+        public string CargosFuncionesNombre { get { return new CargosFuncionesBL().Consultar_PK(CargosFuncionesId).FirstOrDefault().Nombre; } }
+    [Display(Name = "Fecha de Inicio")]
         public DateTime? Cargos_Funciones_FechaInicio { get; set; }
 
         [Display(Name = "Fecha de Fin")]

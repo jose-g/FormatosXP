@@ -176,6 +176,35 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
+        public List<ObservacionesBE> Consultar_FK(
+                int m_OtrosId)
+        {
+            List<ObservacionesBE> lista = new List<ObservacionesBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_ObservacionesConsultar_FK", connection);
+                    ParametroSP("@OtrosId", m_OtrosId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new ObservacionesBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
 
     }
 }

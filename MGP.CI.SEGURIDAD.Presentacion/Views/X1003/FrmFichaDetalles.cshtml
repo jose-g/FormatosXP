@@ -117,6 +117,7 @@
     <br />
     @Html.HiddenFor(x => x.FichaId)
     @Html.HiddenFor(x => x.DeclaranteId)
+    @Html.HiddenFor(x => x.DatosPersonalesId)
     <div class="row">
         <div class="default-tab" id="tabx1003">
             <ul class="nav nav-tabs" role="tablist" id="myTab">
@@ -329,7 +330,7 @@
                 success: function (data) {
                     if (data.success == true) {
                         $.notify("Operación satisfactoria..", "success");
-                        $('#DeclaranteId').val(data.DatosPersonalesId);
+                        $('#DatosPersonalesId').val(data.DatosPersonalesId);
                         $('#btnGrabarDatosPersonales').remove();
                         $('#btnCerrarFrmDatosPersonales').remove();
                         return false;
@@ -370,10 +371,15 @@
             $('.datepicker').hide();
         });
 
+        function EliminarDocumentoEsposa(FilaId) {
+            $('#' + FilaId).remove();
+        }
+
         function GrabarFormDatosFamExt() {
             var fichaId = $('#FichaId').val();
+            var datospersonalesid = $('#DatosPersonalesId').val();
             var declaranteid = $('#DeclaranteId').val();
-            if (declaranteid == 0) {
+            if (datospersonalesid == 0) {
                 alert("Primero debe registrar los Datos Personales del Extranjero.");
                 return false;
             }
@@ -551,7 +557,7 @@
 
             $.ajax({
                 url: "@Url.Action("GrabarDatosFamiliares", "XP1003")", 
-                data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas + "&" + lstfotos,
+                data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&DatosPersonalesId=" + datospersonalesid + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas + "&" + lstfotos,
                 type: "POST",
                 dataType: 'JSON',
                 success: function (data) {
@@ -617,8 +623,8 @@
 
         function RegistrarDocumentoEsposaInDataTable() {
 
-            var NroDoc = $('#NroDocumentoIdentidad').val();
-            if ($('#NroDocumentoIdentidad').val() == null || $("#NroDocumentoIdentidad").val() == "" || $("#NroDocumentoIdentidad").val().trim().length != 8) {
+            var NroDoc = $('#NroDocumentoIdentidad_Esposa').val();
+            if ($('#NroDocumentoIdentidad_Esposa').val() == null || $("#NroDocumentoIdentidad_Esposa").val() == "" || $("#NroDocumentoIdentidad_Esposa").val().trim().length != 8) {
                 MsjError = ".-Numero de Documento de Identidad no Valido<br>";
                 $("#frmShowErrorPopup").show();
                 $("#frmShowErrorPopup").html(MsjError);
@@ -635,7 +641,7 @@
 
             $("#frmShowErroUsuario").hide();
 
-            var textoTipoDoc = $("#DocumentoIdentidadTipoId option:selected").text();
+            var textoTipoDoc = $("#DocumentoIdentidadTipoId_Esposa option:selected").text();
 
             if (EncontrarCoincidenciaDocEsposa(textoTipoDoc) == "true") {
                 MsjError = ".- El Tipo de Documento ya fue registrado<br>";
@@ -644,7 +650,7 @@
                 return false;
             }
 
-            var idfilaDocEsposa = $('#NroDocumentoIdentidad').val() + '_' +  $('#DocumentoIdentidadTipoId').val();
+            var idfilaDocEsposa = $('#NroDocumentoIdentidad_Esposa').val() + '_' + $('#DocumentoIdentidadTipoId_Esposa').val();
 
             BtnEliminarEsposa = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDocEsposa + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
 
@@ -1002,8 +1008,9 @@
 
         function GrabarFormCargosFunciones() {
             var fichaId = $('#FichaId').val();
+            var datospersonalesid = $('#DatosPersonalesId').val();
             var declaranteid = $('#DeclaranteId').val();
-            if (declaranteid == 0) {
+            if (datospersonalesid == 0) {
                 alert("Primero debe registrar los Datos Personales del Extranjero.");
                 return false;
             }
@@ -1120,8 +1127,10 @@
         }
 
         function GrabarFormInformacionCastrense() { // jguerrero
+            var fichaId = $('#FichaId').val();
+            var datospersonalesid = $('#DatosPersonalesId').val();
             var declaranteid = $('#DeclaranteId').val();
-            if (declaranteid == 0) {
+            if (datospersonalesid == 0) {
                 alert("Primero debe registrar los Datos Personales del Extranjero.");
                 return false;
             }
@@ -1252,8 +1261,10 @@
         return false;
         }
         function GrabarFormOtros() {
+            var fichaId = $('#FichaId').val();
+            var datospersonalesid = $('#DatosPersonalesId').val();
             var declaranteid = $('#DeclaranteId').val();
-            if (declaranteid == 0) {
+            if (datospersonalesid == 0) {
                 alert("Primero debe registrar los Datos Personales del Extranjero.");
                 return false;
             }
@@ -1306,13 +1317,25 @@
             
             var lstdeporte = jQuery.param({ LstDeporte: ArrayDeportes });
             var lstobservacion = jQuery.param({ LstObservacion: ArrayObservaciones });
-
-
+            debugger;
+            var PathCV = $("#uploadFileCV").val();
+            var form = $('#FrmGrabarOtros')[0];
+            var archivoCV = new FormData(form);
+            archivoCV.append("LstDeporte", JSON.stringify(ArrayDeportes));
+            archivoCV.append("PathCV", PathCV);
+            
             $.ajax({
                 url: "@Url.Action("GrabarDatosOtros", "XP1003")",
                 data: $('#FrmGrabarOtros').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdeporte + "&" + lstobservacion,
-            type: "POST",
-            dataType: 'JSON',
+                //data: $('#FrmGrabarOtros').serialize(),
+                //data: archivoCV,
+                type: "POST",
+                //enctype: 'multipart/form-data',
+                async: true,
+                dataType: 'JSON',
+                //cache: false,
+                //contentType: false,
+                //processData: false,
             success: function (data) {
                 if (data.success == true) {
                     $.notify("Operación satisfactoria..", "success");
@@ -1501,7 +1524,7 @@
             var idFilaVehiculo = $('#ExtranjeroTipoVehiculoId').val() + '_' + $('#ExtranjeroVehiculoModeloId').val() + '_' + $('#ExtranjeroVehiculoMarcaId').val() + '_' + $('#ExtranjeroVehiculoPlaca').val();
             BtnEliminarDomicilioDeclarante = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarRegistroVehiculo' onclick='EliminarVehiculoDeclarante(\"" + idFilaVehiculo + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
 
-            $('#tblVehiculosXP1003').find('tbody').append('<tr id=' + idFilaVehiculo + '><td>' + $("#ExtranjeroTipoVehiculoId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoMarcaId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoModeloId option:selected").text() + '</td><td>' + $('#ExtranjeroVehiculoPlaca').val() + '</td><td>' + BtnEliminarDomicilioDeclarante + '</td></tr>');
+            $('#tblVehiculosXP1003').find('tbody').append('<tr id=' + idFilaVehiculo + '><td>' + $("#ExtranjeroTipoVehiculoId option:selected").text() + '</td><td>' + $('#ExtranjeroVehiculoPlaca').val() + '</td><td>' + $("#ExtranjeroVehiculoMarcaId option:selected").text() + '</td><td>' + $("#ExtranjeroVehiculoModeloId option:selected").text() + '</td><td>' + BtnEliminarDomicilioDeclarante + '</td></tr>');
             $('#verModalAgregarVehiculoExtranjero').modal('hide');
             return false;
         }

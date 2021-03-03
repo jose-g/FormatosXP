@@ -16,6 +16,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         [Display(Name = "Tipo de Documento")]
         public string DocumentoIdentidadTipoId { get; set; }
 
+        public string DocumentoIdentidadTipoNombre { get { return LstTipoDocumentos.Find(x => x.DocumentoIdentidadTipoId == int.Parse(DocumentoIdentidadTipoId)).Descripcion; } }
+
         public List<DocumentoIdentidadTiposBE> LstTipoDocumentos;
 
         public AgregarDocumentoViewModel()

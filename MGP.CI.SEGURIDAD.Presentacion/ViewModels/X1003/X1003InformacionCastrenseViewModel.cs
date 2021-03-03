@@ -97,6 +97,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                     d_BE.AscensosObtenidosId = ++AscensosObtenidosId;
                     d_BE.InformacionCastrenseId = c_BE.InformacionCastrenseId;
                     d_BE.GradoExtranjeroId = dom.Asc_Obt_GradoId;
+                    d_BE.InstitucionMilitarExtranjeroId = dom.Asc_Obt_InstitucionMilitarExtranjeraId;
+                    d_BE.PaisId = dom.Asc_Obt_PaisId;
                     d_BE.EstadoId = 1;
                     d_BE.UsuarioRegistro = login;
                     d_BE.NroIpRegistro = HttpContext.Current.Request.UserHostAddress;
@@ -293,6 +295,109 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
             foreach (IdiomasDominadosBE dom in new IdiomasDominadosBL().Consultar_Lista().Where(x => x.InformacionCastrenseId == InformacionCastrenseX1003Id))
                 new IdiomasDominadosBL().Anular(dom);
+        }
+
+        public X1003InformacionCastrenseViewModel BuscarxFicha(int m_FichaId)
+        {
+            int m_Id;
+            try
+            {
+                m_Id = new InformacionCastrenseX1003BL().Consultar_FK(m_FichaId).FirstOrDefault().InformacionCastrenseId;
+                return BuscarxId(m_Id);
+            }
+            catch (Exception e)
+            {
+                return new X1003InformacionCastrenseViewModel();
+            }
+        }
+        public X1003InformacionCastrenseViewModel BuscarxId(int m_InformacionCastrenseId)
+        {
+            InformacionCastrenseX1003BE m_BE = new InformacionCastrenseX1003BL().Consultar_PK(m_InformacionCastrenseId).FirstOrDefault();
+
+            X1003InformacionCastrenseViewModel vm = new X1003InformacionCastrenseViewModel();
+            vm = BEToViewModel(m_BE);
+
+            List<AscensosObtenidosBE> lstBE_Ascensos = new List<AscensosObtenidosBE>();
+            lstBE_Ascensos = new AscensosObtenidosBL().Consultar_FK(m_InformacionCastrenseId);
+
+            foreach (AscensosObtenidosBE be in lstBE_Ascensos)
+            {
+                AgregarAscensosObtenidosViewModel VM = new AgregarAscensosObtenidosViewModel();
+                VM.Asc_Obt_GradoId = be.GradoExtranjeroId;
+                VM.Asc_Obt_Fecha = be.GradoExtranjeroId;
+                VM.Asc_Obt_InstitucionMilitarExtranjeraId = be.InstitucionMilitarExtranjeroId;
+                VM.Asc_Obt_PaisId = be.PaisId;
+                VM.Asc_Obt_Fecha = be.GradoExtranjeroAno;
+                vm.LstAscensos.Add(VM);
+            }
+
+            List<CargosFuncionesRealizadasBE> lstBE_Cargos = new List<CargosFuncionesRealizadasBE>();
+            lstBE_Cargos = new CargosFuncionesRealizadasBL().Consultar_FK(m_InformacionCastrenseId);
+
+            foreach (CargosFuncionesRealizadasBE be in lstBE_Cargos)
+            {
+                AgregarCargosFuncionesRealizadasViewModel VM = new AgregarCargosFuncionesRealizadasViewModel();
+                VM.CargosFuncionesId = be.CargosFuncionesId.Value;
+                VM.Cargos_Funciones_FechaInicio = be.Cargos_Funciones_FechaInicio;
+                VM.Cargos_Funciones_FechaFin = be.Cargos_Funciones_FechaFin;
+                vm.LstCargos.Add(VM);
+            }
+
+            List<CondecoracionesObtenidasBE> lstBE_Condecoraciones = new List<CondecoracionesObtenidasBE>();
+            lstBE_Condecoraciones = new CondecoracionesObtenidasBL().Consultar_FK(m_InformacionCastrenseId);
+
+            foreach (CondecoracionesObtenidasBE be in lstBE_Condecoraciones)
+            {
+                AgregarCondecoracionesViewModel VM = new AgregarCondecoracionesViewModel();
+                VM.Condecoraciones_PaisId = be.Condecoraciones_PaisId;
+                VM.Condecoraciones_InstitucionMilitarExtranjeraId = be.Condecoraciones_InstitucionMilitarExtranjeraId;
+                VM.CondecoracionesExtranjerasId = be.CondecoracionesExtranjerasId;
+                VM.CondecoracionesExtranjerasAno = be.CondecoracionesExtranjerasAno;
+                vm.LstCondecoraciones.Add(VM);
+            }
+
+            List<CursosRealizadosBE> lstBE_Cursos = new List<CursosRealizadosBE>();
+            lstBE_Cursos = new CursosRealizadosBL().Consultar_FK(m_InformacionCastrenseId);
+
+            foreach (CursosRealizadosBE be in lstBE_Cursos)
+            {
+                AgregarCursoRealizadoViewModel VM = new AgregarCursoRealizadoViewModel();
+                VM.CR_PaisId = be.PaisId;
+                VM.CR_InstitucionMilitaresExtranjerasId = be.InstitucionMilitaresExtranjerasId;
+                VM.CR_EscuelaExtranjeraId = be.EscuelaExtranjeraId;
+                VM.CR_CursoEscuelaExtranjeraId = be.CursoEscuelaExtranjeraId;
+                VM.CR_Ano = be.Ano;
+                vm.LstCursos.Add(VM);
+            }
+
+            List<IdiomasDominadosBE> lstBE_Idiomas = new List<IdiomasDominadosBE>();
+            lstBE_Idiomas = new IdiomasDominadosBL().Consultar_FK(m_InformacionCastrenseId);
+
+            foreach (IdiomasDominadosBE be in lstBE_Idiomas)
+            {
+                AgregarIdiomaDominadoViewModel VM = new AgregarIdiomaDominadoViewModel();
+                VM.IdiomaDominadoId = be.IdiomaId;
+                VM.IdiomaHabla = be.Hablado.Value;
+                VM.IdiomaEscrito = be.Escrito.Value;
+                VM.IdiomaLeido = be.Leido.Value;
+                vm.LstIdiomas.Add(VM);
+            }
+            return vm;
+        }
+        private X1003InformacionCastrenseViewModel BEToViewModel(InformacionCastrenseX1003BE m_BE)
+        {
+            X1003InformacionCastrenseViewModel m_vm = new X1003InformacionCastrenseViewModel();
+
+            m_vm.X1003InformacionCastrenseId = m_BE.InformacionCastrenseId;
+            m_vm.FichaId = m_BE.FichaId;
+
+            m_vm.LstAscensos = this.LstAscensos;
+            m_vm.LstCargos = this.LstCargos;
+            m_vm.LstCondecoraciones = this.LstCondecoraciones;
+            m_vm.LstCursos = this.LstCursos;
+            m_vm.LstIdiomas = this.LstIdiomas;
+
+            return m_vm;
         }
     }
 }

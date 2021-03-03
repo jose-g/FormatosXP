@@ -15,6 +15,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
         [DataMember]
         public int? DocumentoIdentidadTipoId { get; set; }
         [DataMember]
+        public string DocumentoIdentidadTipoNombre { get; set; }
+        [DataMember]
         public string DeclaranteNumeroDocumento { get; set; }
         [DataMember]
         public int? EstadoId { get; set; }

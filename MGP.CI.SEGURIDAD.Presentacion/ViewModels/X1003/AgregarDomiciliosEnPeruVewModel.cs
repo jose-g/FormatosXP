@@ -15,10 +15,13 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         [Display(Name = "Departamento")]
 
         public string DepartamentoDomicilioDeclaranteId { get; set; }
+        public string DepartamentoDomicilioDeclaranteNombre { get { return LstUbigeo.Find(x => x.UbigeoCodigo == DistritoDomicilioDeclaranteId).Departamento; } }
         [Display(Name = "Provincia")]
         public string ProvinciaDomicilioDeclaranteId { get; set; }
+        public string ProvinciaDomicilioDeclaranteNombre { get { return LstUbigeo.Find(x => x.UbigeoCodigo == DistritoDomicilioDeclaranteId).Provincia; } }
         [Display(Name = "Distrito")]
         public string DistritoDomicilioDeclaranteId { get; set; }
+        public string DistritoDomicilioDeclaranteNombre { get { return LstUbigeo.Find(x => x.UbigeoCodigo == DistritoDomicilioDeclaranteId).Distrito; } }
         public int UbigeoDomicilioDeclaranteId { get; set; }
 
         [Display(Name = "Lugar de Residencia")]
@@ -36,13 +39,16 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public List<UbigeoBE> LstProvinciaDomicilioDeclarante;
         public List<UbigeoBE> LstDistritosDomicilioDeclarante;
 
+        public List<UbigeoBE> LstUbigeo;
+
         public AgregarDomiciliosEnPeruVewModel()
         {
+            LstUbigeo = new List<UbigeoBE>();
+            LstUbigeo = new UbigeoBL().Consultar_Lista();
             LstDepartamentosDomicilioDeclarante = new List<UbigeoBE>();
             LstProvinciaDomicilioDeclarante = new List<UbigeoBE>();
             LstDistritosDomicilioDeclarante = new List<UbigeoBE>();
-            LstDepartamentosDomicilioDeclarante =  new UbigeoBL().Consultar_Lista().DistinctBy(x => x.Departamento).ToList();
-
+            LstDepartamentosDomicilioDeclarante = LstUbigeo.DistinctBy(x => x.Departamento).ToList();
         }
     }
 }

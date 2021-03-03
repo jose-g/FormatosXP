@@ -360,7 +360,7 @@
         {
             @:idfilaDocDeclarante = '@element.DeclaranteNumeroDocumento' + '_' + '@element.DocumentoIdentidadTipoId';
             @:BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoDeclarante(\"" + idfilaDocDeclarante + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
-            @:$('#tblDocumentosDeclarante').find('tbody').append('<tr id=' + idfilaDocDeclarante + '><td>' + '@element.DocumentoIdentidadTipoId' + '</td><td>' + '@element.DeclaranteNumeroDocumento' + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
+            @:$('#tblDocumentosDeclarante').find('tbody').append('<tr id=' + idfilaDocDeclarante + '><td>' + '@element.DocumentoIdentidadTipoNombre' + '</td><td>' + '@element.DeclaranteNumeroDocumento' + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
         }
     });
 </script>

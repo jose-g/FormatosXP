@@ -16,13 +16,16 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Display(Name = "Pais")]
         public int Condecoraciones_PaisId { get; set; }
+        public string Condecoraciones_PaisNombre { get { return new PaisesBL().Consultar_PK(Condecoraciones_PaisId).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Institucion Militar")]
         public int Condecoraciones_InstitucionMilitarExtranjeraId { get; set; }
+        public string Condecoraciones_InstitucionMilitarExtranjeraNombre { get { return new InstitucionesMilitaresExtranjerasBL().Consultar_PK(Condecoraciones_InstitucionMilitarExtranjeraId).FirstOrDefault().Descripcion; } }
 
 
         [Display(Name = "Condecoracion")]
         public int CondecoracionesExtranjerasId { get; set; }
+        public string CondecoracionesExtranjerasNombre { get { return new CondecoracionesExtranjerasBL().Consultar_PK(CondecoracionesExtranjerasId).FirstOrDefault().Nombre; } }
 
         [Display(Name = "Año")]
         public int? CondecoracionesExtranjerasAno { get; set; }

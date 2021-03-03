@@ -180,6 +180,35 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
+        public List<CargosFuncionesRealizadasBE> Consultar_FK(
+                int m_Fk_Id)
+        {
+            List<CargosFuncionesRealizadasBE> lista = new List<CargosFuncionesRealizadasBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_CargosFuncionesRealizadasConsultar_FK", connection);
+                    ParametroSP("@InformacionCastrenseId", m_Fk_Id);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new CargosFuncionesRealizadasBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
 
     }
 }

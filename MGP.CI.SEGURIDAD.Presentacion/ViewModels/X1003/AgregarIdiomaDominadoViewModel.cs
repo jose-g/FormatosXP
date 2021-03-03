@@ -15,6 +15,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Display(Name = "Idioma")]
         public int IdiomaDominadoId { get; set; }
+        public string IdiomaDominadoNombre { get { return new IdiomaBL().Consultar_PK(IdiomaDominadoId).FirstOrDefault().Descripcion; } }
 
         [Range(typeof(int), "0", "100", ErrorMessage = "{0} Solamente se admiten valores entre {1} y {2}")]
         [Display(Name = "Hablado (%)")]

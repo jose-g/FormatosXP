@@ -186,6 +186,34 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<CursosRealizadosBE> Consultar_FK(
+        int m_Fk_Id)
+        {
+            List<CursosRealizadosBE> lista = new List<CursosRealizadosBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_CursosRealizadosConsultar_FK", connection);
+                    ParametroSP("@InformacionCastrenseId", m_Fk_Id);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new CursosRealizadosBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }

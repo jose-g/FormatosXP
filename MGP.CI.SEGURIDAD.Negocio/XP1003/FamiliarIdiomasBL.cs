@@ -97,18 +97,17 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
         //        throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
         //    }
         //}
-        //public List<DeclaranteIdentificacionesBE> Consultar_FK(int m_DatosPersonalesId)
-        //{
-        //    List<DeclaranteIdentificacionesBE> lista = new List<DeclaranteIdentificacionesBE>();
-        //    try
-        //    {
-        //        DeclaranteIdentificacionesDA o_DeclaranteIdentificaciones = new DeclaranteIdentificacionesDA(m_BaseDatos);
-        //        return o_DeclaranteIdentificaciones.Consultar_FK(m_DatosPersonalesId);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
-        //    }
-        //}
+        public List<FamiliarIdiomasBE> Consultar_FK(int m_FamiliarId)
+        {
+            try
+            {
+                FamiliarIdiomasDA o_FamiliarIdiomas = new FamiliarIdiomasDA(m_BaseDatos);
+                return o_FamiliarIdiomas.Consultar_FK(m_FamiliarId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

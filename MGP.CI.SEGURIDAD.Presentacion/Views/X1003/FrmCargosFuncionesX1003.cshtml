@@ -242,3 +242,35 @@
             </div>
         </div>
     </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        @foreach (var element in Model.LstDomicilios)
+        {
+            @:idfilaDoc = '@element.DepartamentoDomicilioDeclaranteId' + '_' + '@element.ProvinciaDomicilioDeclaranteId' + '_' + '@element.DistritoDomicilioDeclaranteId' + '_' + '@element.TelefonoDomicilioDeclarante';
+                                                    @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                                    @:$('#tblDomicilioExtranjeroXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.DepartamentoDomicilioDeclaranteNombre' + '</td><td>' + '@element.ProvinciaDomicilioDeclaranteNombre' + '</td><td>' + '@element.DistritoDomicilioDeclaranteNombre' + '</td><td>' + '@element.LugarResidenciaDomicilioDeclarante' + '</td><td>' + '@element.ReferenciaDomicilioDeclarante' + '</td><td>' + '@element.TelefonoDomicilioDeclarante' + '</td><td>' + '@element.lblEmailDomicilioDeclarante' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                                        }
+        @foreach (var element in Model.LstVehiculos)
+        {
+            @:idfilaDoc = '@element.ExtranjeroTipoVehiculoId' + '_' + '@element.ExtranjeroVehiculoModeloId' + '_' + '@element.ExtranjeroVehiculoMarcaId' + '_' + '@element.ExtranjeroVehiculoPlaca';
+                                                    @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                                    @:$('#tblVehiculosXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.ExtranjeroTipoVehiculoNombre' + '</td><td>' + '@element.ExtranjeroVehiculoPlaca' + '</td><td>' + '@element.ExtranjeroVehiculoMarcaNombre' + '</td><td>' + '@element.ExtranjeroVehiculoModeloNombre' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                                }
+        @foreach (var element in Model.LstIngresos)
+        {
+            @:idfilaDoc = '@element.IngresoAlPaisFechaInicioMision' + '_' + '@element.IngresoAlPaisFechaTerminoMision';
+                                            @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                            @:$('#tblIngresoToPaisXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.IngresoAlPaisFechaIngreso' + '</td><td>' + '@element.IngresoAlPaisFechaInicioMision' + '</td><td>' + '@element.IngresoAlPaisFechaTerminoMision' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                        }
+        @foreach (var element in Model.LstIngresosAnteriores)
+        {
+            @:idfilaDoc = '@element.IngresoAnteriorFechaIngreso' + '_' + '@element.IngresoAnteriorFechaSalida';
+                                            @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                            @:$('#tblIngresoAnteriorAlPaisXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.IngresoAnteriorFechaIngreso' + '</td><td>' + '@element.IngresoAnteriorFechaSalida' + '</td><td>' + '@element.IngresoAnteriorDestino' + '</td><td>' + '@element.IngresoAnteriorMotivo' + '</td><td>' + '@element.IngresoAnteriorDondeResidio' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                        }
+
+    });
+</script>

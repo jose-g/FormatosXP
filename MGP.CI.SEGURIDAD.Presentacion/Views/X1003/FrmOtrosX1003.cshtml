@@ -12,7 +12,7 @@
     </div>
     <br>
     <br>
-    @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarOtros", id = "FrmGrabarOtros", onsubmit = "return GrabarFormOtros(this)" }))
+    @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarOtros", enctype = "multipart/form-data",id = "FrmGrabarOtros", onsubmit = "return GrabarFormOtros(this)" }))
     {
         @Html.HiddenFor(x => x.DeclaranteId)
         @Html.HiddenFor(x => x.FichaId)
@@ -104,13 +104,17 @@
 
             <div class="col-sm-2 col-md-2 col-lg-2">
                 <div class="form-group">
-                    <div class="uploader">
-                        <label for="filecv"></label>
+                    @*<div class="uploader">*@
+                        @*<label for="filecv"></label>
                         <input id="filecv" type="file" style="display:none" accept="application/pdf" onchange="cargararchivoPDF(this.files, this)">
-                        <span id="filenamecv"> </span>
+                        <span id="filenamecv"> </span>*@
 
-                    </div>
 
+                        @*<form method="POST" enctype="multipart/form-data" id="fileUploadCVForm">*@
+                            @Html.TextBoxFor(model => model.PathCV, new { type = "file", @class = "form-control", accept = ".pdf", @id = "uploadFileCV", @autocomplete = "off" })
+                        @*</form>*@
+
+                    @*</div>*@
                 </div>
             </div>
             <div class="col-sm-8 col-md-8 col-lg-8">
@@ -159,3 +163,20 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+        @foreach (var element in Model.LstDeporte)
+        {
+            @:idfilaDoc = '@element.OtrosDeporteId' + '_' + new Date().getTime();
+                        @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                        @:$('#tblDeportesXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.OtrosDeporteNombre' + '</td><td>' + BtnEliminar + '</td></tr>');
+                        }
+        @foreach (var element in Model.LstObservacion)
+        {
+            @:idfilaDoc = new Date().getTime();
+@:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+@:$('#tblObservacionesXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.Observacion' + '</td><td>' + BtnEliminar + '</td></tr>');
+}
+    });
+</script>

@@ -43,6 +43,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             int m_VehiculoId,
             int m_VehiculoTipoId,
             int m_AutoModeloId,
+            int m_AutoMarcaId,
+            string m_Placa,
             int m_CargosFuncionesX1003Id,
             int? m_EstadoId,
             string m_UsuarioRegistro,
@@ -55,6 +57,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             VehiculoId = m_VehiculoId;
             VehiculoTipoId = m_VehiculoTipoId;
             AutoModeloId = m_AutoModeloId;
+            AutoMarcaId = m_AutoMarcaId;
+            Placa = m_Placa;
             CargosFuncionesX1003Id = m_CargosFuncionesX1003Id;
             EstadoId = m_EstadoId;
             UsuarioRegistro = m_UsuarioRegistro;
@@ -69,6 +73,8 @@ namespace MGP.CI.SEGURIDAD.Entidades.XP1003
             VehiculoId = ValidarInt(Registro["VehiculoId"]);
             VehiculoTipoId = ValidarInt(Registro["VehiculoTipoId"]);
             AutoModeloId = ValidarInt(Registro["AutoModeloId"]);
+            AutoMarcaId = ValidarInt(Registro["AutoMarcaId"]);
+            Placa = ValidarString(Registro["Placa"]);
             CargosFuncionesX1003Id = ValidarInt(Registro["CargosFuncionesX1003Id"]);
             EstadoId = ValidarIntNulos(Registro["EstadoId"]);
             UsuarioRegistro = ValidarString(Registro["UsuarioRegistro"]);

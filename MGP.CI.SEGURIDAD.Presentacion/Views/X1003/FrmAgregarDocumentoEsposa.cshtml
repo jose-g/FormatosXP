@@ -23,13 +23,13 @@
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             @Html.LabelFor(x => x.DocumentoIdentidadTipoId, new { @class = "control-label" })
-                                            @Html.DropDownListFor(model => model.DocumentoIdentidadTipoId, new SelectList(Model.LstTipoDocumentos, "DocumentoIdentidadTipoId", "Descripcion"), new { @class = "form-control" })
+                                            @Html.DropDownListFor(model => model.DocumentoIdentidadTipoId, new SelectList(Model.LstTipoDocumentos, "DocumentoIdentidadTipoId", "Descripcion"), new { @class = "form-control", @id="DocumentoIdentidadTipoId_Esposa" })
                                         </div>
                                     </div>
                                     <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             @Html.LabelFor(x => x.NroDocumentoIdentidad, new { @class = "control-label" })
-                                            @Html.TextBoxFor(x => x.NroDocumentoIdentidad, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroDocumentoEsposa(event);" })
+                                            @Html.TextBoxFor(x => x.NroDocumentoIdentidad, new { @type = "text", @maxlength = "8", @class = "form-control", onkeypress = "return ValidarNroDocumentoEsposa(event);", @id = "NroDocumentoIdentidad_Esposa" })
                                             @Html.ValidationMessageFor(x => x.NroDocumentoIdentidad, "", new { @class = "text-danger" })
                                         </div>
                                     </div>

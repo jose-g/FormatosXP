@@ -319,6 +319,13 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
             DeclaranteIdentificacionesBL objIdentBL = new DeclaranteIdentificacionesBL();
             LstIdentificaciones = objIdentBL.Consultar_FK(m_DatosPersonalesId);
+
+            LstIdentificaciones.ForEach(be => {
+                be.DocumentoIdentidadTipoNombre = new DocumentoIdentidadTiposBL().Consultar_PK(be.DocumentoIdentidadTipoId.Value).FirstOrDefault().Descripcion;
+            });
+
+
+
             if (m_BE != null)
                 return BEToViewModel(m_BE);
 

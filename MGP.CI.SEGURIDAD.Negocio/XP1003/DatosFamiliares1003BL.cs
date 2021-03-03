@@ -83,9 +83,7 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
             }
         }
 
-        public List<DatosFamiliares1003BE> Consultar_PK(
-                              int m_FamiliarId
-                              )
+        public List<DatosFamiliares1003BE> Consultar_PK(int m_FamiliarId)
         {
             List<DatosFamiliares1003BE> lista = new List<DatosFamiliares1003BE>();
             try
@@ -100,6 +98,18 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
                 throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
             }
         }
-
+        public List<DatosFamiliares1003BE> Consultar_FK(int m_DatosPersonalesId)
+        {
+            List<DatosFamiliares1003BE> lista = new List<DatosFamiliares1003BE>();
+            try
+            {
+                DatosFamiliares1003DA o_DatosFamiliares1003 = new DatosFamiliares1003DA(m_BaseDatos);
+                return o_DatosFamiliares1003.Consultar_FK(m_DatosPersonalesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

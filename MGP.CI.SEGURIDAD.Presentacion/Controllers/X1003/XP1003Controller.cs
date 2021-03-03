@@ -60,20 +60,16 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             {
                 vm = new X1003ViewModel().BuscarxId(Convert.ToInt32(m_FichaId));
                 vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                //vm.x1003datosfamiliaresVM = new x1003DatosFamiliaresVM().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.DatosPersonalesId = vm.x1003datospersonalesVM.DatosPersonalesId;
+                vm.x1003datosfamiliaresVM = new x1003DatosFamiliaresVM().BuscarxDatosPersonales(vm.x1003datospersonalesVM.DatosPersonalesId);
                 vm.x1003cargosfuncionesVM = new X1003CargosFuncionesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                //vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                //vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
+                vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
             }
             else
             {
                 vm.CrearNuevaFichaXP1003(sesionVM.Login);
             }
-                
-
-
-
-
                 vm.CargarTablasMaestras();
 
             return PartialView("../X1003/FrmFichaDetalles", vm);
@@ -159,7 +155,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         //**************************************
 
         [HttpPost]
-        public JsonResult GrabarDatosFamiliares(x1003DatosFamiliaresVM vm, int FichaId, int DeclaranteId, List<AgregarDocumentoViewModel> LstIdentificaciones, List<AgregarHijoViewModel> LstHijos, List<AgregarFamiliarViewModel> LstFamiliares, List<AgregarFamiliarResidentesEnPeru> LstFamResidentes, List<string> LstIdiomas, List<FotosFamiliaresViewModel> LstFotos)
+        public JsonResult GrabarDatosFamiliares(x1003DatosFamiliaresVM vm, int FichaId, int DeclaranteId, int DatosPersonalesId, List<AgregarDocumentoViewModel> LstIdentificaciones, List<AgregarHijoViewModel> LstHijos, List<AgregarFamiliarViewModel> LstFamiliares, List<AgregarFamiliarResidentesEnPeru> LstFamResidentes, List<string> LstIdiomas, List<FotosFamiliaresViewModel> LstFotos)
         {
             //if (!ModelState.IsValid)
             //{
@@ -172,7 +168,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             vm.LstHijos = LstHijos != null ? LstHijos : vm.LstHijos;
             vm.LstFamiliares = LstFamiliares != null ? LstFamiliares : vm.LstFamiliares;
             vm.LstFamResidentes = LstFamResidentes != null ? LstFamResidentes : vm.LstFamResidentes;
-            vm.LstStrIdiomas = LstIdiomas.Count==1 && LstIdiomas[0] == ""? vm.LstStrIdiomas : LstIdiomas;
+            //vm.LstStrIdiomas = LstIdiomas.Count==1 && LstIdiomas[0] == ""? vm.LstStrIdiomas : LstIdiomas;
 
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
 
@@ -187,9 +183,6 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             {
                 vm.FichaId = FichaId;
             }
-            
-
-            
 
             bool ret = true; ;
             ret = vm.Insertar(sesionVM.Login);
@@ -427,6 +420,47 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         }
 
         [HttpPost]
+        //public JsonResult GrabarDatosOtros(X1003OtrosViewModel vm, int FichaId, int DeclaranteId,
+        //  List<AgregarDeporteViewModel> LstDeporte,
+        //  List<AgregarObservacionViewModel> LstObservacion)
+        //public JsonResult GrabarDatosOtros(HttpPostedFileBase file)
+        //public JsonResult GrabarDatosOtros(X1003OtrosViewModel vm)
+        public JsonResult GrabarDatosOtros2(List<AgregarDeporteViewModel> LstDeporte, string PathCV)
+        {
+            //if (!ModelState.IsValid)
+            //{
+            //    return Json(new { success = false, mensajeError = "Modelo Invalido" }, JsonRequestBehavior.AllowGet);
+            //}
+            SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
+            bool ret = true;
+
+            // guardar CV
+            HttpPostedFileBase file2 = Request.Files[0];
+
+            // guardar deporte
+            //vm.LstDeporte = LstDeporte != null ? LstDeporte : vm.LstDeporte; ;
+            // guardar observacion
+            //vm.LstObservacion = LstObservacion != null ? LstObservacion : vm.LstObservacion;
+            //if (FichaId == 0)
+            //{
+            //    X1003ViewModel Ficha_vm = new X1003ViewModel();
+            //    Ficha_vm.DeclaranteId = DeclaranteId;
+            //    Ficha_vm.CrearNuevaFichaXP1003(sesionVM.Login);
+            //    vm.FichaId = Ficha_vm.FichaId;
+            //}
+            //else
+            //{
+            //    vm.FichaId = FichaId;
+            //}
+            //if (vm.X1003OtrosId == 0)
+            //{
+            //    ret = vm.Insertar(sesionVM.Login);
+            //}
+
+            //return Json(new { success = ret, mensajeError = vm.ErrorSMS, FichaId = vm.FichaId }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = ret, mensajeError = "", FichaId = 1 }, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
         public JsonResult GrabarDatosOtros(X1003OtrosViewModel vm, int FichaId, int DeclaranteId,
           List<AgregarDeporteViewModel> LstDeporte,
           List<AgregarObservacionViewModel> LstObservacion)
@@ -438,7 +472,9 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
             bool ret = true;
 
+            //guardar deporte
             vm.LstDeporte = LstDeporte != null ? LstDeporte : vm.LstDeporte; ;
+            //guardar observacion
             vm.LstObservacion = LstObservacion != null ? LstObservacion : vm.LstObservacion;
             if (FichaId == 0)
             {

@@ -20,15 +20,21 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
         [Display(Name = "Curso")]
         public int CR_CursoEscuelaExtranjeraId { get; set; }
+        public string CR_CursoEscuelaExtranjeraNombre { get { return new CursosEscuelasExtranjerasBL().Consultar_PK(CR_CursoEscuelaExtranjeraId).FirstOrDefault().Nombre; } }
 
         [Display(Name = "Escuela Extranjera")]
         public int CR_EscuelaExtranjeraId { get; set; }
+        public string CR_EscuelaExtranjeraNombre { get { return new EscuelasExtranjerasBL().Consultar_PK(CR_EscuelaExtranjeraId).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Institucion Militar")]
         public int CR_InstitucionMilitaresExtranjerasId { get; set; }
+        public string CR_InstitucionMilitaresExtranjerasNombre { get { return new InstitucionesMilitaresExtranjerasBL().Consultar_PK(CR_InstitucionMilitaresExtranjerasId).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Pais")]
         public int CR_PaisId { get; set; }
+        public string CR_PaisNombre { get { return new PaisesBL().Consultar_PK(CR_PaisId).FirstOrDefault().Descripcion; } }
+
+
 
         public List<CursosEscuelasExtranjerasBE> LstCursosEscuelasExtranjeras;
         public List<EscuelasExtranjerasBE> LstEscuelasExtranjeras;

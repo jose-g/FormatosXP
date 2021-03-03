@@ -289,3 +289,45 @@
         </div>
     </div>
 </div>
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        @foreach (var element in Model.LstAscensos)
+        {
+            @:idfilaDoc = '@element.Asc_Obt_PaisId' + '_' + '@element.Asc_Obt_InstitucionMilitarExtranjeraId' + '_' + '@element.Asc_Obt_GradoId';
+                                                                                            @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                                                                            @:$('#tblAscensosXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.Asc_Obt_PaisNombre' + '</td><td>' + '@element.Asc_Obt_InstitucionMilitarExtranjeraNombre' + '</td><td>' + '@element.Asc_Obt_GradoNombre' + '</td><td>' + '@element.Asc_Obt_Fecha' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                                                                        }
+
+        @foreach (var element in Model.LstCargos)
+        {
+            @:idfilaDoc = '@element.CargosFuncionesId' + '_' + '@element.Cargos_Funciones_FechaInicio';
+                                                                                @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                                                                @:$('#tblCargosComisionesXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.CargosFuncionesNombre' + '</td><td>' + '' + '</td><td>' + '@element.Cargos_Funciones_FechaInicio' + '</td><td>'  + '@element.Cargos_Funciones_FechaFin' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                                                                }
+        @foreach (var element in Model.LstCondecoraciones)
+        {
+            @:idfilaDoc = '@element.Condecoraciones_PaisId' + '_' + '@element.Condecoraciones_InstitucionMilitarExtranjeraId' + '_' + '@element.CondecoracionesExtranjerasId';
+                                                        @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                                        @:$('#tblCondecoracionesXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.Condecoraciones_PaisNombre' + '</td><td>' + '@element.Condecoraciones_InstitucionMilitarExtranjeraNombre' + '</td><td>' + '@element.CondecoracionesExtranjerasNombre' + '</td><td>' + '@element.CondecoracionesExtranjerasAno' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                                        }
+        @foreach (var element in Model.LstCursos)
+        {
+            @:idfilaDoc = '@element.CR_PaisId' + '_' + '@element.CR_InstitucionMilitaresExtranjerasId' + '_' + '@element.CR_EscuelaExtranjeraId' + '_' + '@element.CR_CursoEscuelaExtranjeraId';
+                                        @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                        @:$('#tblEscuelasCursadasXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.CR_PaisNombre' + '</td><td>' + '@element.CR_InstitucionMilitaresExtranjerasNombre' + '</td><td>' + '@element.CR_EscuelaExtranjeraNombre' + '</td><td>' + '@element.CR_CursoEscuelaExtranjeraNombre' + '</td><td>' + '@element.CR_Ano' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                        }
+        @foreach (var element in Model.LstIdiomas)
+        {
+            @:fecha = new Date().getTime();
+                            @:idfilaDoc = '@element.IdiomaDominadoId' + '_' + fecha;
+                                @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                @:$('#tblIdiomasXP1003').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.IdiomaDominadoNombre' + '</td><td>' + '@element.IdiomaHabla' + '</td><td>' + '@element.IdiomaEscrito' + '</td><td>' + '@element.IdiomaLeido' + '</td><td>' + BtnEliminar + '</td></tr>');
+                                }
+
+    });
+</script>
+
+
+
+

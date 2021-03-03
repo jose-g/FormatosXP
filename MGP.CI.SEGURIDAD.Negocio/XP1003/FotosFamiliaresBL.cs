@@ -100,22 +100,18 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
         //        throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
         //    }
         //}
-        //public List<FotosDeclarantesBE> Consultar_FK(
-        //                      int m_DatosPersonalesId
-        //                      )
-        //{
-        //    List<FotosDeclarantesBE> lista = new List<FotosDeclarantesBE>();
-        //    try
-        //    {
-        //        FotosDeclarantesDA o_FotosDeclarantes = new FotosDeclarantesDA(m_BaseDatos);
-        //        return o_FotosDeclarantes.Consultar_FK(
-        //                                                    m_DatosPersonalesId
-        //                                                    );
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
-        //    }
-        //}
+        public List<FotosFamiliaresBE> Consultar_FK(int m_FamiliarId)
+        {
+            List<FotosFamiliaresBE> lista = new List<FotosFamiliaresBE>();
+            try
+            {
+                FotosFamiliaresDA o_FotosFamiliares = new FotosFamiliaresDA(m_BaseDatos);
+                return o_FotosFamiliares.Consultar_FK(m_FamiliarId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

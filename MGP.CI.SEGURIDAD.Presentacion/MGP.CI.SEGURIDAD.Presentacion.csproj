@@ -717,6 +717,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
+    <Folder Include="Repositorio\cv\" />
     <Folder Include="Views\Modulos\" />
     <Folder Include="Views\Perfiles\" />
     <Folder Include="Views\PermisoPerfilModulo\" />

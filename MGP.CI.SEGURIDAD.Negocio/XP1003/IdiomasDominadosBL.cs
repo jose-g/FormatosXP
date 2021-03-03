@@ -100,6 +100,22 @@ namespace MGP.CI.SEGURIDAD.Negocio.XP1003
                 throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
             }
         }
-
+        public List<IdiomasDominadosBE> Consultar_FK(
+                      int m_Fk_Id
+                      )
+        {
+            List<IdiomasDominadosBE> lista = new List<IdiomasDominadosBE>();
+            try
+            {
+                IdiomasDominadosDA o_IdiomasDominados = new IdiomasDominadosDA(m_BaseDatos);
+                return o_IdiomasDominados.Consultar_FK(
+                                                            m_Fk_Id
+                                                            );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Clase Business: " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+            }
+        }
     }
 }

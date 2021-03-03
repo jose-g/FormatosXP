@@ -14,16 +14,19 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public int AscensosObtenidosId { get; set; }
 
         [Display(Name = "Pais")]
-        public int Asc_Obt_PaisId{ get; set; }
+        public int? Asc_Obt_PaisId{ get; set; }
+        public string Asc_Obt_PaisNombre { get { return new PaisesBL().Consultar_PK(Asc_Obt_PaisId.Value).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Institucion Militar")]
-        public int Asc_Obt_InstitucionMilitarExtranjeraId { get; set; }
+        public int? Asc_Obt_InstitucionMilitarExtranjeraId { get; set; }
+        public String Asc_Obt_InstitucionMilitarExtranjeraNombre { get { return new InstitucionesMilitaresExtranjerasBL().Consultar_PK(Asc_Obt_InstitucionMilitarExtranjeraId.Value).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Grado")]
         public int Asc_Obt_GradoId { get; set; }
+        public string Asc_Obt_GradoNombre { get { return new GradosExtranjerosBL().Consultar_PK(Asc_Obt_GradoId).FirstOrDefault().Descripcion; } }
 
         [Display(Name = "Año")]
-        public DateTime? Asc_Obt_Fecha{ get; set; }
+        public int? Asc_Obt_Fecha{ get; set; }
 
 
         public List<PaisesBE> LstPaises;

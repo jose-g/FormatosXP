@@ -114,7 +114,7 @@
                                                                data_update_target = "#EsposaEnfermedadId",
                                                                data_filter = "EnfermedadesId",
                                                                data_value_member = "EnfermedadesId",
-                                                               data_text_member = "Enfermedad",
+                                                               data_text_member = "EnfermedadTipo",
                                                                data_http_method = FormMethod.Get,
                                                                data_url = Url.Action("GetEnfermedadxTipo", "XP1003")
                                                            })
@@ -123,9 +123,10 @@
                                                         <div class="col-sm-4 col-md-4 col-lg-4">
                                                             <div class="form-group">
                                                                 @Html.LabelFor(x => x.EsposaEnfermedadId, new { @class = "control-label" })
-                                                                @Html.DropDownListFor(x => x.EsposaEnfermedadId, Enumerable.Empty<SelectListItem>(), "[--Seleccione--]", new
+                                                                @Html.DropDownListFor(x => x.EsposaEnfermedadId, new SelectList(Model.LstEnfermedad, "EnfermedadesId", "Enfermedad"), "[--Seleccione--]", new
                                                            {
                                                                @class = "form-control",
+                                                               data_filter = "EnfermedadesId",
                                                                data_value_member = "EnfermedadesId",
                                                                data_text_member = "Enfermedad"
                                                            })
@@ -138,7 +139,7 @@
                                                     <div class="row">
                                                         <div class="form-group">
                                                             @Html.LabelFor(x => x.EsposaIdiomaId, new { @class = "control-label" })
-                                                            @Html.ListBoxFor(model => model.LstIdiomas, new SelectList(Model.LstIdiomas.OrderBy(x => x.Nombre), "IdiomaId", "Nombre") as MultiSelectList, new { @class = "form-control", size = "5", style = "height: 100%;" })
+                                                            @Html.ListBoxFor(model => model.LstStrIdiomas, new SelectList(Model.LstIdiomas.OrderBy(x => x.Nombre), "IdiomaId", "Nombre") as MultiSelectList, new { @class = "form-control", size = "5", style = "height: 100%;" })
                                                         </div>
 
                                                     </div>
@@ -445,3 +446,49 @@
 
 
 
+<script>
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoFrente == ""))
+        {
+            @:document.getElementById("imgfileesposafoto1").setAttribute("src", "@Model.LstFotos[0].FotoFrente");
+                                        }
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoPosterior == ""))
+        {
+            @:document.getElementById("imgfileesposafoto2").setAttribute("src", "@Model.LstFotos[0].FotoPosterior");
+                                        }
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoLateralIzquierdo == ""))
+        {
+            @:document.getElementById("imgfileesposafoto3").setAttribute("src", "@Model.LstFotos[0].FotoLateralIzquierdo");
+                                        }
+        @if(!(Model.LstFotos == null || Model.LstFotos.Count == 0 || Model.LstFotos[0].FotoLateralDerecho == ""))
+        {
+            @:document.getElementById("imgfileesposafoto4").setAttribute("src", "@Model.LstFotos[0].FotoLateralDerecho");
+                                        }
+
+        @foreach (var element in Model.LstIdentificaciones)
+        {
+            @:idfilaDoc = '@element.NroDocumentoIdentidad' + '_' + '@element.DocumentoIdentidadTipoId';
+                                    @:BtnEliminarUsuario = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                                    @:$('#tblDocumentosEsposa').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.DocumentoIdentidadTipoNombre' + '</td><td>' + '@element.NroDocumentoIdentidad' + '</td><td>' + BtnEliminarUsuario + '</td></tr>');
+                        }
+        @foreach (var element in Model.LstHijos)
+        {
+            @:idfilaDoc = '@element.HijoNroDocumentoIdentidad' + '_' + '@element.HijoDocumentoIdentidadTipoId' + '_' + '@element.HijoNacionalidadId';
+                            @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+                            @:$('#tblHijos').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.HijoPaterno' + '</td><td>' + '@element.HijoMaterno' + '</td><td>' + '@element.HijoNombre1' + '</td><td>' + '@element.HijoNombre2' + '</td><td>' + '@element.HijoNombre3' + '</td><td>' + '@element.HijoFechaNacimiento' + '</td><td>' + '@element.HijoDocumentoIdentidadTipoNombre' + '</td><td>' + '@element.HijoNroDocumentoIdentidad' + '</td><td>' + '@element.HijoNacionalidadNombre' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoFrente' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoPosterior' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoLateralIzquierdo' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoLateralDerecho' + '</td><td>' + BtnEliminar + '</td></tr>');
+                }
+        @foreach (var element in Model.LstFamiliares)
+        {
+            @:idfilaDoc = '@element.FamiliarNroDocumentoIdentidad' + '_' + '@element.FamiliarDocumentoIdentidadTipoId' + '_' + '@element.FamiliarNacionalidadId' + '_' + '@element.FamiliarParentescoId';
+            @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+            @:$('#tblFamiliares').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.FamiliarPaterno' + '</td><td>' + '@element.FamiliarMaterno' + '</td><td>' + '@element.FamiliarNombre1' + '</td><td>' + '@element.FamiliarNombre2' + '</td><td>' + '@element.FamiliarNombre3' + '</td><td>' + '@element.FamiliarFechaNacimiento' + '</td><td>' + '@element.FamiliarDocumentoIdentidadTipoNombre' + '</td><td>' + '@element.FamiliarNroDocumentoIdentidad' + '</td><td>' + '@element.FamiliarNacionalidadNombre' + '</td><td>' + '@element.FamiliarParentescoNombre' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoFrente' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoPosterior' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoLateralIzquierdo' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoLateralDerecho' + '</td><td>' + BtnEliminar + '</td></tr>');
+        }
+        @foreach (var element in Model.LstFamResidentes)
+        {
+            @:idfilaDoc = '@element.ResidenteNroDocumentoIdentidad' + '_' + '@element.ResidenteDocumentoIdentidadTipoId' + '_' + '@element.ResidenteNacionalidadId' + '_' + '@element.ResidenteParentescoId';
+            @:BtnEliminar = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' id='btnEliminarDocumento' onclick='EliminarDocumentoEsposa(\"" + idfilaDoc + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
+            @:$('#tblFamiliaresResidentes').find('tbody').append('<tr id=' + idfilaDoc + '><td>' + '@element.ResidentePaterno' + '</td><td>' + '@element.ResidenteMaterno' + '</td><td>' + '@element.ResidenteNombre1' + '</td><td>' + '@element.ResidenteNombre2' + '</td><td>' + '@element.ResidenteNombre3' + '</td><td>' + '@element.ResidenteFechaNacimiento' + '</td><td>' + '@element.ResidenteDocumentoIdentidadTipoNombre' + '</td><td>' + '@element.ResidenteNroDocumentoIdentidad' + '</td><td>' + '@element.ResidenteNacionalidadNombre' + '</td><td>' + '@element.ResidenteParentescoNombre' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoFrente' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoPosterior' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoLateralIzquierdo' + '</td><td class="ocultar">' + '@element.LstFotos[0].FotoLateralDerecho' + '</td><td>' + BtnEliminar + '</td></tr>');
+        }
+    });
+</script>

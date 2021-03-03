@@ -69,6 +69,33 @@ namespace MGP.CI.SEGURIDAD.AccesoDatos.XP1003
                 }
             }
         }
-
+        public List<FamiliarIdiomasBE> Consultar_FK(int m_FamiliarId)
+        {
+            List<FamiliarIdiomasBE> lista = new List<FamiliarIdiomasBE>();
+            using (SqlConnection connection = Conectar(m_BaseDatos))
+            {
+                try
+                {
+                    ComandoSP("usp_FamiliarIdiomasConsultar_FK", connection);
+                    ParametroSP("@FamiliarId", m_FamiliarId);
+                    using (SqlDataReader reader = comando.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            lista.Add(new FamiliarIdiomasBE(reader));
+                        }
+                    }
+                    return lista;
+                }
+                catch (SqlException ex)
+                {
+                    throw new Exception("Clase DataAccess " + Nombre_Clase + "\r\n" + "Descripción: " + ex.Message);
+                }
+                finally
+                {
+                    connection.Dispose();
+                }
+            }
+        }
     }
 }
