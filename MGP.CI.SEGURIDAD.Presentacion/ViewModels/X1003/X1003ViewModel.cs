@@ -19,7 +19,12 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         public Int32 FichaId { get; set; }
         public Int32 DeclaranteId { get; set; }
 
-        public Int32 DatosPersonalesId { get; set; }
+        public int DatosPersonalesId { get; set; }
+        public int FamiliarId { get; set; }
+        public int Cargos_FuncionesId { get; set; }
+        public int InformacionCastrenseId { get; set; }
+        public int OtrosId { get; set; }
+
         #endregion
 
         public X1003DatosPersonalesViewModel x1003datospersonalesVM;
@@ -81,6 +86,18 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
 
 
             return true; ;
+        }
+
+        public bool EliminarFicha(string login)
+        {
+            var result = new FichasBL().Anular(new FichasBE()
+            {
+                FichaId = FichaId,
+                UsuarioModificacionRegistro = login,
+                NroIpRegistro = HttpContext.Current.Request.UserHostAddress
+            });
+
+            return result;
         }
         public bool CrearNuevaFicha_MismoDeclaranteXP1003(string login,int DeclaranteId)
         {

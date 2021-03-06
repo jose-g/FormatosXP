@@ -2,23 +2,32 @@
 using MGP.CI.SEGURIDAD.Presentacion.ViewModels;
 using MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003;
 using MGP.CI.SEGURIDAD.Presentacion.Views.X1003;
+using MGP.CI.SEGURIDAD.Presentacion.Helpers;
 using Microsoft.Ajax.Utilities;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+
 using System.Web.Mvc;
+using MGP.CI.SEGURIDAD.Negocio.XP1003;
+using System.Web;
 
 namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
 {
+    [SessionExpireFilter]
     public class XP1003Controller : MGPBaseController
     {
+        SesionViewModel lsvm;
+        public XP1003Controller()
+        {
+            lsvm = SessionManager.Obtener<SesionViewModel>(ConstantStatic.nameSession);
+        }
         // GET: XP1003
         public ActionResult Index()
         {
             ViewBag.PERMISOS = this.GetPermisoVista('/' + "Usuario" + '/' + "Index");
-
+            lsvm.FichaId = 0;
             BusquedaDeclaranteViewModel vm = new BusquedaDeclaranteViewModel();
             vm.CargarTablasMaestras();
 
@@ -49,28 +58,49 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
         {
             return PartialView("../X1003/FrmCrearFicha");
         }
+        [HttpPost]
+        public JsonResult EliminarFicha(int FichaId)
+        {
+            string ErrorSMS = "";
+            SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
+            bool ret = new X1003ViewModel() { FichaId=FichaId}.EliminarFicha(sesionVM.Login);
 
+
+            return Json(new { success = ret, mensajeError = ErrorSMS }, JsonRequestBehavior.AllowGet);
+        }
         [HttpGet]
-        public ActionResult FichaVerDetalles(string m_FichaId)
+        public ActionResult FichaVerDetalles(int m_FichaId)
         {
             X1003ViewModel vm = new X1003ViewModel();
+
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
 
-            if (m_FichaId != null)
+            m_FichaId = m_FichaId==0? lsvm.FichaId : m_FichaId;
+
+            if (m_FichaId != 0)
             {
                 vm = new X1003ViewModel().BuscarxId(Convert.ToInt32(m_FichaId));
-                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                vm.DatosPersonalesId = vm.x1003datospersonalesVM.DatosPersonalesId;
+                vm.x1003datospersonalesVM = new X1003DatosPersonalesViewModel().BuscarxFicha(m_FichaId);
                 vm.x1003datosfamiliaresVM = new x1003DatosFamiliaresVM().BuscarxDatosPersonales(vm.x1003datospersonalesVM.DatosPersonalesId);
-                vm.x1003cargosfuncionesVM = new X1003CargosFuncionesViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-                vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(Int32.Parse(m_FichaId));
-            }
+                vm.x1003cargosfuncionesVM = new X1003CargosFuncionesViewModel().BuscarxFicha(m_FichaId);
+                vm.x1003informacioncastrenseVM = new X1003InformacionCastrenseViewModel().BuscarxFicha(m_FichaId);
+                vm.x1003otrosVM = new X1003OtrosViewModel().BuscarxFicha(m_FichaId);
+
+                vm.DatosPersonalesId = vm.x1003datospersonalesVM.DatosPersonalesId;
+                vm.FamiliarId = vm.x1003datosfamiliaresVM.DatosFamiliaresId;
+                vm.Cargos_FuncionesId = vm.x1003cargosfuncionesVM.CargosFuncionesX1003Id;
+                vm.InformacionCastrenseId = vm.x1003informacioncastrenseVM.X1003InformacionCastrenseId;
+                vm.OtrosId = vm.x1003otrosVM.OtrosId;
+    }
             else
             {
                 vm.CrearNuevaFichaXP1003(sesionVM.Login);
             }
                 vm.CargarTablasMaestras();
+
+            lsvm.FichaId = vm.FichaId;
+
+            SessionManager.Guardar(ConstantStatic.nameSession, lsvm);
 
             return PartialView("../X1003/FrmFichaDetalles", vm);
 
@@ -107,7 +137,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
 
 
         [HttpPost]
-        public JsonResult GrabarDatosPersonales(X1003DatosPersonalesViewModel vm, List<AgregarDocumentoViewModel> LstIdentificaciones, List<FotosViewModel> LstFotos)
+        public JsonResult GrabarDatosPersonales(X1003DatosPersonalesViewModel vm, int FichaId, List<AgregarDocumentoViewModel> LstIdentificaciones, List<FotosViewModel> LstFotos)
         {
             //if (!ModelState.IsValid)
             //{
@@ -120,7 +150,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             vm.LstAgregarDocumentoVM = LstIdentificaciones != null ? LstIdentificaciones : vm.LstAgregarDocumentoVM; 
             vm.LstFotos = LstFotos != null ? LstFotos : vm.LstFotos;
             SesionViewModel sesionVM = (SesionViewModel)Session["objsesion"];
-
+            vm.FichaId = FichaId;
             ret = vm.Insertar(sesionVM.Login);
 
             return Json(new { success = ret, mensajeError = vm.ErrorSMS, DatosPersonalesId=vm.DatosPersonalesId }, JsonRequestBehavior.AllowGet);
@@ -381,7 +411,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers.X1003
             bool ret = true;
 
             vm.LstAscensos = LstAscensos != null ? LstAscensos : vm.LstAscensos; ;
-            vm.LstCargos = LstCargos != null ? LstCargos : vm.LstCargos; 
+            vm.LstCargos = LstCargos != null ? LstCargos : vm.LstCargos;
             vm.LstCondecoraciones = LstCondecoraciones != null ? LstCondecoraciones : vm.LstCondecoraciones;
             vm.LstCursos = LstCursos != null ? LstCursos : vm.LstCursos;
             vm.LstIdiomas = LstIdiomas != null ? LstIdiomas : vm.LstIdiomas;

@@ -97,6 +97,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                     d_BE.AscensosObtenidosId = ++AscensosObtenidosId;
                     d_BE.InformacionCastrenseId = c_BE.InformacionCastrenseId;
                     d_BE.GradoExtranjeroId = dom.Asc_Obt_GradoId;
+                    d_BE.GradoExtranjeroAno = dom.Asc_Obt_Fecha;
                     d_BE.InstitucionMilitarExtranjeroId = dom.Asc_Obt_InstitucionMilitarExtranjeraId;
                     d_BE.PaisId = dom.Asc_Obt_PaisId;
                     d_BE.EstadoId = 1;

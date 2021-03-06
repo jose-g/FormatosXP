@@ -118,6 +118,10 @@
     @Html.HiddenFor(x => x.FichaId)
     @Html.HiddenFor(x => x.DeclaranteId)
     @Html.HiddenFor(x => x.DatosPersonalesId)
+    @Html.HiddenFor(x => x.FamiliarId)
+    @Html.HiddenFor(x => x.Cargos_FuncionesId)
+    @Html.HiddenFor(x => x.InformacionCastrenseId)
+    @Html.HiddenFor(x => x.OtrosId)
     <div class="row">
         <div class="default-tab" id="tabx1003">
             <ul class="nav nav-tabs" role="tablist" id="myTab">
@@ -268,7 +272,7 @@
 
 
         function GrabarFormDatosExt() {
-
+            var fichaId = $('#FichaId').val();
 
             var foto1 = $('#imgfiledeclarantefoto1').attr('src');
             //if ((foto1 == null) || foto1.includes("fotopreliminar")){
@@ -323,7 +327,7 @@
 
             $.ajax({
                 url: "@Url.Action("GrabarDatosPersonales", "XP1003")",
-                data: $('#FrmGrabarDatosExtranjero').serialize() + "&" + lstdoc + "&" + lstfotos,
+                data: $('#FrmGrabarDatosExtranjero').serialize() + "&FichaId=" + fichaId + "&" + lstdoc + "&" + lstfotos,
 
                 type: "POST",
                 dataType: 'JSON',
@@ -521,7 +525,7 @@
                 valor.ResidenteMaterno = $tds.eq(1).text();
                 valor.ResidenteNombre1 = $tds.eq(2).text();
                 valor.ResidenteNombre2 = $tds.eq(3).text();
-                valor.ResidenteNombre1 = $tds.eq(4).text();
+                valor.ResidenteNombre3 = $tds.eq(4).text();
                 valor.ResidenteFechaNacimiento = $tds.eq(5).text();
                 var IdRow = $(this).attr('id');
                 var Doc = IdRow.split("_");
@@ -545,7 +549,7 @@
             });
 
 
-            
+
             var lstdoc = jQuery.param({ LstIdentificaciones: ArrayDocEsposa });
             var lsthijos = jQuery.param({ LstHijos: ArrayHijos });
             var lstfam = jQuery.param({ LstFamiliares: ArrayFamiliares });
@@ -556,7 +560,7 @@
 
 
             $.ajax({
-                url: "@Url.Action("GrabarDatosFamiliares", "XP1003")", 
+                url: "@Url.Action("GrabarDatosFamiliares", "XP1003")",
                 data: $('#FrmGrabarDatosFamiliares').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&DatosPersonalesId=" + datospersonalesid + "&" + lstdoc + "&" + lsthijos + "&" + lstfam + "&" + lstres + "&" + lstidiomas + "&" + lstfotos,
                 type: "POST",
                 dataType: 'JSON',
@@ -1007,6 +1011,7 @@
 
 
         function GrabarFormCargosFunciones() {
+            debugger;
             var fichaId = $('#FichaId').val();
             var datospersonalesid = $('#DatosPersonalesId').val();
             var declaranteid = $('#DeclaranteId').val();
@@ -1093,13 +1098,13 @@
                 ArrayIngresoAnteriorAlPais.push(valor);
             })
 
-            
+
             var lstdomicilios= jQuery.param({ LstDomicilios: ArrayDomiciliosExtranjeros });
             var lstvehiculos = jQuery.param({ LstVehiculos: ArrayVehiculos });
             var lsingresos = jQuery.param({ LstIngresos: ArrayIngresoToPais });
             var lsingresosanteriores = jQuery.param({ LstIngresosAnteriores: ArrayIngresoAnteriorAlPais });
 
-
+            debugger;
             $.ajax({
                 url: "@Url.Action("GrabarDatosCargosFunciones", "XP1003")",
                 data: $('#FrmGrabarCargosFuncionales').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdomicilios + "&" + lstvehiculos + "&" + lsingresos + "&" + lsingresosanteriores,
@@ -1237,7 +1242,14 @@
 
             $.ajax({
                 url: "@Url.Action("GrabarDatosInformacionCastrense", "XP1003")",
+                //data:{
+                //    vm:$('#FrmGrabarInformacionCastrense').serialize(),
+                //    FichaId: fichaId,
+                //    DeclaranteId: declaranteid,
+                //    LstAscensos: lstascensos
+                //},
                 data: $('#FrmGrabarInformacionCastrense').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstascensos + "&" + lstcargos + "&" + lstcondecoraciones + "&" + lstcursos + "&" + lstidiomas,
+                //data: $('#FrmGrabarInformacionCastrense').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid,
             type: "POST",
             dataType: 'JSON',
             success: function (data) {
@@ -1314,7 +1326,7 @@
                 ArrayObservaciones.push(valor);
             })
             var fichaId = $('#FichaId').val();
-            
+
             var lstdeporte = jQuery.param({ LstDeporte: ArrayDeportes });
             var lstobservacion = jQuery.param({ LstObservacion: ArrayObservaciones });
             debugger;
@@ -1323,7 +1335,7 @@
             var archivoCV = new FormData(form);
             archivoCV.append("LstDeporte", JSON.stringify(ArrayDeportes));
             archivoCV.append("PathCV", PathCV);
-            
+
             $.ajax({
                 url: "@Url.Action("GrabarDatosOtros", "XP1003")",
                 data: $('#FrmGrabarOtros').serialize() + "&FichaId=" + fichaId + "&DeclaranteId=" + declaranteid + "&" + lstdeporte + "&" + lstobservacion,
@@ -1958,7 +1970,7 @@
             $("#frmShowErrorPopupIComision").hide();
 
 
-            var idFila = $('#CargosFuncionesId').val() + '_' + $("#Cargos_Funciones_FechaInicio").datepicker('getDate').getTime()
+            var idFila = $("#CargosFuncionesId option:selected").val() + '_' + $("#Cargos_Funciones_FechaInicio").datepicker('getDate').getTime()
             var BtnEliminarCargo= "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Item' onclick='EliminarRegistroCargo(\"" + idFila + "\")' class='btn btn-sm btn-danger'><i class='fa fa-trash'></i></button>";
 
             $('#tblCargosComisionesXP1003').find('tbody').append('<tr id=' + idFila + '><td>' + $("#CargosFuncionesId option:selected").text() + '</td><td>-</td><td>' + $('#Cargos_Funciones_FechaInicio').val() + '</td><td>' + $('#Cargos_Funciones_FechaFin').val() + '</td><td>' + BtnEliminarCargo + '</td></tr>');
@@ -2393,13 +2405,18 @@
 
         $(document).ready(function () {
 
-            //var declaranteid = $('#DeclaranteId').val();
-            //if (declaranteid > 0) {
-            //    $('#btnGrabarDatosPersonales').remove();
-            //    $('#btnCerrarFrmDatosPersonales').remove();
-            //}
+            var DatosPersonalesId = $('#DatosPersonalesId').val();
+            var FamiliarId = $('#FamiliarId').val();
+            var CargosFuncionesId = $('#Cargos_FuncionesId').val();
+            var InformacionCastrenseId = $('#InformacionCastrenseId').val();
+            var OtrosId = $('#OtrosId').val();
 
-            
+            if (DatosPersonalesId > 0) { $('#btnGrabarDatosPersonales').remove(); }
+            if (FamiliarId > 0) { $('#btnGrabarDatosFamiliares').remove(); }
+            if (CargosFuncionesId > 0) { $('#btnGrabarCargosFuncionales').remove(); }
+            if (InformacionCastrenseId > 0) { $('#btnGrabarInformacionCastrense').remove(); }
+            if (OtrosId > 0) { $('#btnGrabarOtros').remove(); }
+
             activaTab('tb1');
 
             function activaTab(tab) {

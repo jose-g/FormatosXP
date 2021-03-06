@@ -15,8 +15,10 @@ namespace MGP.CI.SEGURIDAD.Presentacion.Controllers
     [FiltroSesion]
     public class UsuarioController : MGPBaseController
     {
+        SesionViewModel lsvm;
         public UsuarioController()
         {
+            lsvm = SessionManager.Obtener<SesionViewModel>(ConstantStatic.nameSession);
         }
         public ActionResult Index()
         {

@@ -197,7 +197,7 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
         {
             X1003OtrosViewModel m_vm = new X1003OtrosViewModel();
 
-            m_vm.X1003OtrosId = m_BE.OtrosId;
+            m_vm.OtrosId = m_BE.OtrosId;
             m_vm.FichaId = m_BE.FichaId;
 
             m_vm.LstDeporte = this.LstDeporte;

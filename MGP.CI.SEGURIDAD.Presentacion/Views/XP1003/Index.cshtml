@@ -11,7 +11,7 @@
 </style>
 
 
-<div>
+<div id="principal">
     <input type="hidden" id="DeclaranteId" value="0">
     <div class="panel panel-info">
         <div class="modal-body">
@@ -199,8 +199,24 @@
 
         // Refrescar Tabla
         function CrearFicha(frm) {
-            $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")");
-            return false;
+
+            @*$.ajax({
+                url: "@Url.Action("FichaVerDetalles", "XP1003")",
+                data: { m_FichaId: 0 },
+            type: "GET",
+            datatype: 'html',
+            success: function (data) {
+                //$('#verModalConfirmarCrearFicha').modal('hide');
+                //$("#principal").html(data);
+            },
+            error: function (data) {
+                console.log("sucedió un error")
+            }
+            });*@
+
+            $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")" + "?m_FichaId=" + 0);
+        return false;
+
         }
 
 
@@ -236,6 +252,25 @@
         $(location).attr('href', "@Url.Action("FichaVerDetalles", "XP1003")" + "?m_FichaId=" + m_Ficha1003Id);
     }
 
+        function EliminarFicha(m_Ficha1003Id) {
+            $.ajax({
+                url: "@Url.Action("EliminarFicha", "XP1003")",
+                data: { FichaId: m_Ficha1003Id },
+            type: "POST",
+            dataType: 'JSON',
+            async: true,
+            success: function (data) {
+                if (data.success == true) {
+                    //tblFichasDeclaranteX1003
+                    $('#' + m_Ficha1003Id+'_F').remove();
+                }
+            },
+            error: function (data) {
+                console.log("Sucedió un error")
+            }
+
+        });
+        }
 
         function DeclaranteVerDetalles(m_DatosPersonalesId, m_Declarante1003Id) {
             $(location).attr('href', "@Url.Action("DeclaranteVerDetalles", "XP1003")" + "?m_DatosPersonalesId=" + m_DatosPersonalesId + "&m_DeclaranteId=" + m_Declarante1003Id);
@@ -308,7 +343,7 @@
                 {
                     sortable: false,
                     "render": function (data, type, full, meta) {
-                        
+
                         return ++itemX1003;
                     }, "className": "text-center"
                 },
@@ -364,7 +399,10 @@
         //var frm = $('#frmBuscarDeclaranteXP1003').serialize();
         var itemX1003 = 0;
         tablaFichas = $("#tblFichasDeclaranteX1003").dataTable({
-            rowId: "Ficha1003Id",
+            rowId: function ( row ) {
+                return row.Ficha1003Id+'_F';
+            },
+            //rowId: "100",
             orderClasses: false,
             'stripeClasses': ['stripe1', 'stripe2'],
             "createdRow": function (row, data, index, full) {
@@ -404,9 +442,9 @@
                     "render": function (data, type, full, meta) {
                         //var BtnImprimirFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Imprimir datos de la Ficha' id='btnImprimirFichaXP1003Modal' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-camera fa-stack-3x'></i> </span></button>";
                         var BtnEditarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Modificar datos de la Ficha' id='btnModificarFichaXP1003Modal' onclick='FichaVerDetalles(" + full.Ficha1003Id + ")' class='btn btn-sm btn-active-info'><span class='fa-stack fa-2x'> <i class='fa fa-edit fa-stack-3x'></i> </span></button>";
-                        var BtnEliminarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Ficha' id='btnEliminarFichaXP1003Modal' class='btn btn-sm btn-active-danger'><span class='fa-stack fa-2x'> <i class='fa fa-trash fa-stack-3x'></i> </span></button>";
+                        var BtnEliminarFicha = "<button type='button' data-toggle='tooltip' data-placement='top' title='Eliminar Ficha' id='btnEliminarFichaXP1003Modal' onclick='EliminarFicha(" + full.Ficha1003Id + ")'class='btn btn-sm btn-active-danger'><span class='fa-stack fa-2x'> <i class='fa fa-trash fa-stack-3x'></i> </span></button>";
                         //return BtnImprimirFicha + BtnEditarFicha + BtnEliminarFicha;
-                        return BtnEditarFicha ;
+                        return BtnEditarFicha + BtnEliminarFicha;
                     },
                     "className": "text-center"
                 }

@@ -14,9 +14,9 @@
     <div class="panel-collapse collapse in" id="IdPanelUsuario" aria-expanded="true">
         @using (Html.BeginForm("null", "null", FormMethod.Post, new { defaultbutton = "btnGrabarDatosPersonales", id = "FrmGrabarDatosExtranjero", onsubmit = "return GrabarFormDatosExt(this)" }))
         {
-            @Html.HiddenFor(x => x.DeclaranteId)
+            @*@Html.HiddenFor(x => x.DeclaranteId)
             @Html.HiddenFor(x => x.FichaId)
-            @Html.HiddenFor(x => x.DatosPersonalesId)
+            @Html.HiddenFor(x => x.DatosPersonalesId)*@
 
             <div class="row">
                 <div class="row">

@@ -216,6 +216,8 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                     }
                     else
                     {
+                        i_BE.UsuarioModificacionRegistro = login;
+
                         if (new IngresosAnterioresAlPaisBL().Actualizar(i_BE) == false)
                         {
                             this.ErrorSMS = "Error al Actualizar Ingresos anteriores al pais";

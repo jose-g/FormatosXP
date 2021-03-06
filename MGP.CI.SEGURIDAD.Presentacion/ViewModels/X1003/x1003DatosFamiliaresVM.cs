@@ -484,16 +484,16 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                     FotosFamiliaresViewModel f_hijos_vm = new FotosFamiliaresViewModel();
 
                     m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 1).FirstOrDefault();
-                    f_hijos_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+                    f_hijos_vm.FotoFrente = m_fotos_hijos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
 
                     m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 2).FirstOrDefault();
-                    f_hijos_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+                    f_hijos_vm.FotoPosterior = m_fotos_hijos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
 
                     m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 3).FirstOrDefault();
-                    f_hijos_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+                    f_hijos_vm.FotoLateralIzquierdo = m_fotos_hijos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
 
                     m_fotos_hijos_BE = lstFotosHijos.Where(x => x.FotoTipoId == 4).FirstOrDefault();
-                    f_hijos_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
+                    f_hijos_vm.FotoLateralDerecho = m_fotos_hijos_BE == null ? null : Encoding.ASCII.GetString(m_fotos_hijos_BE.Foto);
 
                     vm.LstHijos.Add(new AgregarHijoViewModel
                     {
@@ -527,16 +527,16 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                     FotosFamiliaresViewModel f_fam_vm = new FotosFamiliaresViewModel();
 
                     m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 1).FirstOrDefault();
-                    f_fam_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+                    f_fam_vm.FotoFrente = m_fotos_fam_BE == null ? null : Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
 
                     m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 2).FirstOrDefault();
-                    f_fam_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+                    f_fam_vm.FotoPosterior = m_fotos_fam_BE == null ? null : Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
 
                     m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 3).FirstOrDefault();
-                    f_fam_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+                    f_fam_vm.FotoLateralIzquierdo = m_fotos_fam_BE == null ? null : Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
 
                     m_fotos_fam_BE = lstFotosFam.Where(x => x.FotoTipoId == 4).FirstOrDefault();
-                    f_fam_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
+                    f_fam_vm.FotoLateralDerecho = m_fotos_fam_BE == null ? null : Encoding.ASCII.GetString(m_fotos_fam_BE.Foto);
 
                     vm.LstFamiliares.Add(new AgregarFamiliarViewModel
                     {
@@ -570,16 +570,17 @@ namespace MGP.CI.SEGURIDAD.Presentacion.ViewModels.X1003
                     FotosFamiliaresViewModel f_res_vm = new FotosFamiliaresViewModel();
 
                     m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 1).FirstOrDefault();
-                    f_res_vm.FotoFrente = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+                    f_res_vm.FotoFrente = m_fotos_res_BE == null ? null : Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
 
                     m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 2).FirstOrDefault();
-                    f_res_vm.FotoPosterior = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+                    f_res_vm.FotoPosterior = m_fotos_res_BE == null ? null : Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
 
                     m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 3).FirstOrDefault();
-                    f_res_vm.FotoLateralIzquierdo = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+                    f_res_vm.FotoLateralIzquierdo = m_fotos_res_BE == null ? null : Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
 
                     m_fotos_res_BE = lstFotosres.Where(x => x.FotoTipoId == 4).FirstOrDefault();
-                    f_res_vm.FotoLateralDerecho = Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+                    f_res_vm.FotoLateralDerecho = m_fotos_res_BE == null ? null : Encoding.ASCII.GetString(m_fotos_res_BE.Foto);
+
                     vm.LstFamResidentes.Add(new AgregarFamiliarResidentesEnPeru
                     {
                         ResidentePaterno = be.Paterno,
